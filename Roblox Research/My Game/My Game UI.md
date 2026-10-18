@@ -59,3 +59,6 @@ The camera zooms toward the beast, the screen shakes on each pull and a rope-cre
 Bacon-hair cowboy swinging a lasso at a giant glowing **Inferno Mammoth**, with "$1,250,000,000/s" in huge white stroked text, a rainbow "SECRET" tag, a red arrow and a sunset-orange sky.
 
 Related: [[Core Loop]] · [[Systems and Scripts]]
+
+## Clickable mockup
+**[Open the Steal a Beast UI mockup](https://claude.ai/artifact/4ziAJWGDzwJTSY8KVuADkz)**. It has 6 screens: Day HUD, Lasso tug-of-war (tap to pull), New beast reveal, Raid night (with a raid report), Shop (5 tabs) and the game thumbnail. Press Play on a screen to click through it.
