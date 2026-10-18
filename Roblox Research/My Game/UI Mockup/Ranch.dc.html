@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Steal a Beast – Your Ranch</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.lg{font-family:'Luckiest Guy',cursive;letter-spacing:1px}
+.st{-webkit-text-stroke:5px #1a0f05;paint-order:stroke fill}
+.st2{-webkit-text-stroke:3px #1a0f05;paint-order:stroke fill}
+.btn{border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;cursor:pointer;transition:transform .12s}
+.btn:hover{transform:scale(1.06)}
+.btn:active{transform:translateY(3px) scale(.97)}
+.rail{width:76px;height:76px;border-radius:18px;border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;cursor:pointer;transition:transform .12s}
+.rail:hover{transform:scale(1.08)}
+.dot{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:#ff2d2d;border:3px solid #1a0f05;color:#fff;font:700 13px Fredoka,sans-serif;display:flex;align-items:center;justify-content:center}
+.bb{display:flex;flex-direction:column;align-items:center;font-family:'Luckiest Guy',cursive;text-align:center;line-height:1.05}
+.rb{background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.a{position:absolute;box-sizing:border-box}
+svg{stroke-linejoin:round;stroke-linecap:round}
+.sm{-webkit-text-stroke:2px #1a0f05;paint-order:stroke fill}
+.v{position:absolute;box-sizing:border-box;border:3px solid #1a0f05;border-radius:4px;background:currentColor}
+.e{position:absolute;width:5px;height:5px;background:#1a0f05}
+.ey{position:absolute;width:8px;height:8px;box-sizing:border-box;border:2px solid #1a0f05;background:currentColor}
+.sp{position:absolute;width:11px;height:11px;box-sizing:border-box;border:3px solid #1a0f05;transform:rotate(45deg);background:currentColor}
+.card{position:relative;box-sizing:border-box;height:150px;border-radius:14px;border:4px solid;box-shadow:0 0 0 3px #1a0f05,0 6px 0 2px #1a0f05;background:linear-gradient(180deg,#5e3615,#2e1a0b)}
+.stg{position:absolute;left:0;top:18px;width:131px;height:54px}
+.gl{position:absolute;left:-4px;top:-20px;width:139px;height:92px;border-radius:50%}
+.gC{background:radial-gradient(closest-side,rgba(46,230,214,.75),rgba(46,230,214,0))}
+.gG{background:radial-gradient(closest-side,rgba(255,214,64,.75),rgba(255,214,64,0))}
+.gO{background:radial-gradient(closest-side,rgba(255,130,40,.75),rgba(255,130,40,0))}
+.gR{background:radial-gradient(closest-side,rgba(255,70,70,.7),rgba(255,70,70,0))}
+.gP{background:radial-gradient(closest-side,rgba(164,77,255,.75),rgba(164,77,255,0))}
+.sh{position:absolute;left:26px;top:46px;width:80px;height:10px;border-radius:50%;background:rgba(0,0,0,.45)}
+.rc{position:absolute;left:4px;top:4px;padding:1px 6px;border-radius:7px;border:2px solid #1a0f05;font-size:11px;line-height:13px;z-index:1;white-space:nowrap}
+.nm{position:absolute;left:0;right:0;top:75px;text-align:center;font-size:13px;line-height:1;white-space:nowrap;letter-spacing:0}
+.row{position:absolute;left:0;right:0;top:89px;display:flex;align-items:center;justify-content:center;gap:4px}
+.bi circle{fill:#ff7a1a;stroke:#1a0f05;stroke-width:2}
+.bi path{fill:none;stroke:#1a0f05;stroke-width:3}
+.tt{font-size:12px;color:#ffe14a}
+.tl{font-size:11px;color:#ffe14a}
+.t20{font-size:20px;line-height:1}
+.cs{position:absolute;left:0;right:0;top:110px;text-align:center;font-size:23px;line-height:1;color:#5cff6a;white-space:nowrap}
+.pb{position:absolute;left:8px;right:8px;top:110px;height:13px;box-sizing:border-box;border-radius:7px;border:2px solid #1a0f05;background:#2a1a0c;overflow:hidden}
+.pb i{display:block;height:100%}
+.wd{position:absolute;left:3px;right:3px;top:125px;box-sizing:border-box;padding:1px 2px;border-radius:6px;border:2px solid #1a0f05;background:#ff2d2d;color:#fff;font:700 9px/10px Fredoka,sans-serif;text-align:center;white-space:nowrap}
+.tg{position:absolute;right:-10px;top:-22px;padding:2px 7px;border-radius:9px;border:3px solid #1a0f05;font-size:13px;line-height:1.1;white-space:nowrap;z-index:2;transform:rotate(6deg)}
+.cl{position:absolute;background:#fff;border-radius:20px;box-shadow:inset 0 -8px 0 #d4ecff}
+.ca{position:absolute;box-sizing:border-box;background:#3aa64a;border:4px solid #1f6b2b;border-radius:9px}
+.rk{position:absolute;box-sizing:border-box;background:linear-gradient(180deg,#b9a894,#8f7e6c);border:4px solid #3a2a1e;border-radius:14px 10px 6px 6px}
+.fp{position:absolute;box-sizing:border-box;border:4px solid #1a0f05;border-radius:4px;background:#a8692f}
+.lz{position:absolute;left:100px;width:98px;height:6px;border-radius:3px;background:#fff;box-shadow:0 0 0 2px #ff2d2d,0 0 10px 4px #ff2d2d,0 0 24px 8px rgba(255,40,40,.55);animation:lz .5s linear infinite}
+.hop{animation:hop .7s ease-in-out infinite}
+.fi{transform-origin:50% 100%;animation:fire .45s ease-in-out infinite}
+.tw{animation:tw 1.3s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes rbshift{to{background-position:200% 0}}
+@keyframes alarm{0%,100%{box-shadow:0 4px 0 #1a0f05,0 0 0 0 rgba(255,45,45,0)}50%{box-shadow:0 4px 0 #1a0f05,0 0 24px 8px rgba(255,45,45,.9)}}
+@keyframes lz{0%,100%{opacity:1}40%{opacity:.7}50%{opacity:.35}60%{opacity:.95}}
+@keyframes fire{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.35)}}
+@keyframes drain{from{width:100%}to{width:0}}
+@keyframes rise{0%{opacity:0;transform:translateY(20px) scale(.5)}20%{opacity:1;transform:translateY(0) scale(1.15)}75%{opacity:1;transform:translateY(-24px) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(1)}}
+@keyframes flash{from{opacity:1}to{opacity:0}}
+@keyframes ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.18);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes roll{from{transform:translateX(0) rotate(0)}to{transform:translateX(44px) rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes tw{0%,100%{transform:scale(.5) rotate(0);opacity:.4}50%{transform:scale(1.1) rotate(45deg);opacity:1}}
+</style>
+</helmet>
+<div style="width:1280px;height:720px;position:relative;overflow:hidden;font-family:Fredoka,sans-serif;color:#fff;background:linear-gradient(180deg,#2a97ff 0%,#4fb6ff 11%,#8fd5ff 20%,#d4efff 25%,#ffe7b0 26.5%,#ffd28c 28%)">
+
+<!-- world: sky, mesas, yard -->
+<div aria-hidden="true">
+<i class="a" style="left:962px;top:8px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fffbe0,#ffe066 55%,#ffc21f);box-shadow:0 0 0 10px rgba(255,236,140,.45),0 0 70px 30px rgba(255,226,120,.55)"></i>
+<i class="cl" style="left:300px;top:34px;width:130px;height:34px;border-radius:18px"></i>
+<i class="cl" style="left:330px;top:16px;width:62px;height:44px"></i>
+<i class="cl" style="left:860px;top:46px;width:110px;height:30px;border-radius:16px"></i>
+<i class="cl" style="left:1150px;top:30px;width:120px;height:32px;border-radius:16px"></i>
+<svg width="40" height="18" viewBox="0 0 44 20" class="a" style="left:250px;top:96px"><path d="M2 14q9-12 20 0q9-12 20 0" fill="none" stroke="#1a0f05" stroke-width="3.5"/></svg>
+<i class="a" style="left:-30px;top:126px;width:250px;height:68px;background:#e7a07a;clip-path:polygon(0 100%,10% 14%,16% 0,58% 0,64% 22%,74% 30%,84% 100%)"></i>
+<i class="a" style="left:120px;top:144px;width:200px;height:50px;background:#8a3f1c;clip-path:polygon(6% 100%,16% 0,78% 0,92% 100%)"></i>
+<i class="a" style="left:125px;top:149px;width:190px;height:45px;background:linear-gradient(180deg,#d47544 0 36%,#a9522c 36% 52%,#c8693a 52%);clip-path:polygon(6% 100%,16% 0,78% 0,92% 100%)"></i>
+<i class="a" style="left:0;top:192px;width:1280px;height:528px;background:radial-gradient(circle,rgba(150,85,30,.22) 2px,transparent 3px) 0 0/46px 28px,linear-gradient(180deg,#d99a4c 0%,#e6b065 8%,#e2a75a 45%,#d6964a 100%)"></i>
+<i class="a" style="left:0;top:190px;width:1280px;height:5px;background:#c27f3e"></i>
+<i class="a" style="left:0;top:192px;width:340px;height:528px;background:repeating-linear-gradient(125deg,rgba(150,90,30,.2) 0 4px,transparent 4px 26px),#efc47e;clip-path:polygon(81.5% 45.6%,100% 40%,100% 57%,56% 100%,9% 100%,47.4% 55.3%)"></i>
+<svg width="22" height="14" viewBox="0 0 22 14" class="a" style="left:244px;top:470px"><path d="M1 13L5 2l3 11 3-9 3 9 3-11 4 11z" fill="#4fb84f" stroke="#1f6b2b" stroke-width="2"/></svg>
+<i class="ca" style="left:22px;top:468px;width:28px;height:14px;border-radius:7px"></i>
+<i class="ca" style="left:20px;top:440px;width:16px;height:40px"></i>
+<i class="ca" style="left:62px;top:478px;width:24px;height:14px;border-radius:7px"></i>
+<i class="ca" style="left:74px;top:452px;width:16px;height:38px"></i>
+<i class="ca" style="left:38px;top:428px;width:30px;height:110px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.13) 0 3px,transparent 3px 9px),#3aa64a;border-radius:16px 16px 6px 6px"></i>
+<i class="a" style="left:46px;top:420px;width:12px;height:12px;border-radius:50%;background:#ff6fa8;border:3px solid #1a0f05"></i>
+<svg width="40" height="30" viewBox="0 0 36 28" class="a" style="left:118px;top:612px"><path d="M2 6c4 4 8 4 10 2h12c2 2 6 2 10-2-2 6-6 8-9 8v6l-4 6h-6l-4-6v-6c-3 0-7-2-9-8z" fill="#f4ead8" stroke="#1a0f05" stroke-width="2.4"/><rect x="13" y="12" width="3" height="3" fill="#1a0f05"/><rect x="20" y="12" width="3" height="3" fill="#1a0f05"/></svg>
+<i class="rk" style="left:262px;top:600px;width:56px;height:36px"></i>
+<i class="rk" style="left:306px;top:618px;width:30px;height:22px"></i>
+<svg width="40" height="40" viewBox="0 0 24 24" class="a" style="left:66px;top:560px;animation:roll 2.4s ease-in-out infinite alternate"><circle cx="12" cy="12" r="10" fill="#c8a060" stroke="#6b4a20" stroke-width="2"/><path d="M5 9c4 2 9-4 14 1M4 14c5-1 8 4 15 0M9 4c-1 6 4 10 2 17M15 3c-3 5 1 12-4 18" fill="none" stroke="#6b4a20" stroke-width="1.6"/></svg>
+
+<div class="a" style="left:70px;top:330px;width:262px;height:200px;transform:skewY(-24deg);transform-origin:0 0">
+<i class="a" style="left:0;top:188px;width:262px;height:14px;border-radius:6px;background:rgba(90,50,15,.3)"></i>
+<i class="v" style="left:0;top:34px;width:16px;height:166px;color:#8a5426;border-width:4px"></i>
+<i class="v" style="left:42px;top:34px;width:16px;height:166px;color:#8a5426;border-width:4px"></i>
+<i class="fp" style="left:-6px;top:62px;width:94px;height:16px"></i>
+<i class="fp" style="left:-6px;top:120px;width:94px;height:16px"></i>
+<i class="fp" style="left:210px;top:62px;width:60px;height:16px"></i>
+<i class="fp" style="left:210px;top:120px;width:60px;height:16px"></i>
+<i class="v" style="left:80px;top:-34px;width:26px;height:234px;background:linear-gradient(90deg,#9a6230,#6b3f1f);border-width:4px"></i>
+<i class="v" style="left:192px;top:-34px;width:26px;height:234px;background:linear-gradient(90deg,#9a6230,#6b3f1f);border-width:4px"></i>
+<i class="v" style="left:66px;top:-52px;width:166px;height:22px;color:#7a4a21;border-width:4px"></i>
+<i class="v" style="left:76px;top:-64px;width:34px;height:14px;color:#5a3414"></i>
+<i class="v" style="left:188px;top:-64px;width:34px;height:14px;color:#5a3414"></i>
+<div class="v" style="left:116px;top:-30px;width:66px;height:22px;background:#e9b25a;display:flex;align-items:center;justify-content:center"><span class="lg sm" style="font-size:13px;line-height:1">GATE</span></div>
+<i class="a" style="left:100px;top:4px;width:10px;height:166px;background:repeating-linear-gradient(180deg,#1a0f05 0 2px,#5a6070 2px 10px,#1a0f05 10px 12px,transparent 12px 38px)"></i>
+<i class="a" style="left:188px;top:4px;width:10px;height:166px;background:repeating-linear-gradient(180deg,#1a0f05 0 2px,#5a6070 2px 10px,#1a0f05 10px 12px,transparent 12px 38px)"></i>
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<i class="a" style="left:104px;top:-30px;width:90px;height:228px;background:linear-gradient(90deg,rgba(255,40,40,.15),rgba(255,70,70,.45),rgba(255,40,40,.15));animation:pulse .8s ease-in-out infinite"></i>
+<i class="lz" style="top:7px"></i>
+<i class="lz" style="top:45px;animation-delay:.1s"></i>
+<i class="lz" style="top:83px;animation-delay:.2s"></i>
+<i class="lz" style="top:121px;animation-delay:.3s"></i>
+<i class="lz" style="top:159px;animation-delay:.15s"></i>
+</sc-if>
+</div>
+
+<div class="a" style="left:1096px;top:118px;width:200px;height:288px">
+<i class="a" style="left:0;top:0;width:200px;height:100px;background:#1a0f05;clip-path:polygon(50% 0,86% 22%,100% 100%,0 100%,14% 22%)"></i>
+<i class="a" style="left:6px;top:7px;width:188px;height:91px;background:repeating-linear-gradient(180deg,#9a2a20 0 12px,#7a1f16 12px 15px);clip-path:polygon(50% 0,86% 22%,100% 100%,0 100%,14% 22%)"></i>
+<i class="v" style="left:74px;top:38px;width:52px;height:46px;background:linear-gradient(180deg,#7a1f16 55%,#ffd02e 55%);border-width:4px;box-shadow:inset 0 0 0 4px #f4ead8"></i>
+<i class="v" style="left:6px;top:96px;width:190px;height:192px;border-width:4px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 3px,transparent 3px 22px),#c9372c;box-shadow:inset 6px 0 0 #f4ead8,inset -14px 0 0 #f4ead8"></i>
+<div class="v" style="left:2px;top:104px;width:176px;height:38px;border-width:4px;background:repeating-linear-gradient(180deg,#e9b25a 0 10px,#d29a44 10px 12px);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,.3)"><span class="lg st2" style="font-size:21px;line-height:1;white-space:nowrap">YOUR RANCH</span></div>
+<i class="v" style="left:38px;top:160px;width:122px;height:128px;border-width:4px;border-bottom:0;box-shadow:inset 0 0 0 5px #f4ead8;background:linear-gradient(90deg,transparent 57px,#1a0f05 57px 61px,transparent 61px),linear-gradient(44deg,transparent 47%,#f4ead8 47% 53%,transparent 53%),linear-gradient(-44deg,transparent 47%,#f4ead8 47% 53%,transparent 53%),#a72a20"></i>
+</div>
+<i class="v" style="left:1106px;top:404px;width:62px;height:38px;border-radius:8px;background:repeating-linear-gradient(90deg,#f5cf5a 0 6px,#e0b23e 6px 9px)"></i>
+<i class="v" style="left:1150px;top:388px;width:54px;height:32px;border-radius:8px;background:repeating-linear-gradient(90deg,#f5cf5a 0 6px,#e0b23e 6px 9px)"></i>
+<i class="v" style="left:1204px;top:410px;width:72px;height:30px;border-width:4px;background:linear-gradient(180deg,#3fb4ff 0 30%,#8a5426 30%)"></i>
+<i class="a" style="left:1114px;top:450px;width:62px;height:62px;border-radius:50%;border:8px solid #b07034;box-shadow:0 0 0 4px #1a0f05,inset 0 0 0 3px #1a0f05;background:radial-gradient(circle,#ffd02e 0 4px,#1a0f05 5px 7px,transparent 8px),repeating-conic-gradient(#6b3f1f 0 8deg,transparent 8deg 45deg)"></i>
+<i class="ca" style="left:1232px;top:452px;width:22px;height:60px;border-radius:12px 12px 4px 4px"></i>
+<i class="ca" style="left:1218px;top:470px;width:16px;height:12px;border-radius:6px"></i>
+
+<i class="fp" style="left:246px;top:664px;width:860px;height:14px"></i>
+<i class="fp" style="left:246px;top:692px;width:860px;height:14px"></i>
+<i class="a" style="left:262px;top:648px;width:818px;height:72px;background:repeating-linear-gradient(90deg,#1a0f05 0 4px,#8a5426 4px 14px,#1a0f05 14px 18px,transparent 18px 100px)"></i>
+</div>
+
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<i aria-hidden="true" class="a" style="left:0;top:0;width:1280px;height:720px;box-shadow:inset 0 0 110px 26px rgba(255,30,30,.5);animation:pulse 1s ease-in-out infinite;pointer-events:none"></i>
+</sc-if>
+
+<div aria-hidden="true" class="a" style="left:{{rL}}px;top:{{rT}}px;width:50px;height:110px;transform:rotate({{rR}}deg);transform-origin:50% 100%;transition:left .35s,top .35s,transform .35s">
+<i class="v" style="left:38px;top:42px;width:30px;height:12px;color:#3a3a3a;transform:rotate(-24deg);transform-origin:0 50%"></i>
+<i class="v" style="left:6px;top:74px;width:18px;height:34px;color:#4a3a2a;box-shadow:20px 0 0 -3px,20px 0 #1a0f05"></i>
+<i class="v" style="left:4px;top:38px;width:42px;height:38px;background:linear-gradient(90deg,#3a3a3a 0 34%,#d93636 34% 66%,#3a3a3a 66%)"></i>
+<i class="v" style="left:8px;top:8px;width:34px;height:32px;color:#ffd7a8"></i>
+<i class="v" style="left:8px;top:26px;width:34px;height:14px;color:#e0362a"></i>
+<i class="e" style="left:16px;top:17px"></i><i class="e" style="left:29px;top:17px"></i>
+<i class="a" style="left:13px;top:12px;width:10px;height:3px;background:#1a0f05;transform:rotate(18deg)"></i>
+<i class="a" style="left:27px;top:12px;width:10px;height:3px;background:#1a0f05;transform:rotate(-18deg)"></i>
+<i class="v" style="left:10px;top:-14px;width:30px;height:20px;color:#2a2a2a;border-radius:6px 6px 2px 2px"></i>
+<i class="v" style="left:-6px;top:2px;width:62px;height:10px;color:#2a2a2a;border-radius:6px"></i>
+</div>
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true">
+<div class="bb a" style="left:160px;top:284px;width:120px">
+<span class="st2" style="font-size:17px">BOB_YT</span>
+<span class="sm" style="font-size:11px;color:#ff6b6b">RUSTLER</span>
+</div>
+<svg width="60" height="84" viewBox="0 0 60 84" class="a" style="left:190px;top:116px;animation:bob .6s ease-in-out infinite"><path d="M18 4h24v42h14L30 80 4 46h14z" fill="#ff2d2d" stroke="#1a0f05" stroke-width="5"/></svg>
+</div>
+</sc-if>
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true">
+<div class="a" style="left:110px;top:470px;width:60px;height:36px;animation:spin 1.2s linear infinite">
+<i class="sp" style="left:0;top:12px;color:#ffe14a"></i><i class="sp" style="left:25px;top:0;color:#fff"></i><i class="sp" style="left:48px;top:14px;color:#ffe14a"></i>
+</div>
+<div class="bb a" style="left:76px;top:426px;width:130px">
+<span class="st2" style="font-size:17px">BOB_YT</span>
+<span class="st2" style="font-size:16px;color:#5cff6a">BLOCKED!</span>
+</div>
+<i class="a" style="left:226px;top:560px;width:46px;height:7px;border:2px solid #1a0f05;border-radius:4px;background:repeating-linear-gradient(90deg,#e0aa62 0 7px,#9a6230 7px 10px);transform:rotate(14deg)"></i>
+<div class="a" style="left:184px;top:122px;width:62px;height:62px;border-radius:50%;border:4px solid #1a0f05;background:linear-gradient(180deg,#7dff6a,#2fbf3f);box-shadow:0 4px 0 #1a0f05,0 0 18px 6px rgba(92,255,106,.7);display:flex;align-items:center;justify-content:center;animation:pop .4s ease-out both">
+<svg width="34" height="34" viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#1a0f05" stroke-width="4.5"/><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#e9eef5" stroke-width="2"/><rect x="4" y="11" width="16" height="11" rx="2.5" fill="#fff" stroke="#1a0f05" stroke-width="2"/><path d="M12 15v3" stroke="#1a0f05" stroke-width="2.4"/></svg>
+</div>
+</div>
+</sc-if>
+
+<!-- ranch panel -->
+<section aria-label="Your ranch pens" class="a" style="left:300px;top:142px;width:800px;height:496px;border-radius:26px;border:6px solid #1a0f05;background:repeating-linear-gradient(180deg,#8a5426 0 30px,#7d4b21 30px 33px);box-shadow:inset 0 0 0 6px #b07034,0 8px 0 #1a0f05;display:flex;flex-direction:column">
+<div style="height:50px;flex:none;border-radius:20px 20px 0 0;background:linear-gradient(180deg,#ffb23e,#ff7a00);display:flex;align-items:center;justify-content:center;gap:10px">
+<svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 10l10-7 10 7v11H2z" fill="#e0362a" stroke="#1a0f05" stroke-width="2"/><path d="M8 21v-7h8v7M8 14l8 7M16 14l-8 7" fill="none" stroke="#fff" stroke-width="1.8"/></svg>
+<h1 class="lg st" style="margin:0;font-size:31px;line-height:1;font-weight:400;white-space:nowrap">RANCH · PEN LV 4 · <span style="color:#ffe14a">9/10</span> SLOTS</h1>
+</div>
+<i aria-hidden="true" style="display:block;height:12px;flex:none;box-sizing:border-box;border-top:3px solid #1a0f05;border-bottom:3px solid #1a0f05;background:repeating-linear-gradient(135deg,#e6b878 0 5px,#a8743a 5px 9px)"></i>
+
+<div style="flex:none;height:338px;box-sizing:border-box;margin:10px 12px 0;padding:10px;border-radius:16px;border:4px solid #1a0f05;background:#4e2c11;box-shadow:inset 0 6px 0 rgba(0,0,0,.25);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:150px 150px;gap:10px">
+
+<div class="card" style="border-color:#2EE6D6">
+<div class="stg" aria-hidden="true"><i class="gl gC"></i><i class="sh"></i><i class="v" style="left:14px;top:30px;width:22px;height:14px;color:#a9522c"></i><i class="v" style="left:30px;top:20px;width:30px;height:24px;color:#c8693a"></i><i class="v" style="left:54px;top:26px;width:26px;height:20px;color:#b85e30"></i><i class="v" style="left:36px;top:40px;width:9px;height:12px;color:#8a3f1c"></i><i class="v" style="left:64px;top:42px;width:9px;height:10px;color:#8a3f1c"></i><i class="v" style="left:74px;top:12px;width:18px;height:28px;color:#c8693a"></i><i class="v" style="left:82px;top:2px;width:36px;height:22px;color:#d47544;border-radius:6px"></i><i class="v" style="left:100px;top:20px;width:20px;height:9px;color:#f3c27a"></i><i class="v" style="left:84px;top:-8px;width:8px;height:14px;color:#fff2c8"></i><i class="v" style="left:96px;top:-10px;width:8px;height:16px;color:#fff2c8"></i><i class="ey" style="left:104px;top:8px;color:#ffe14a"></i><i class="sp" style="left:38px;top:12px;color:#2ee6d6"></i><i class="sp" style="left:58px;top:19px;color:#2ee6d6"></i></div>
+<span class="rc lg sm" style="background:#2EE6D6">COSMIC</span>
+<span class="lg sm nm">Canyon Wyrm</span>
+<div class="row"><span class="lg sm tl">TAMING</span><span class="lg st2 t20">19:48</span></div>
+<div class="pb"><i style="width:21%;background:#2EE6D6"></i></div>
+<span class="wd">WILD · CAN BE RUSTLED</span>
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<i aria-hidden="true" class="a" style="left:-9px;top:-9px;right:-9px;bottom:-9px;border:4px solid #ff2d2d;border-radius:18px;box-shadow:0 0 14px 4px rgba(255,45,45,.9);animation:pulse .7s ease-in-out infinite"></i>
+<span class="tg lg st2" style="background:#ff2d2d">RUSTLING!</span>
+</sc-if>
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<span class="tg lg st2" style="background:#2fbf3f;animation:pop .4s ease-out both">SAFE</span>
+</sc-if>
+</div>
+
+<div class="card" style="border:0;padding:4px;background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff,#ff3b3b);background-size:200% 100%;animation:rbshift 2s linear infinite;box-shadow:0 0 0 3px #1a0f05,0 6px 0 2px #1a0f05,0 0 18px 5px rgba(255,255,255,.6)">
+<div style="position:relative;height:100%;border-radius:10px;background:linear-gradient(180deg,#2a1240,#120a1c)">
+<div class="stg" aria-hidden="true"><i class="gl" style="background:radial-gradient(closest-side,rgba(255,150,40,.85),rgba(255,80,200,.35) 60%,rgba(0,0,0,0))"></i><i class="sh"></i><i class="v fi" style="left:32px;top:0;width:10px;height:12px;color:#ffb02e"></i><i class="v fi" style="left:46px;top:-6px;width:11px;height:18px;color:#ff7a1a;animation-delay:.15s"></i><i class="v fi" style="left:61px;top:-1px;width:10px;height:13px;color:#ffe14a;animation-delay:.3s"></i><i class="v" style="left:24px;top:40px;width:12px;height:13px;color:#2e1e1a;box-shadow:18px 0 0 -3px,18px 0 #1a0f05,38px 0 0 -3px,38px 0 #1a0f05"></i><i class="v" style="left:18px;top:8px;width:70px;height:36px;border-radius:8px;background:repeating-linear-gradient(115deg,#4a2f2a 0 9px,#ff7a1a 9px 11px,#4a2f2a 11px 20px);box-shadow:0 0 10px 2px rgba(255,122,26,.6)"></i><i class="v" style="left:78px;top:4px;width:32px;height:30px;border-radius:6px;color:#5a3a32"></i><i class="v" style="left:100px;top:28px;width:10px;height:22px;color:#5a3a32"></i><i class="v" style="left:82px;top:30px;width:20px;height:9px;border-radius:2px 2px 10px 10px;color:#fff6e0"></i><i class="ey" style="left:95px;top:11px;color:#ffb02e;box-shadow:0 0 8px 2px #ff7a1a"></i></div>
+<span class="rc lg sm" style="background:#120a1c"><span class="rb">SECRET</span></span>
+<span class="lg sm nm">Inferno Mammoth</span>
+<div class="row"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v4l-4 6 4 6v4H6v-4l4-6-4-6z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2.4"/></svg><span class="lg st2 t20">1:29:58</span></div>
+<div class="a" style="left:4px;right:4px;top:111px;height:26px;padding:3px;border-radius:9px;border:2px solid #1a0f05;background:repeating-linear-gradient(45deg,#ffe14a 0 6px,#1a0f05 6px 12px);animation:shake .5s ease-in-out infinite">
+<div style="height:100%;border-radius:5px;background:#ff2d2d;display:flex;align-items:center;justify-content:center;gap:3px">
+<svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L1 21h22z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2.5"/><path d="M12 9v5M12 17v1" stroke="#1a0f05" stroke-width="3"/></svg>
+<span class="lg sm" style="font-size:11px;line-height:1;letter-spacing:0">RUSTLE RISK!</span>
+</div>
+</div>
+<span class="tg lg st2" style="right:-14px;top:-26px;background:#b44dff">JUST IN!</span>
+</div>
+</div>
+
+<div class="card" style="border-color:#2EE6D6">
+<div class="stg" aria-hidden="true"><i class="gl gG"></i><i class="sh"></i><i class="v" style="left:18px;top:16px;width:12px;height:24px;color:#fff4c2"></i><i class="v" style="left:34px;top:36px;width:9px;height:16px;color:#e8b400;box-shadow:14px 0 0 -3px,14px 0 #1a0f05,32px 0 0 -3px,32px 0 #1a0f05,46px 0 0 -3px,46px 0 #1a0f05"></i><i class="v" style="left:28px;top:18px;width:62px;height:24px;color:#ffcf2e"></i><i class="v" style="left:78px;top:4px;width:16px;height:28px;color:#ffcf2e"></i><i class="v" style="left:84px;top:0;width:30px;height:16px;color:#ffdb55"></i><i class="v" style="left:72px;top:0;width:9px;height:26px;color:#fff4c2"></i><i class="e" style="left:102px;top:4px"></i><svg width="14" height="14" viewBox="0 0 24 24" class="a tw" style="left:106px;top:22px"><path d="M12 1l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#fff6c2" stroke="#1a0f05" stroke-width="2"/></svg></div>
+<span class="rc lg sm" style="background:#2EE6D6">COSMIC</span>
+<span class="lg sm nm">Golden Stallion</span>
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$280K/s</span>
+</div>
+
+<div class="card" style="border-color:#2EE6D6">
+<div class="stg" aria-hidden="true"><i class="gl gC"></i><i class="sh"></i><i class="v" style="left:26px;top:38px;width:12px;height:14px;color:#9cc2de;box-shadow:18px 0 0 -3px,18px 0 #1a0f05,38px 0 0 -3px,38px 0 #1a0f05"></i><i class="v" style="left:20px;top:10px;width:66px;height:32px;border-radius:8px;background:repeating-linear-gradient(90deg,#cfe6f7 0 8px,#b4d4ec 8px 11px)"></i><i class="v" style="left:76px;top:6px;width:30px;height:28px;border-radius:6px;color:#e6f4ff"></i><i class="v" style="left:96px;top:28px;width:10px;height:22px;color:#e6f4ff"></i><i class="v" style="left:80px;top:28px;width:18px;height:8px;border-radius:2px 2px 8px 8px;color:#fff"></i><i class="e" style="left:92px;top:13px"></i><i class="sp" style="left:40px;top:4px;color:#2ee6d6;border-color:#0c5c56"></i><i class="sp" style="left:56px;top:1px;color:#2ee6d6;border-color:#0c5c56"></i><i class="sp" style="left:72px;top:5px;width:9px;height:9px;color:#2ee6d6;border-color:#0c5c56"></i></div>
+<span class="rc lg sm" style="background:#2EE6D6">COSMIC</span>
+<span class="rc lg sm" style="left:auto;right:4px;background:#D9E2EC">SILVER</span>
+<span class="lg sm nm">Frost Mammoth</span>
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$610K/s</span>
+</div>
+
+<div class="card" style="border-color:#FFC61A;box-shadow:{{bisonSh}}">
+<div class="stg" aria-hidden="true"><i class="gl" style="background:radial-gradient(closest-side,rgba(92,255,106,.7),rgba(92,255,106,0))"></i><i class="sh"></i><i class="v" style="left:102px;top:18px;width:8px;height:16px;color:#4b2a12"></i><i class="v" style="left:54px;top:38px;width:10px;height:14px;color:#4b2a12;box-shadow:36px 0 0 -3px,36px 0 #1a0f05"></i><i class="v" style="left:44px;top:16px;width:62px;height:28px;color:#6b3f1f"></i><i class="v" style="left:50px;top:6px;width:40px;height:16px;color:#5a3418"></i><i class="a" style="left:68px;top:22px;width:14px;height:18px;background:#ffe14a;clip-path:polygon(60% 0,0 55%,45% 55%,30% 100%,100% 40%,55% 40%)"></i><i class="v" style="left:18px;top:12px;width:32px;height:28px;color:#4b2a12"></i><i class="v" style="left:12px;top:2px;width:8px;height:14px;color:#f2e6c8;box-shadow:34px 0 0 -3px,34px 0 #1a0f05"></i><i class="ey" style="left:24px;top:20px;color:#ffe14a"></i><i class="ey" style="left:37px;top:20px;color:#ffe14a"></i></div>
+<span class="rc lg sm" style="background:#FFC61A">LEGENDARY</span>
+<span class="lg sm nm">Thunder Bison</span>
+<sc-if value="{{bisonReady}}" hint-placeholder-val="{{ true }}">
+<div class="a hop" style="left:12px;right:12px;top:88px;height:34px">
+<button class="btn lg" onClick="{{tameBison}}" style="display:flex;width:100%;height:34px;box-sizing:border-box;align-items:center;justify-content:center;border-radius:12px;padding:0;color:#fff;background:linear-gradient(180deg,#9dff7a,#2fbf3f)"><span class="st2" style="font-size:22px;line-height:1">TAME!</span></button>
+</div>
+<span class="lg sm" style="position:absolute;left:0;right:0;top:127px;text-align:center;font-size:13px;line-height:1;color:#5cff6a">$2.8K/s</span>
+<span class="tg lg st2" style="background:#2fbf3f">READY!</span>
+</sc-if>
+<sc-if value="{{bisonTamed}}" hint-placeholder-val="{{ false }}">
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$2.8K/s</span>
+</sc-if>
+</div>
+
+<div class="card" style="border-color:#FFC61A">
+<div class="stg" aria-hidden="true"><i class="gl gO"></i><i class="sh"></i><i class="v" style="left:32px;top:38px;width:9px;height:14px;color:#2a201e;box-shadow:38px 0 0 -3px,38px 0 #1a0f05"></i><i class="v" style="left:26px;top:14px;width:58px;height:28px;border-radius:10px;background:radial-gradient(circle,#ff8a1f 2px,transparent 3px) 0 0/12px 10px,#5a4a48"></i><i class="v" style="left:30px;top:6px;width:16px;height:12px;border-radius:6px;color:#6a5a58"></i><i class="v" style="left:46px;top:4px;width:16px;height:12px;border-radius:6px;color:#6a5a58"></i><i class="v" style="left:62px;top:6px;width:16px;height:12px;border-radius:6px;color:#6a5a58"></i><i class="v" style="left:80px;top:10px;width:26px;height:24px;color:#3a2e2c"></i><i class="v" style="left:72px;top:0;width:20px;height:20px;border-radius:50%;color:#ff8a1f;box-shadow:inset 0 0 0 3px #ffb02e"></i><i class="ey" style="left:96px;top:16px;color:#ff6a1f"></i></div>
+<span class="rc lg sm" style="background:#FFC61A">LEGENDARY</span>
+<span class="lg sm nm">Cinder Ram</span>
+<div class="row"><span class="lg sm tl">TAMING</span><span class="lg st2 t20">3:44</span></div>
+<div class="pb"><i style="width:25%;background:#FFC61A"></i></div>
+<span class="wd">WILD · CAN BE RUSTLED</span>
+</div>
+
+<div class="card" style="border-color:#FF3B3B">
+<div class="stg" aria-hidden="true"><i class="gl gR"></i><i class="sh"></i><i class="v" style="left:6px;top:28px;width:22px;height:12px;color:#2f7f2f"></i><i class="v" style="left:30px;top:36px;width:10px;height:12px;color:#2f7f2f;box-shadow:36px 0 0 -3px,36px 0 #1a0f05"></i><i class="v" style="left:24px;top:20px;width:58px;height:22px;background:repeating-linear-gradient(90deg,#3c9a3c 0 8px,#2f7f2f 8px 11px)"></i><i class="v" style="left:78px;top:22px;width:44px;height:16px;color:#4caf50"></i><i class="a" style="left:84px;top:36px;width:32px;height:5px;background:repeating-linear-gradient(90deg,#fff 0 4px,transparent 4px 7px)"></i><i class="v" style="left:82px;top:12px;width:13px;height:13px;color:#4caf50"></i><i class="ey" style="left:85px;top:15px;width:7px;height:7px;color:#ffe14a"></i></div>
+<span class="rc lg sm" style="background:#FF3B3B">MYTHIC</span>
+<span class="lg sm nm">Gator</span>
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$28K/s</span>
+</div>
+
+<div class="card" style="border-color:#A44DFF">
+<div class="stg" aria-hidden="true"><i class="gl gP"></i><i class="sh"></i><i class="v" style="left:100px;top:16px;width:8px;height:16px;color:#5a1a10"></i><i class="v" style="left:52px;top:38px;width:10px;height:14px;color:#4a140c;box-shadow:36px 0 0 -3px,36px 0 #1a0f05"></i><i class="v" style="left:44px;top:14px;width:60px;height:30px;color:#6a2214"></i><i class="a" style="left:56px;top:24px;width:20px;height:3px;background:#ff7a1a;box-shadow:0 0 6px #ff7a1a;transform:rotate(20deg)"></i><i class="a" style="left:76px;top:28px;width:18px;height:3px;background:#ffb02e;box-shadow:0 0 6px #ff7a1a;transform:rotate(-25deg)"></i><i class="v" style="left:18px;top:10px;width:30px;height:28px;color:#5a1a10"></i><i class="v" style="left:12px;top:2px;width:8px;height:12px;color:#ffcf9a;box-shadow:34px 0 0 -3px,34px 0 #1a0f05"></i><i class="ey" style="left:23px;top:18px;color:#ffb02e"></i><i class="ey" style="left:36px;top:18px;color:#ffb02e"></i><i class="a" style="left:27px;top:29px;width:10px;height:8px;border:2px solid #ffd02e;border-radius:50%"></i></div>
+<span class="rc lg sm" style="background:#A44DFF">EPIC</span>
+<span class="lg sm nm">Lava Ox</span>
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$9.5K/s</span>
+</div>
+
+<div class="card" style="border:0;padding:4px;background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff,#ff3b3b)">
+<div style="position:relative;height:100%;border-radius:10px;background:linear-gradient(180deg,#5e3615,#2e1a0b)">
+<div class="stg" aria-hidden="true"><i class="gl" style="background:radial-gradient(closest-side,rgba(200,120,255,.75),rgba(80,200,255,.3) 60%,rgba(0,0,0,0))"></i><i class="sh"></i><i class="v" style="left:96px;top:30px;width:24px;height:9px;color:#3c9a6a"></i><i class="v" style="left:42px;top:38px;width:10px;height:14px;color:#2f7d55;box-shadow:20px 0 0 -3px,20px 0 #1a0f05,40px 0 0 -3px,40px 0 #1a0f05"></i><i class="v" style="left:34px;top:22px;width:68px;height:24px;border-radius:10px;color:#3c9a6a"></i><i class="sp" style="left:55px;top:16px;color:#b44dff"></i><i class="sp" style="left:77px;top:16px;color:#b44dff"></i><i class="v" style="left:44px;top:8px;width:10px;height:20px;color:#3c9a6a"></i><i class="v" style="left:66px;top:4px;width:10px;height:24px;color:#3c9a6a"></i><i class="v" style="left:88px;top:8px;width:10px;height:20px;color:#3c9a6a"></i><i class="v" style="left:38px;top:0;width:22px;height:14px;color:#47b07a"></i><i class="v" style="left:60px;top:-4px;width:22px;height:14px;color:#47b07a"></i><i class="v" style="left:82px;top:0;width:22px;height:14px;color:#47b07a"></i><i class="ey" style="left:50px;top:3px;color:#ffe14a"></i><i class="ey" style="left:72px;top:-1px;color:#ffe14a"></i><i class="ey" style="left:94px;top:3px;color:#ffe14a"></i></div>
+<span class="rc lg sm" style="background:#120a1c"><span class="rb">SECRET</span></span>
+<span class="lg sm nm">Bayou Hydra</span>
+<div class="row"><svg class="bi" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 7v5a4 4 0 0 0 8 0V7"/></svg><span class="lg sm tt">TAMED</span></div>
+<span class="lg st2 cs">$5.2M/s</span>
+</div>
+</div>
+
+<div class="card" style="border:4px dashed rgba(255,236,200,.7);box-shadow:none;background:rgba(26,15,5,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+<span class="lg st" style="font-size:48px;line-height:.9;color:#ffe9c2">+</span>
+<span class="lg st2" style="font-size:22px;line-height:1">EMPTY</span>
+<span style="font:700 10px Fredoka,sans-serif;color:#f3dcae;margin-top:4px">TOW A BEAST HOME</span>
+</div>
+
+</div>
+
+<div style="flex:none;display:flex;gap:12px;margin:10px 12px 0;height:54px">
+<button class="btn lg" style="flex:1;border-radius:16px;padding:0;color:#fff;background:linear-gradient(180deg,#5cb8ff,#2f7cff);display:flex;align-items:center;justify-content:center;gap:8px">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 9h-5v9H9v-9H4z" fill="#fff" stroke="#1a0f05" stroke-width="2"/></svg>
+<span class="st2" style="font-size:24px;line-height:1">EQUIP BEST</span>
+</button>
+<button class="btn lg" style="flex:1;border-radius:16px;padding:0;color:#fff;background:linear-gradient(180deg,#7dff6a,#2fbf3f);display:flex;align-items:center;justify-content:center;gap:8px">
+<span class="st2" style="font-size:24px;line-height:1">+1 SLOT</span>
+<span class="st2" style="padding:3px 8px;border-radius:10px;background:#1a0f05;font-size:19px;line-height:1;color:#5cff6a">$75M</span>
+</button>
+<a href="Tamed.dc.html" class="btn lg" style="flex:1;border-radius:16px;padding:0;color:#fff;background:linear-gradient(180deg,#ffd23a,#ff8a00);display:flex;align-items:center;justify-content:center;gap:8px">
+<span class="st2" style="font-size:22px;line-height:1;white-space:nowrap">TAME ALL</span>
+<span class="st2" style="padding:3px 8px;border-radius:10px;background:#1a0f05;font-size:19px;line-height:1;color:#5cff6a;white-space:nowrap">R$ 160</span>
+</a>
+</div>
+</section>
+
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true">
+<i class="a" style="left:240px;top:376px;width:138px;height:8px;border:2px solid #1a0f05;border-radius:4px;background:repeating-linear-gradient(90deg,#e0aa62 0 7px,#9a6230 7px 10px);transform:rotate(-38.5deg);transform-origin:0 50%"></i>
+<i class="a" style="left:338px;top:282px;width:28px;height:20px;border-radius:50%;border:5px solid #d9a35a;box-shadow:0 0 0 2px #1a0f05,inset 0 0 0 2px #1a0f05"></i>
+</div>
+</sc-if>
+
+<!-- HUD -->
+<a href="Main.dc.html" class="btn lg" style="position:absolute;left:18px;top:14px;height:50px;box-sizing:border-box;padding:0 16px 0 10px;border-radius:14px;background:linear-gradient(180deg,#b07034,#7a4a21);display:flex;align-items:center;gap:6px">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4L3 12l8 8v-5h10V9H11z" fill="#fff" stroke="#1a0f05" stroke-width="2.2"/></svg>
+<span class="st2" style="font-size:22px;line-height:1">BACK</span>
+</a>
+
+<nav aria-label="Menu" class="a" style="left:18px;top:80px;display:flex;flex-direction:column;gap:10px">
+<a href="Shop.dc.html" class="rail" style="background:linear-gradient(180deg,#ffb23e,#ff7a00)" aria-label="Shop">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#1a0f05" stroke-width="2.5"><path d="M3 4h3l2 11h11l2-8H7" fill="#fff"/><circle cx="10" cy="19" r="1.8" fill="#fff"/><circle cx="17" cy="19" r="1.8" fill="#fff"/></svg>
+<span class="lg st2" style="font-size:15px">SHOP</span>
+</a>
+<a href="Index.dc.html" class="rail" style="background:linear-gradient(180deg,#5cb8ff,#2f7cff)" aria-label="Index, 3 to claim">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" stroke="#1a0f05" stroke-width="2.2"><path d="M4 4h7v16H4zM13 4h7v16h-7z" fill="#fff"/></svg>
+<span class="lg st2" style="font-size:15px">INDEX</span>
+<span class="dot">3</span>
+</a>
+<a href="Shop.dc.html" class="rail" style="background:linear-gradient(180deg,#ffe066,#ffb800)" aria-label="Spurs">
+<svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 4.2L18 5.5l-1.7 4.3L21 12l-4.7 2.2L18 18.5l-4.4-1.7L12 21l-1.6-4.2L6 18.5l1.7-4.3L3 12l4.7-2.2L6 5.5l4.4 1.7z" fill="#e9eef5" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="2.8" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/></svg>
+<span class="lg st2" style="font-size:15px">SPURS</span>
+</a>
+<a href="Shop.dc.html" class="rail" style="background:linear-gradient(180deg,#c77dff,#8a2be2)" aria-label="Passes">
+<svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4z" fill="#fff" stroke="#1a0f05" stroke-width="2.2"/><path d="M12 8.6l1 2.2 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3z" fill="#ffd02e" stroke="#1a0f05" stroke-width="1.4"/></svg>
+<span class="lg st2" style="font-size:15px">PASSES</span>
+</a>
+</nav>
+
+<div class="a" style="left:440px;top:2px;width:400px;display:flex;flex-direction:column;align-items:center">
+<div style="display:flex;align-items:center;gap:8px">
+<svg width="42" height="42" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="6.5" fill="none" stroke="#e0a800" stroke-width="1.6"/><path d="M12 7v10" stroke="#a86b00" stroke-width="2.6"/></svg>
+<span class="lg st" style="font-size:52px;line-height:1.05;color:#5cff6a">$4.2B</span>
+</div>
+<span class="lg st2" style="font-size:22px;line-height:1;color:#c8ffcf;margin-top:-2px">+$12.5M/s</span>
+</div>
+
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<div role="alert" class="a" style="left:300px;top:88px;width:800px;display:flex;justify-content:center">
+<div style="display:flex;align-items:center;gap:10px;padding:5px 18px 5px 12px;border-radius:16px;border:4px solid #1a0f05;background:linear-gradient(180deg,#ff5a4a,#d11f1f);animation:alarm .8s ease-in-out infinite">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L1 21h22z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2"/><path d="M12 9v5M12 17v1" stroke="#1a0f05" stroke-width="2.6"/></svg>
+<span class="lg st2" style="font-size:25px;line-height:1.1;white-space:nowrap">BOB_YT IS RUSTLING YOUR CANYON WYRM!</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<div role="status" class="a" style="left:300px;top:88px;width:800px;display:flex;justify-content:center">
+<div style="display:flex;align-items:center;gap:10px;padding:4px 22px 4px 14px;border-radius:16px;border:4px solid #1a0f05;background:linear-gradient(180deg,#7dff6a,#2fbf3f);box-shadow:0 4px 0 #1a0f05,0 0 22px 6px rgba(92,255,106,.75);animation:pop .4s ease-out both">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="#fff" stroke="#1a0f05" stroke-width="2"/><path d="M8 12l3 3 5-6" fill="none" stroke="#2fbf3f" stroke-width="3"/></svg>
+<span class="lg st2" style="font-size:30px;line-height:1.1;white-space:nowrap">RUSTLER BLOCKED!</span>
+</div>
+</div>
+</sc-if>
+
+<div class="a" style="left:18px;top:648px;height:56px;padding:0 16px 0 8px;border-radius:18px;border:5px solid #1a0f05;background:linear-gradient(180deg,#8a5426,#6b3f1f);box-shadow:inset 0 0 0 3px #b07034,inset 0 -7px 0 rgba(0,0,0,.25),0 4px 0 #1a0f05;display:flex;align-items:center;gap:8px">
+<svg width="38" height="38" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8v10l5 2.5c1.6.8 2.2 1.8 2.2 3V19H9l-1 2H5l.2-3L6 15z" fill="#b5652a" stroke="#1a0f05" stroke-width="2"/><path d="M6.2 6h7.6" stroke="#1a0f05" stroke-width="1.6"/><path d="M7.5 9.5l2 1.5 2-1.5" fill="none" stroke="#ffd02e" stroke-width="1.4"/><circle cx="3.6" cy="18.4" r="2.2" fill="#e9eef5" stroke="#1a0f05" stroke-width="1.6"/></svg>
+<span class="lg st2" style="font-size:20px;color:#ffe14a">SPEED</span>
+<span class="lg st" style="font-size:30px;line-height:1">1.2M</span>
+</div>
+
+<!-- gate lock -->
+<sc-if value="{{unlocked}}" hint-placeholder-val="{{ true }}">
+<i aria-hidden="true" class="a" style="left:1100px;top:520px;width:166px;height:112px;border-radius:24px;border:5px solid #ffe14a;animation:ring 1s ease-out infinite"></i>
+<button class="btn lg" onClick="{{lockGate}}" style="position:absolute;left:1100px;top:520px;width:166px;height:112px;box-sizing:border-box;border-radius:24px;padding:0;color:#fff;background:linear-gradient(180deg,#ff6a5a,#d11f1f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+<svg width="46" height="46" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V7a5 5 0 0 1 9.6-2" fill="none" stroke="#1a0f05" stroke-width="4.5"/><path d="M7 11V7a5 5 0 0 1 9.6-2" fill="none" stroke="#e9eef5" stroke-width="2"/><rect x="4" y="11" width="16" height="11" rx="2.5" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><path d="M12 15v3" stroke="#1a0f05" stroke-width="2.4"/></svg>
+<span class="st2" style="font-size:24px;line-height:1;white-space:nowrap">LOCK GATE</span>
+</button>
+</sc-if>
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<button class="lg" disabled="disabled" aria-disabled="true" style="position:absolute;left:1100px;top:520px;width:166px;height:112px;box-sizing:border-box;border-radius:24px;padding:0;border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;color:#fff;background:linear-gradient(180deg,#a3abbb,#6b7385);cursor:not-allowed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;overflow:hidden">
+<svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#1a0f05" stroke-width="4.5"/><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#e9eef5" stroke-width="2"/><rect x="4" y="11" width="16" height="11" rx="2.5" fill="#ff4a4a" stroke="#1a0f05" stroke-width="2"/><path d="M12 15v3" stroke="#1a0f05" stroke-width="2.4"/></svg>
+<span class="st2" style="font-size:24px;line-height:1">LOCKED</span>
+<span class="st2" style="font-size:26px;line-height:1;color:#ffe14a">1:30</span>
+<span aria-hidden="true" style="position:absolute;left:0;bottom:0;display:block;height:7px;background:#ff2d2d;box-shadow:0 0 8px #ff2d2d;animation:drain 90s linear forwards"></span>
+</button>
+</sc-if>
+<div class="a" style="left:1100px;top:642px;width:166px;padding:4px 8px;border-radius:12px;border:3px solid #1a0f05;background:rgba(26,15,5,.78);display:flex;align-items:center;gap:6px">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#1a0f05" stroke-width="2.4"/><path d="M12 7v5l3 2" fill="none" stroke="#1a0f05" stroke-width="2.4"/></svg>
+<div style="display:flex;flex-direction:column;line-height:1.15">
+<span class="lg sm" style="font-size:13px;color:#ffe14a;white-space:nowrap">COOLDOWN 3:00</span>
+<span class="lg sm" style="font-size:12px;white-space:nowrap">AFTER UNLOCK</span>
+</div>
+</div>
+
+<sc-if value="{{locked}}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true">
+<i class="a" style="left:130px;top:220px;width:180px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,80,80,.85),rgba(255,40,40,0) 70%);animation:flash .9s ease-out forwards"></i>
+<span class="lg st a" style="left:92px;top:262px;font-size:30px;color:#ffe14a;white-space:nowrap;animation:rise 1.6s ease-out forwards">GATE LOCKED!</span>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { locked: false, bison: false }; }
+  renderVals() {
+    const s = this.state;
+    return {
+      locked: s.locked,
+      unlocked: !s.locked,
+      bisonReady: !s.bison,
+      bisonTamed: s.bison,
+      bisonSh: s.bison ? '0 0 0 3px #1a0f05,0 6px 0 2px #1a0f05' : '0 0 0 3px #1a0f05,0 6px 0 2px #1a0f05,0 0 18px 6px rgba(92,255,106,.75)',
+      tameBison: () => this.setState({ bison: true }),
+      rL: s.locked ? 150 : 196,
+      rT: s.locked ? 490 : 332,
+      rR: s.locked ? -24 : -8,
+      lockGate: () => this.setState({ locked: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

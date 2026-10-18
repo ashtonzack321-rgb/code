@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Steal a Beast – The Lane</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.lg{font-family:'Luckiest Guy',cursive;letter-spacing:1px}
+.st{-webkit-text-stroke:5px #1a0f05;paint-order:stroke fill}
+.st2{-webkit-text-stroke:3px #1a0f05;paint-order:stroke fill}
+.st3{-webkit-text-stroke:2px #1a0f05;paint-order:stroke fill}
+.btn{border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;cursor:pointer;transition:transform .12s}
+.btn:hover{transform:scale(1.06)}
+.btn:active{transform:translateY(3px) scale(.97)}
+.rb{background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rbs{filter:drop-shadow(1px 1px 0 #1a0f05) drop-shadow(-1px -1px 0 #1a0f05) drop-shadow(1px -1px 0 #1a0f05) drop-shadow(-1px 1px 0 #1a0f05)}
+.p{position:absolute;display:block}
+.k{border:2px solid #1a0f05}
+.o{border-radius:50%}
+.bx{box-sizing:border-box}
+.fx{display:flex;align-items:center}
+.lb{font:700 11px Fredoka,sans-serif;color:#ffd9a0;letter-spacing:1px}
+.cac{background:#3aa64a;border:3px solid #1f6b2b;border-radius:7px}
+.cs{background:#3aa64a;border:2px solid #1f6b2b;border-radius:5px}
+.rk{background:#a86a3a;border:3px solid #6b3f1f;border-radius:8px}
+.lv{height:4px;background:#ff6a1a;box-shadow:0 0 6px 1px #ff7a00}
+.tri{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.mesa{border:3px solid #8a3f1c;border-bottom:0;border-radius:6px 6px 0 0}
+.fh{height:12px;box-sizing:border-box;border:2px solid #1a0f05;background:repeating-linear-gradient(90deg,#f3e2c0 0 6px,#8a5426 6px 10px)}
+.fv{width:12px;box-sizing:border-box;border:2px solid #1a0f05;background:repeating-linear-gradient(180deg,#f3e2c0 0 6px,#8a5426 6px 10px)}
+.pd{background:#7a4e22;border-radius:6px}
+.ph{height:28px;background:repeating-linear-gradient(90deg,#d29a52 0 10px,#c08640 10px 14px)}
+.ar,.al,.ad{position:absolute;width:0;height:0;border:8px solid transparent;filter:drop-shadow(2px 0 0 #1a0f05) drop-shadow(-2px 0 0 #1a0f05) drop-shadow(0 2px 0 #1a0f05) drop-shadow(0 -2px 0 #1a0f05)}
+.ar{border-left:12px solid #fff;border-right:0}
+.al{border-right:12px solid #fff;border-left:0}
+.ad{border-top:12px solid #fff;border-bottom:0}
+.wd{box-sizing:border-box;border:4px solid #1a0f05;background:repeating-linear-gradient(180deg,#c07a3a 0 9px,#a8642c 9px 11px);box-shadow:inset 0 -5px 0 rgba(0,0,0,.22),0 3px 0 #1a0f05}
+.pill{font:700 9px/10px Fredoka,sans-serif;padding:0 5px;border:2px solid #1a0f05;border-radius:5px;color:#1a0f05;letter-spacing:.4px}
+.nm{flex:1;min-width:0;font-size:13px;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.tile{position:absolute;width:130px;height:200px;box-sizing:border-box;padding:0;border-radius:18px;border:4px solid #1a0f05;background:#1a0f05;cursor:pointer;font:inherit;color:#fff;text-align:center;transition:transform .12s}
+.tile:hover{transform:translateY(-5px) scale(1.04);z-index:5}
+.tile:active{transform:translateY(2px) scale(.98)}
+.tile:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.sc{position:absolute;left:0;top:0;right:0;bottom:0;display:block;border-radius:13px;overflow:hidden}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+</style>
+</helmet>
+<div style="width:1280px;height:720px;position:relative;overflow:hidden;font-family:Fredoka,sans-serif;color:#fff;background:radial-gradient(circle at 28% 18%,rgba(255,255,255,.22),transparent 45%),repeating-linear-gradient(35deg,rgba(122,60,10,.06) 0 2px,transparent 2px 22px),linear-gradient(180deg,#f2c879 0%,#e3ac5c 55%,#cf9147 100%)">
+
+<!-- terrain bands, rope frame, header scenery -->
+<div class="p" style="left:206px;top:350px;width:758px;height:222px;border-radius:26px;background:rgba(110,50,15,.16)"></div>
+<div class="p" style="left:206px;top:104px;width:758px;height:216px;border-radius:26px;background:rgba(255,240,200,.18)"></div>
+<div class="p" style="left:5px;top:5px;right:5px;bottom:5px;border:4px dashed rgba(122,74,33,.5);border-radius:20px"></div>
+<div class="p mesa" style="left:300px;top:56px;width:80px;height:44px;background:#c8693a;border-width:4px;box-shadow:inset 0 9px 0 #e08a5a"></div>
+<div class="p cac" style="left:270px;top:30px;width:12px;height:58px"></div>
+<div class="p cac" style="left:258px;top:46px;width:8px;height:8px"></div>
+<div class="p cac" style="left:286px;top:40px;width:8px;height:8px"></div>
+<div class="p mesa" style="left:916px;top:52px;width:100px;height:48px;background:#b85a30;border-width:4px;box-shadow:inset 0 9px 0 #d8774a"></div>
+<div class="p cac" style="left:1034px;top:34px;width:12px;height:54px"></div>
+
+<!-- title + hint -->
+<div class="p" style="left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center">
+<span class="lg st" style="font-size:60px;line-height:1;margin-top:4px;-webkit-text-stroke:7px #1a0f05;text-shadow:0 5px 0 #1a0f05;transform:rotate(-2deg)">THE LANE</span>
+<div class="fx" style="margin-top:2px;gap:8px;padding:2px 14px;border-radius:12px;border:4px solid #1a0f05;background:linear-gradient(180deg,#ffb23e,#ff7a00);box-shadow:inset 0 -5px 0 rgba(0,0,0,.2),0 4px 0 #1a0f05">
+<span class="ar" style="position:static"></span>
+<span class="lg st2" style="font-size:18px">FURTHER = RARER BEASTS + FASTER ALPHAS</span>
+<span class="ar" style="position:static"></span>
+</div>
+</div>
+<svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" style="position:absolute;left:438px;top:10px;transform:rotate(-12deg)"><path d="M12 1l2.6 6.5 6.9-1-4.3 5.5 4.3 5.5-6.9-1L12 23l-2.6-6.5-6.9 1L6.8 12 2.5 6.5l6.9 1z" fill="#ffd02e" stroke="#1a0f05" stroke-width="1.8" stroke-linejoin="round"/></svg>
+<svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" style="position:absolute;left:800px;top:10px;transform:rotate(12deg)"><path d="M12 1l2.6 6.5 6.9-1-4.3 5.5 4.3 5.5-6.9-1L12 23l-2.6-6.5-6.9 1L6.8 12 2.5 6.5l6.9 1z" fill="#ffd02e" stroke="#1a0f05" stroke-width="1.8" stroke-linejoin="round"/></svg>
+
+<!-- back to town + cash -->
+<a href="Main.dc.html" class="btn fx bx" style="position:absolute;left:14px;top:16px;height:54px;padding:0 14px 0 10px;border-radius:16px;background:linear-gradient(180deg,#ff8a3a,#e0461c);gap:8px">
+<svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z" fill="#fff" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st2" style="font-size:20px">BACK TO TOWN</span>
+</a>
+<div class="p" style="right:18px;top:10px;display:flex;flex-direction:column;align-items:flex-end;line-height:1">
+<div class="fx" style="gap:6px">
+<svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#c98a00" stroke-width="2"/></svg>
+<span class="lg st" style="font-size:42px;color:#5cff6a">$4.2B</span>
+</div>
+<span class="lg st2" style="font-size:18px;color:#c8ffcf;margin-top:2px">+$12.5M/s</span>
+</div>
+
+<!-- TOWN: safe zone with 7 ranch plots, each with a treadmill -->
+<div class="p" style="left:14px;top:112px;width:186px;height:448px;border-radius:12px;background:radial-gradient(circle at 30% 25%,#a4d860,#6fae3a)"></div>
+<div class="p" style="left:146px;top:124px;width:42px;height:424px;background:#ddb06a;box-shadow:inset 3px 0 0 rgba(122,74,33,.35)"></div>
+<sc-for list="{{plots}}" as="pl" hint-placeholder-count="7">
+<div class="p bx" aria-hidden="true" style="left:30px;top:{{pl.y}}px;width:112px;height:48px;border-radius:8px;border:3px solid {{pl.bc}};background:#c48a46;box-shadow:{{pl.sh}}">
+<span class="p bx k" style="left:2px;top:10px;width:28px;height:28px;background:#c73b2b"></span>
+<span class="p bx k" style="left:-1px;top:2px;width:34px;height:12px;background:#7a1f14;border-radius:8px 8px 2px 2px"></span>
+<span class="p bx k" style="left:10px;top:24px;width:12px;height:14px;background:#f3e2c0"></span>
+<span class="p bx" style="left:33px;top:6px;width:26px;height:32px;border:2px dashed #6b3f1f;border-radius:4px"></span>
+<span class="p k" style="left:37px;top:11px;width:9px;height:7px;background:{{pl.c1}}"></span>
+<span class="p k" style="left:45px;top:24px;width:9px;height:7px;background:{{pl.c2}}"></span>
+<span class="p bx k" style="left:72px;top:24px;width:34px;height:14px;border-radius:7px;background:repeating-linear-gradient(90deg,#3a2a1a 0 4px,#5a4430 4px 8px)"></span>
+<span class="p bx o" style="left:60px;top:8px;width:22px;height:22px;border:3px solid #1a0f05;background:repeating-conic-gradient(#8a5426 0 22deg,#e9c48a 22deg 30deg)"></span>
+<sc-if value="{{pl.you}}" hint-placeholder-val="{{ false }}"><span class="p lg st3 k" style="right:-10px;top:-11px;padding:0 5px;border-radius:6px;background:#ffe14a;font-size:11px">YOU</span></sc-if>
+</div>
+</sc-for>
+<div class="p fh" style="left:14px;top:112px;width:186px"></div>
+<div class="p fh" style="left:14px;top:548px;width:186px"></div>
+<div class="p fv" style="left:14px;top:112px;height:448px"></div>
+<div class="p fv" style="left:188px;top:112px;height:84px"></div>
+<div class="p fv" style="left:188px;top:228px;height:332px"></div>
+<div class="p" style="left:184px;top:186px;width:20px;height:14px;background:#6b3f1f;border:3px solid #1a0f05;border-radius:4px;box-shadow:0 38px 0 -3px #6b3f1f,0 38px 0 0 #1a0f05"></div>
+<svg aria-hidden="true" width="34" height="38" viewBox="0 0 24 26" style="position:absolute;left:150px;top:360px"><path d="M12 1l10 4v7c0 6-4 10-10 13C6 22 2 18 2 12V5z" fill="#3ccf5a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/><path d="M7 13l3.5 3.5L17 10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="p wd fx" style="left:6px;top:92px;width:202px;height:42px;border-radius:10px;justify-content:center">
+<span class="lg st2" style="font-size:16px">TOWN · SAFE ZONE</span>
+</div>
+
+<!-- the dirt lane: row 1 left to right, down, row 2 right to left -->
+<div class="p pd" style="left:186px;top:194px;width:682px;height:36px"></div>
+<div class="p pd" style="left:832px;top:194px;width:36px;height:284px"></div>
+<div class="p pd" style="left:240px;top:442px;width:628px;height:36px"></div>
+<div class="p ph" style="left:186px;top:198px;width:678px"></div>
+<div class="p" style="left:836px;top:198px;width:28px;height:276px;background:repeating-linear-gradient(180deg,#d29a52 0 10px,#c08640 10px 14px)"></div>
+<div class="p ph" style="left:244px;top:446px;width:620px"></div>
+<div class="ar" style="left:205px;top:204px"></div>
+<div class="ar" style="left:356px;top:204px"></div>
+<div class="ar" style="left:506px;top:204px"></div>
+<div class="ar" style="left:656px;top:204px"></div>
+<div class="ar" style="left:806px;top:204px"></div>
+<div class="ad" style="left:842px;top:330px"></div>
+<div class="al" style="left:806px;top:452px"></div>
+<div class="al" style="left:656px;top:452px"></div>
+<div class="al" style="left:506px;top:452px"></div>
+<div class="al" style="left:356px;top:452px"></div>
+
+<!-- dry wash between the rows -->
+<div class="p" style="left:230px;top:327px;width:590px;height:18px;border-radius:12px;background:rgba(122,74,33,.22)"></div>
+<div class="p cac" style="left:262px;top:316px;width:12px;height:38px"></div>
+<div class="p cac" style="left:250px;top:326px;width:8px;height:8px"></div>
+<div class="p cac" style="left:278px;top:321px;width:8px;height:8px"></div>
+<div class="p rk" style="left:340px;top:332px;width:26px;height:16px"></div>
+<div class="p bx o" style="left:428px;top:320px;width:26px;height:26px;border:3px solid #8a5426;background:repeating-conic-gradient(#c58a42 0 14deg,transparent 14deg 40deg)"></div>
+<div class="p" style="left:506px;top:322px;width:50px;height:8px;background:#f2e6c8;border:3px solid #1a0f05;border-radius:8px 8px 2px 2px"></div>
+<div class="p bx" style="left:520px;top:324px;width:22px;height:22px;background:#f2e6c8;border:3px solid #1a0f05;border-radius:6px 6px 10px 10px;box-shadow:inset 5px 7px 0 -3px #f2e6c8"></div>
+<div class="p" style="left:526px;top:331px;width:4px;height:4px;background:#1a0f05;box-shadow:7px 0 0 #1a0f05"></div>
+<div class="p" style="left:598px;top:334px;width:40px;height:3px;background:#8a5426;transform:rotate(10deg)"></div>
+<div class="p cac" style="left:702px;top:318px;width:12px;height:36px"></div>
+<div class="p cac" style="left:718px;top:326px;width:8px;height:8px"></div>
+<div class="p rk" style="left:776px;top:334px;width:22px;height:14px"></div>
+
+<!-- the 10 areas (each tile is a button) -->
+<sc-for list="{{areas}}" as="t" hint-placeholder-count="10">
+<button class="tile" onClick="{{t.pick}}" aria-label="{{t.label}}" aria-pressed="{{t.pressed}}" style="left:{{t.x}}px;top:{{t.y}}px;border-color:{{t.bc}};box-shadow:{{t.sh}}">
+<span class="sc" style="background:{{t.bg}}">
+<sc-if value="{{t.prairie}}" hint-placeholder-val="{{ false }}">
+<span class="p k o" style="left:86px;top:46px;width:16px;height:16px;background:#ffe14a"></span>
+<span class="p k" style="left:-16px;top:62px;width:80px;height:26px;border-radius:40px 40px 0 0;background:#cdd36a"></span>
+<span class="p k" style="left:50px;top:66px;width:88px;height:22px;border-radius:40px 40px 0 0;background:#b6c25a"></span>
+<span class="p k" style="left:66px;top:70px;width:18px;height:12px;border-radius:4px;background:repeating-linear-gradient(90deg,#ffd35a 0 4px,#e0aa30 4px 6px)"></span>
+<span class="p o" style="left:44px;top:124px;width:14px;height:14px;border:2px solid #8a5426"></span>
+<span class="p" style="left:0;top:132px;width:122px;height:14px;background:linear-gradient(#8a5426,#8a5426) 0 4px/100% 3px no-repeat,repeating-linear-gradient(90deg,#8a5426 0 4px,transparent 4px 12px)"></span>
+</sc-if>
+<sc-if value="{{t.canyon}}" hint-placeholder-val="{{ false }}">
+<span class="p mesa" style="left:-8px;top:50px;width:60px;height:32px;background:#c8693a;box-shadow:inset 0 7px 0 #e08a5a"></span>
+<span class="p mesa" style="left:60px;top:58px;width:68px;height:24px;background:#b85a30;box-shadow:inset 0 6px 0 #d8774a"></span>
+<span class="p cs" style="left:72px;top:64px;width:9px;height:26px"></span>
+<span class="p cs" style="left:82px;top:70px;width:8px;height:7px"></span>
+<span class="p cs" style="left:2px;top:112px;width:7px;height:22px"></span>
+</sc-if>
+<sc-if value="{{t.mine}}" hint-placeholder-val="{{ false }}">
+<span class="p bx" style="left:64px;top:44px;width:52px;height:44px;background:#0e0703;border:5px solid #8a5426;border-bottom:0;border-radius:4px 4px 0 0"></span>
+<span class="p k" style="left:60px;top:40px;width:56px;height:6px;background:#6b3f1f"></span>
+<span class="p k" style="left:16px;top:50px;width:7px;height:10px;border-radius:3px;background:#ffcf2e;box-shadow:0 0 12px 4px rgba(255,200,40,.7)"></span>
+<span class="p k" style="left:34px;top:58px;width:11px;height:8px;border-radius:3px;background:#ffd02e;box-shadow:-32px 62px 0 #ffd02e"></span>
+<span class="p bx" style="left:0;top:136px;width:122px;height:11px;border-top:3px solid #b8c0c8;border-bottom:3px solid #b8c0c8;background:repeating-linear-gradient(90deg,#6b3f1f 0 5px,transparent 5px 13px)"></span>
+</sc-if>
+<sc-if value="{{t.bayou}}" hint-placeholder-val="{{ false }}">
+<span class="p" style="left:0;top:74px;width:122px;height:10px;border-radius:6px;background:rgba(255,255,255,.22)"></span>
+<span class="p k" style="left:72px;top:42px;width:7px;height:54px;background:#4a3a2a"></span>
+<span class="p" style="left:58px;top:52px;width:18px;height:5px;background:#4a3a2a;transform:rotate(-28deg)"></span>
+<span class="p" style="left:62px;top:56px;width:5px;height:14px;background:#9ab86a;box-shadow:24px -2px 0 #9ab86a"></span>
+<span class="p" style="left:4px;top:60px;width:4px;height:22px;background:#7a9a3a;border-top:8px solid #6b3f1f;border-radius:3px;box-shadow:8px 4px 0 #7a9a3a"></span>
+<span class="p" style="left:-10px;top:112px;width:142px;height:44px;border-radius:50% 50% 0 0;background:#2a5a4a;border-top:3px solid #173a2a;box-shadow:inset 0 5px 0 rgba(255,255,255,.14)"></span>
+<span class="p o" style="left:4px;top:122px;width:14px;height:6px;background:#6fcf4a;border:2px solid #2f6b2b"></span>
+<span class="p o" style="left:42px;top:130px;width:12px;height:5px;background:#6fcf4a;border:2px solid #2f6b2b"></span>
+</sc-if>
+<sc-if value="{{t.frost}}" hint-placeholder-val="{{ false }}">
+<span class="p tri" style="left:-12px;top:38px;width:84px;height:48px;background:#1a0f05"></span>
+<span class="p tri" style="left:-7px;top:44px;width:74px;height:42px;background:linear-gradient(180deg,#fff 0 36%,#8cc4ea 36%)"></span>
+<span class="p tri" style="left:48px;top:46px;width:82px;height:40px;background:#1a0f05"></span>
+<span class="p tri" style="left:53px;top:52px;width:72px;height:34px;background:linear-gradient(180deg,#fff 0 34%,#a8d4f0 34%)"></span>
+<span class="p" style="left:0;top:40px;width:122px;height:46px;background:radial-gradient(circle,#fff 0 1.5px,transparent 2px) 0 0/15px 17px"></span>
+<span class="p" style="left:4px;top:126px;width:9px;height:9px;background:#bfeaff;border:2px solid #3a7aa8;transform:rotate(45deg)"></span>
+</sc-if>
+<sc-if value="{{t.volcano}}" hint-placeholder-val="{{ false }}">
+<span class="p o" style="left:52px;top:16px;width:26px;height:16px;background:rgba(90,70,70,.85);box-shadow:8px -8px 0 -2px rgba(110,90,90,.75)"></span>
+<span class="p" style="left:18px;top:34px;width:92px;height:52px;background:#1a0f05;clip-path:polygon(36% 0,64% 0,100% 100%,0 100%)"></span>
+<span class="p" style="left:23px;top:39px;width:82px;height:47px;background:linear-gradient(180deg,#5a2a20,#2b1a1a);clip-path:polygon(36% 0,64% 0,100% 100%,0 100%)"></span>
+<span class="p" style="left:50px;top:36px;width:28px;height:7px;border-radius:4px;background:#ff7a1a;box-shadow:0 0 12px 4px rgba(255,90,20,.8)"></span>
+<span class="p" style="left:58px;top:40px;width:6px;height:26px;border-radius:3px;background:#ff5a1a"></span>
+<span class="p lv" style="left:0;top:94px;width:28px;transform:rotate(10deg)"></span>
+<span class="p lv" style="left:-4px;top:134px;width:44px;transform:rotate(-10deg)"></span>
+<span class="p lv" style="left:36px;top:138px;width:32px;transform:rotate(14deg)"></span>
+<span class="p lv" style="left:70px;top:134px;width:56px;transform:rotate(-6deg)"></span>
+</sc-if>
+<sc-if value="{{t.storm}}" hint-placeholder-val="{{ false }}">
+<span class="p" style="left:0;top:44px;width:122px;height:100px;background:repeating-linear-gradient(110deg,rgba(255,255,255,.16) 0 2px,transparent 2px 9px)"></span>
+<span class="p mesa" style="left:-6px;top:60px;width:56px;height:24px;background:#6a5a80;border-color:#2a2040"></span>
+<span class="p k" style="left:2px;top:40px;width:40px;height:12px;border-radius:8px;background:#5a4f72"></span>
+<span class="p k" style="left:64px;top:38px;width:58px;height:16px;border-radius:10px;background:#4a3f62"></span>
+<span class="p k o" style="left:76px;top:30px;width:30px;height:20px;background:#4a3f62"></span>
+<svg class="p" style="left:80px;top:50px" width="20" height="34" viewBox="0 0 20 34" aria-hidden="true"><path d="M12 1L2 19h7l-3 14L18 13h-7l4-12z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+</sc-if>
+<sc-if value="{{t.dino}}" hint-placeholder-val="{{ false }}">
+<span class="p bx" style="left:6px;top:50px;width:40px;height:30px;border:4px solid #f2e6c8;border-bottom:0;border-radius:20px 20px 0 0"></span>
+<span class="p bx" style="left:14px;top:58px;width:24px;height:22px;border:4px solid #f2e6c8;border-bottom:0;border-radius:12px 12px 0 0"></span>
+<span class="p k" style="left:74px;top:46px;width:6px;height:42px;background:#6b4a2a"></span>
+<span class="p k o" style="left:60px;top:42px;width:34px;height:9px;background:#4f8a2a"></span>
+<span class="p k o" style="left:68px;top:36px;width:20px;height:9px;background:#5f9a32"></span>
+<span class="p k" style="left:42px;top:132px;width:20px;height:5px;border-radius:4px;background:#f2e6c8"></span>
+</sc-if>
+<sc-if value="{{t.ghost}}" hint-placeholder-val="{{ false }}">
+<span class="p o" style="left:48px;top:44px;width:16px;height:16px;background:#efe8ff;box-shadow:0 0 12px 4px rgba(220,200,255,.6)"></span>
+<span class="p k" style="left:2px;top:46px;width:32px;height:12px;background:#2a1f3a"></span>
+<span class="p k" style="left:-4px;top:56px;width:44px;height:32px;background:#2a1f3a"></span>
+<span class="p k" style="left:84px;top:50px;width:40px;height:38px;background:#2a1f3a"></span>
+<span class="p" style="left:6px;top:64px;width:7px;height:7px;background:#c8ff8a;box-shadow:16px 0 0 #c8ff8a,86px -4px 0 #c8ff8a"></span>
+<span class="p bx" style="left:68px;top:54px;width:15px;height:19px;border-radius:8px 8px 3px 3px;background:rgba(240,240,255,.92);border:2px solid #1a0f05"></span>
+<span class="p" style="left:72px;top:60px;width:2px;height:3px;background:#1a0f05;box-shadow:5px 0 0 #1a0f05"></span>
+<span class="p k" style="left:44px;top:126px;width:11px;height:13px;border-radius:6px 6px 0 0;background:#9a90aa;box-shadow:-42px -4px 0 #9a90aa"></span>
+</sc-if>
+<sc-if value="{{t.cosmic}}" hint-placeholder-val="{{ false }}">
+<span class="p" style="left:-4px;top:98px;width:130px;height:60px;border-radius:40% 40% 0 0;background:#2a1a5a;border-top:3px solid #6a4ac8"></span>
+<span class="p" style="left:0;top:40px;width:64px;height:70px;background:radial-gradient(ellipse,rgba(46,230,214,.6),transparent 70%)"></span>
+<span class="p" style="left:24px;top:46px;width:16px;height:52px;background:linear-gradient(180deg,#2ee6d6,#ff4fd8);clip-path:polygon(50% 0,85% 24%,55% 48%,92% 74%,50% 100%,18% 70%,46% 46%,12% 22%)"></span>
+<span class="p k o" style="left:82px;top:44px;width:26px;height:26px;background:radial-gradient(circle at 35% 35%,#ffb0e8,#a03ad8)"></span>
+<span class="p o" style="left:72px;top:53px;width:46px;height:9px;border:3px solid #2ee6d6;transform:rotate(-14deg)"></span>
+<span class="p k" style="left:2px;top:126px;width:16px;height:9px;border-radius:4px;background:#4a3a8a"></span>
+</sc-if>
+<span class="p" style="left:0;right:0;top:0;height:48px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent)"></span>
+<span class="p" style="left:62px;top:84px;width:58px;height:50px">
+<span class="p k" style="left:6px;top:36px;width:9px;height:12px;background:{{t.ah}}"></span>
+<span class="p k" style="left:26px;top:36px;width:9px;height:12px;background:{{t.ah}}"></span>
+<span class="p bx" style="left:0;top:16px;width:40px;height:24px;background:{{t.ab}};border:3px solid #1a0f05;border-radius:5px"></span>
+<span class="p k" style="left:27px;top:-2px;width:7px;height:11px;border-radius:3px;background:{{t.ac}}"></span>
+<span class="p k" style="left:47px;top:-2px;width:7px;height:11px;border-radius:3px;background:{{t.ac}}"></span>
+<span class="p bx" style="left:28px;top:6px;width:28px;height:26px;background:{{t.ah}};border:3px solid #1a0f05;border-radius:6px"></span>
+<span class="p" style="left:38px;top:15px;width:9px;height:3px;background:#1a0f05"></span>
+<span class="p k" style="left:44px;top:21px;width:10px;height:6px;border-radius:3px;background:{{t.an}}"></span>
+<span class="p lg st3" style="left:40px;top:-14px;font-size:12px">zZ</span>
+</span>
+<span class="p" style="left:0;right:0;bottom:0;height:62px;background:linear-gradient(180deg,transparent,rgba(20,10,0,.85) 45%)"></span>
+<sc-if value="{{t.locked}}" hint-placeholder-val="{{ false }}"><span class="p" style="left:0;top:0;right:0;bottom:0;background:repeating-linear-gradient(135deg,rgba(0,0,0,.24) 0 10px,transparent 10px 20px),rgba(16,6,28,.62)"></span></sc-if>
+</span>
+<span class="p lg st2" style="left:4px;right:4px;top:6px;height:36px;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1">{{t.name}}</span>
+<span class="p" style="left:6px;top:70px;width:54px;height:66px">
+<span class="p k" style="left:21px;top:30px;width:8px;height:34px;background:#6b3f1f"></span>
+<span class="p lg bx" style="left:0;top:0;width:54px;height:40px;border:3px solid #1a0f05;border-radius:6px;background:repeating-linear-gradient(180deg,#c07a3a 0 8px,#a8642c 8px 10px);box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)">
+<span class="p st3" style="left:0;right:0;top:2px;font-size:10px;line-height:1;color:#ffe9c2">SPEED</span>
+<span class="p st2" style="left:0;right:0;top:14px;font-size:16px;line-height:1;color:{{t.signColor}}">{{t.sign}}</span>
+</span>
+</span>
+<sc-if value="{{t.topPlain}}" hint-placeholder-val="{{ true }}"><span class="p st2" style="left:3px;right:3px;bottom:22px;font:700 12px/1.05 Fredoka,sans-serif;color:{{t.topColor}};text-shadow:{{t.topGlow}}">{{t.top}}</span></sc-if>
+<sc-if value="{{t.topSecret}}" hint-placeholder-val="{{ false }}"><span class="p rb rbs" style="left:3px;right:3px;bottom:22px;font:700 12px/1.05 Fredoka,sans-serif">{{t.top}}</span></sc-if>
+<span class="p lg st2" style="left:0;right:0;bottom:3px;font-size:17px;line-height:1.1;color:#5cff6a">{{t.topCash}}</span>
+<span class="p lg st2 bx o" style="left:-14px;top:-14px;width:34px;height:34px;border:4px solid #1a0f05;background:{{t.acc}};font-size:17px;line-height:28px;box-shadow:0 3px 0 #1a0f05">{{t.n}}</span>
+<sc-if value="{{t.open}}" hint-placeholder-val="{{ true }}"><span class="p bx o" style="right:-12px;top:-12px;width:28px;height:28px;border:3px solid #1a0f05;background:#3ccf5a"><svg class="p" style="left:3px;top:3px" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></sc-if>
+<sc-if value="{{t.locked}}" hint-placeholder-val="{{ false }}"><span class="p bx o" style="right:-12px;top:-12px;width:28px;height:28px;border:3px solid #1a0f05;background:#e02424"><svg class="p" style="left:3px;top:2px" width="16" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none" stroke="#1a0f05" stroke-width="3"/><rect x="5" y="11" width="14" height="11" rx="2" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/></svg></span></sc-if>
+</button>
+</sc-for>
+
+<!-- YOU pin at Volcano Ridge -->
+<div class="p" aria-hidden="true" style="left:878px;top:313px;width:48px;height:60px;z-index:6;animation:bob 1.1s ease-in-out infinite">
+<div class="p bx" style="left:1px;top:0;width:46px;height:46px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#ff3b3b;border:4px solid #1a0f05"></div>
+<span class="p lg st2" style="left:0;right:0;top:13px;text-align:center;font-size:16px;line-height:1">YOU</span>
+</div>
+
+<!-- HUD: sundown + speed -->
+<div class="p bx fx" style="left:14px;top:574px;width:196px;height:50px;border-radius:16px;border:4px solid #1a0f05;background:linear-gradient(180deg,#ffb23e,#ff7a00);box-shadow:inset 0 -6px 0 rgba(0,0,0,.2),0 4px 0 #1a0f05;justify-content:center;gap:8px">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="#ffe14a" stroke="#1a0f05" stroke-width="2"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M4 20l2-2M18 6l2-2" stroke="#1a0f05" stroke-width="2" stroke-linecap="round"/></svg>
+<span class="lg st2" style="font-size:17px">SUNDOWN 3:12</span>
+</div>
+<div class="p bx fx" style="left:14px;top:636px;width:196px;height:58px;border-radius:16px;border:4px solid #1a0f05;background:#7a4a21;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25),0 4px 0 #1a0f05;justify-content:center;gap:8px">
+<svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h7v11l5 2.4c1.2.6 2 1.7 2 3V21H4v-5l3-1z" fill="#c58a42" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/><path d="M4 21h17" stroke="#1a0f05" stroke-width="2.5"/><circle cx="4" cy="17" r="2.2" fill="#ffd02e" stroke="#1a0f05" stroke-width="1.5"/></svg>
+<span class="lg st2" style="font-size:20px">SPEED 1.2M</span>
+</div>
+
+<!-- next speed sign + legend -->
+<div class="p bx" style="left:222px;top:584px;width:730px;height:120px;border-radius:20px;border:5px solid #1a0f05;background:#8a5426;box-shadow:inset 0 0 0 5px #b07034,0 5px 0 #1a0f05;padding:10px 16px;display:flex;flex-direction:column;gap:8px">
+<div class="fx" style="gap:12px;height:48px">
+<div style="flex:none;display:flex;flex-direction:column;gap:2px;line-height:1">
+<span class="lb st3">NEXT SPEED SIGN</span>
+<span class="lg st2" style="font-size:22px">STORM MESA</span>
+</div>
+<div class="bx" style="flex:1;height:30px;border-radius:16px;border:4px solid #1a0f05;background:#2b1a0c;position:relative;overflow:hidden">
+<div class="p" style="left:0;top:0;bottom:0;width:48%;background:linear-gradient(90deg,#ffe25c,#ff9a2e)"></div>
+<span class="p lg st2" style="left:0;right:0;top:2px;text-align:center;font-size:18px;line-height:1">1.2M / 2.5M</span>
+</div>
+<span class="lg st2" style="flex:none;font-size:17px;color:#ff6a5a">+1.3M TO GO</span>
+<a href="Main.dc.html" class="btn fx bx" style="flex:none;height:46px;padding:0 14px 0 10px;border-radius:12px;background:linear-gradient(180deg,#7dff6a,#2fbf3f);gap:6px">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#c58a42" stroke="#1a0f05" stroke-width="2"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" stroke="#1a0f05" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="#7a4a21" stroke="#1a0f05" stroke-width="1.6"/></svg>
+<span class="lg st2" style="font-size:20px">TRAIN</span>
+</a>
+</div>
+<div class="fx" style="gap:14px;height:30px">
+<span class="fx" style="gap:6px"><span class="fx bx o" style="width:22px;height:22px;border:3px solid #1a0f05;background:#3ccf5a;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lg st2" style="font-size:15px;color:#5cff6a">CAN ESCAPE</span></span>
+<span class="fx" style="gap:6px"><span class="fx bx o" style="width:22px;height:22px;border:3px solid #1a0f05;background:#e02424;justify-content:center"><svg width="12" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none" stroke="#1a0f05" stroke-width="3"/><rect x="5" y="11" width="14" height="11" rx="2" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/></svg></span><span class="lg st2" style="font-size:15px;color:#ff6a5a">TOO SLOW</span></span>
+<span class="fx" style="gap:6px"><span class="bx" style="width:18px;height:18px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #1a0f05;background:#ff3b3b"></span><span class="lg st2" style="font-size:15px">YOU</span></span>
+<span class="fx" style="margin-left:auto;gap:6px;padding:3px 10px;border-radius:10px;background:rgba(0,0,0,.3)"><span class="lb st3" style="letter-spacing:0">COMING SATURDAY:</span><span class="lg st2" style="font-size:14px;color:#ffb0e0">SAKURA SPRINGS 2.5B</span></span>
+</div>
+</div>
+
+<!-- AREA CARD (wood panel) -->
+<div class="p bx" style="left:966px;top:112px;width:300px;height:594px;border-radius:24px;border:6px solid #1a0f05;background:#8a5426;box-shadow:inset 0 0 0 6px #b07034,0 7px 0 #1a0f05">
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{ true }}">
+<div class="p bx fx" style="left:6px;right:6px;top:6px;height:56px;border-radius:14px 14px 8px 8px;border:4px solid #1a0f05;background:{{hd}};gap:8px;padding:0 8px">
+<span class="lg st2 bx fx o" style="flex:none;width:36px;height:36px;border:4px solid #1a0f05;background:{{acc}};justify-content:center;font-size:18px">{{num}}</span>
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0;line-height:1">
+<span class="lg st2" style="font-size:21px;white-space:nowrap">{{name}}</span>
+<span class="st3" style="font:700 11px Fredoka,sans-serif;color:#fff4d6">{{sub}}</span>
+</div>
+</div>
+<button class="btn fx" onClick="{{close}}" aria-label="Close area card" style="position:absolute;right:-16px;top:-16px;width:40px;height:40px;border-radius:12px;background:#ff3b3b;padding:0;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></button>
+<div class="p" style="left:14px;right:14px;top:70px;height:72px;display:flex;gap:8px">
+<div class="bx" style="flex:none;width:92px;height:72px;border-radius:12px;border:4px solid #1a0f05;background:{{plate}};position:relative;overflow:hidden">
+<div class="p" aria-hidden="true" style="left:14px;top:14px;width:58px;height:50px">
+<span class="p k" style="left:6px;top:36px;width:9px;height:12px;background:{{ah}}"></span>
+<span class="p k" style="left:26px;top:36px;width:9px;height:12px;background:{{ah}}"></span>
+<span class="p bx" style="left:0;top:16px;width:40px;height:24px;background:{{ab}};border:3px solid #1a0f05;border-radius:5px"></span>
+<span class="p k" style="left:27px;top:-2px;width:7px;height:11px;border-radius:3px;background:{{ac}}"></span>
+<span class="p k" style="left:47px;top:-2px;width:7px;height:11px;border-radius:3px;background:{{ac}}"></span>
+<span class="p bx" style="left:28px;top:6px;width:28px;height:26px;background:{{ah}};border:3px solid #1a0f05;border-radius:6px"></span>
+<span class="p" style="left:38px;top:15px;width:9px;height:3px;background:#1a0f05"></span>
+<span class="p k" style="left:44px;top:21px;width:10px;height:6px;border-radius:3px;background:{{an}}"></span>
+<span class="p lg st3" style="left:40px;top:-14px;font-size:12px">zZ</span>
+</div>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:3px">
+<span class="lb st3">ALPHA · GUARDIAN</span>
+<span class="lg st2" style="font-size:18px;line-height:1.05">{{alpha}}</span>
+<span style="font:600 12px Fredoka,sans-serif;color:#ffe9c2">{{alphaSub}}</span>
+</div>
+</div>
+<div class="p wd fx" style="left:14px;right:14px;top:150px;height:42px;border-radius:10px;justify-content:center;gap:8px">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="#ffd02e" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st2" style="font-size:17px;color:#ffe9c2">SPEED SIGN</span>
+<span class="lg st" style="font-size:28px;line-height:1;color:{{signColor}}">{{sign}}</span>
+</div>
+<div class="p bx fx" style="left:14px;right:14px;top:198px;height:24px;border-radius:8px;border:3px solid #1a0f05;background:{{vBg}};justify-content:center">
+<span class="lg st3" style="font-size:13px;line-height:1">{{verdict}}</span>
+</div>
+<div class="p fx" style="left:16px;right:16px;top:228px;height:18px;justify-content:space-between">
+<span class="lg st2" style="font-size:16px;line-height:1">THE HERD</span>
+<span class="lb st3">8 BEASTS</span>
+</div>
+<div class="p bx" style="left:14px;right:14px;top:250px;height:238px;padding:4px;border-radius:12px;border:4px solid #1a0f05;background:#4a2a10;box-shadow:inset 0 4px 0 rgba(0,0,0,.3);display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{beasts}}" as="b" hint-placeholder-count="8">
+<div class="fx" style="flex:none;height:26px;gap:6px;padding:0 5px;border-radius:7px;background:{{b.bg}}">
+<sc-if value="{{b.plain}}" hint-placeholder-val="{{ true }}"><span class="lg st3 nm" style="color:{{b.color}};text-shadow:{{b.tsh}}">{{b.name}}</span></sc-if>
+<sc-if value="{{b.secret}}" hint-placeholder-val="{{ false }}"><span class="lg rb rbs nm">{{b.name}}</span></sc-if>
+<span style="flex:none;width:66px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:1px">
+<sc-if value="{{b.plain}}" hint-placeholder-val="{{ true }}"><span class="pill" style="background:{{b.color}};box-shadow:{{b.pglow}}">{{b.rarity}}</span></sc-if>
+<sc-if value="{{b.secret}}" hint-placeholder-val="{{ false }}"><span class="pill" style="background:#111"><span class="rb">SECRET</span></span></sc-if>
+<sc-if value="{{b.hasCash}}" hint-placeholder-val="{{ true }}"><span class="lg st3" style="font-size:11px;line-height:1;color:#5cff6a">{{b.cash}}</span></sc-if>
+</span>
+</div>
+</sc-for>
+</div>
+<div class="p fx" style="left:16px;right:16px;top:493px;height:14px;gap:6px">
+<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l14 14" stroke="#1a0f05" stroke-width="5" stroke-linecap="round"/><path d="M4 4l14 14" stroke="#e9eef5" stroke-width="2.5" stroke-linecap="round"/><path d="M15 21l6-6" stroke="#8a5426" stroke-width="4" stroke-linecap="round"/></svg>
+<span class="st3" style="font:700 12px Fredoka,sans-serif;color:#ffe9c2">INDEX REWARD:</span>
+<span class="lg st3" style="font-size:13px;line-height:1;color:#ffd02e">{{weapon}}</span>
+</div>
+<a href="Grab.dc.html" class="btn fx bx" style="position:absolute;left:14px;right:14px;top:512px;height:52px;border-radius:16px;background:{{goBg}};justify-content:center;gap:10px">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-linecap="round"><ellipse cx="13" cy="9" rx="8" ry="5" stroke="#1a0f05" stroke-width="4.5"/><path d="M8 13c-2 3-4 5-5 8" stroke="#1a0f05" stroke-width="4.5"/><ellipse cx="13" cy="9" rx="8" ry="5" stroke="#f3d39a" stroke-width="2"/><path d="M8 13c-2 3-4 5-5 8" stroke="#f3d39a" stroke-width="2"/></svg>
+<span style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1">
+<span class="lg st" style="font-size:28px">GO LASSO!</span>
+<span class="lg st3" style="font-size:11px;color:#fff4d6">{{goSub}}</span>
+</span>
+</a>
+</sc-if>
+<sc-if value="{{noSel}}" hint-placeholder-val="{{ false }}">
+<div class="p bx" style="left:6px;top:6px;right:6px;bottom:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:16px">
+<span class="lg st" style="font-size:34px;line-height:1">TAP AN AREA</span>
+<span style="font:600 15px/1.3 Fredoka,sans-serif;color:#fff4d6">Scout its Alpha, its speed sign and the 8 beasts in its herd.</span>
+<div style="padding:10px 12px;border-radius:12px;border:3px solid #1a0f05;background:#5e3615;font:600 13px/1.3 Fredoka,sans-serif;color:#ffe9c2">Aim about 20% above the sign: towing slows you!</div>
+<button class="btn lg" onClick="{{scoutMine}}" style="height:52px;padding:0 16px;border-radius:14px;background:linear-gradient(180deg,#ffb23e,#ff7a00);color:#fff;font-size:18px"><span class="st2">MY AREA: VOLCANO RIDGE</span></button>
+</div>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { sel: 6 }; }
+renderVals() {
+var self = this, sel = this.state.sel, ME = 1200000, YOU = 6;
+var R = {C:['COMMON','#9AA0A6'],U:['UNCOMMON','#3CCF5A'],R:['RARE','#2F9BFF'],E:['EPIC','#A44DFF'],L:['LEGENDARY','#FFC61A'],M:['MYTHIC','#FF3B3B'],X:['COSMIC','#2EE6D6'],S:['SECRET','#1a0f05'],T:['ETERNAL','#FF4FD8'],D:['DIVINE','#FFF6C2']};
+var TH = ['prairie', 'canyon', 'mine', 'bayou', 'frost', 'volcano', 'storm', 'dino', 'ghost', 'cosmic'];
+// area: name, sign, speed needed, Alpha, kind, weapon, top beast, rarity, $/s, badge, header, scene, Alpha colours, beasts
+var A = [
+['Dusty Prairie','0',0, "Ol' Stompy",'Bull','—','Golden Goose','L','$1.8K/s','#e9b25a','#ffd27a,#d99a3a','#8fd8ff 0%,#ffe2a6 40%,#f0c66e 41%,#d9a24c 100%','#6b3f1f,#4b2a12,#f2e6c8,#c98a6a',
+'Prairie Chick:C:$1/s|Jackrabbit:C:$2/s|Billy Goat:U:$8/s|Barn Owl:R:$35/s|Armadillo:R:$45/s|Red Fox:E:$180/s|Grizzly:E:$240/s|Golden Goose:L:$1.8K/s'],
+['Cactus Canyon','900',900,'Rattlesnake King','','Cactus Club','Canyon Wyrm','X','$220K/s','#c8693a','#ff9a5a,#c0502a','#ff9a4a 0%,#ffd08a 40%,#d8774a 41%,#a84a26 100%','#c9a24a,#a8822e,#ffd02e,#e0c070',
+'Horned Toad:C:$3/s|Roadrunner:C:$4/s|Gila Monster:U:$12/s|Coyote:R:$60/s|Vulture:E|Cactus Camel:E|Thunder Bison:L:$2.8K/s|Canyon Wyrm:X:$220K/s'],
+['Gold Rush Mine','10K',10000,'Big Digger','Giant mole',"Miner's Pickaxe",'Golden Stallion','X','$280K/s','#ffc61a','#ffd84a,#b8860b','#2a180b 0%,#4a2c14 40%,#5e3818 41%,#3a2210 100%','#5a4a44,#4a3a34,#e8d8c8,#ff9ab0',
+'Mine Rat:C:$6/s|Cave Bat:U|Rock Mole:R|Crystal Armadillo:L:$3.6K/s|Ore Golem Pup:M:$16K/s|Nugget Mule:M:$18.5K/s|Lantern Bat:E|Golden Stallion:X:$280K/s'],
+['Bayou Swamp','40K',40000,'Croc King','','Gator Tail Whip','Bayou Hydra','S','$3.5M/s','#4f9a3a','#7ab85a,#2f5a2a','#5d7a4a 0%,#a4b77e 40%,#4a6b3a 41%,#2b4a2a 100%','#3f8a3a,#2f6b2b,#ffd02e,#5aa04a',
+'Bullfrog:C|Swamp Hog:U|Heron:R|Snapping Turtle:E|Gator:M:$28K/s|Firefly Moth:L|Mud Buffalo:E|Bayou Hydra:S:$3.5M/s'],
+['Frost Peak','170K',170000,'Yeti Moose','','Ice Whip','Frost Wyvern','T','$65M/s','#5ab0e8','#a8dcff,#3a8ad0','#9fd6ff 0%,#e6f6ff 40%,#ffffff 41%,#cfe6f5 100%','#f4f8ff,#dfe8f4,#c8a06a,#a0b4c8',
+'Snow Hare:C|Mountain Goat:U|Snow Wolf:R|Polar Bear:E|Frost Lynx:L|Frost Mammoth:X:$400K/s|Ice Elk:M|Frost Wyvern:T:$65M/s'],
+['Volcano Ridge','700K',700000,'Magma Ox','','Lava Bat','Hellfire Stallion','T','$100M/s','#ff4a1a','#ff7a2a,#a8200a','#2a0a0a 0%,#a8321a 40%,#2b1a1a 41%,#140c0c 100%','#2b1a1a,#1f1212,#ff7a00,#ff4a1a',
+'Ash Lizard:C|Fire Fox:U|Ember Hog:R|Lava Ox:E:$9.5K/s|Cinder Ram:L|Magma Tortoise:M|Inferno Mammoth:S:$8M/s|Hellfire Stallion:T:$100M/s'],
+['Storm Mesa','2.5M',2500000,'Storm Griffin','','Thunder Whip','Sky Thunderbird','T','$130M/s','#8a6adf','#a890e0,#4a3a7a','#3a2f55 0%,#8a7aa8 40%,#7d6f8f 41%,#4e4263 100%','#8a7aa8,#f0f0ff,#ffe14a,#ffb23e',
+'Spark Coyote:C|Storm Eagle:U|Thunder Ram:R|Static Lynx:E|Cloud Bison:L|Storm Griffin calf:X:$15M/s|Lightning Wolf:M|Sky Thunderbird:T:$130M/s'],
+['Dino Badlands','17M',17000000,'Rodeo Rex','T-Rex','Dino Bone Club','Spinosaurus','T','$180M/s','#9aa03a','#c0c860,#5e6326','#f2d98a 0%,#e8c46a 40%,#8a8f3f 41%,#5e6326 100%','#6b8f3a,#5a7a2f,#f2e6c8,#f2e6c8',
+'Dodo:R|Raptor:E|Pterodactyl:L|Ankylosaurus:M:$120K/s|Triceratops:M|Bronto:X:$1.5M/s|T-Rex calf:S|Spinosaurus:T:$180M/s'],
+['Ghost Town','150M',150000000,'Phantom Steed','','Ghost Lasso','Banshee Stallion','T','$400M/s','#9a6adf','#b088e0,#4a2e7a','#24183e 0%,#8a5aa8 40%,#5a4a6a 41%,#30263e 100%','#cfc4f0,#b8a8e8,#6a4ab0,#e8e0ff',
+'Ghost Chick:U|Skeleton Steer:R|Spectral Wolf:E|Wraith Goat:L|Haunted Mule:M|Bone Vulture:X|Banshee Cat:S|Banshee Stallion:T:$400M/s'],
+['Cosmic Rift','700M',700000000,'Cosmic Kraken-Cow','','Cosmic Whip','Star Unicorn','D','$1B/s','#2ee6d6','#2ee6d6,#7a3aff,#d83ab8','#05031a 0%,#1a0b4a 55%,#2a1060 100%','#4a2a9a,#f0e8ff,#ff7ad8,#ff9ad8',
+'Star Chick:E|Nebula Goat:L|Meteor Ram:M|Cosmic Gorilla:M|Comet Fox:X|Sky Whale:S|Galaxy Bison:T|Star Unicorn:D:$1B/s']
+];
+var PRE = { 2: 'radial-gradient(circle,rgba(255,208,46,.6) 0 2px,transparent 3px) 0 0/22px 26px,', 9: 'radial-gradient(circle,#fff 0 1px,transparent 1.6px) 0 0/17px 19px,radial-gradient(circle,#bfe9ff 0 1px,transparent 1.6px) 8px 9px/23px 21px,' };
+
+var areas = A.map(function (a, i) {
+var n = i + 1, on = sel === n, lk = ME < a[2], al = a[12].split(','), tr = a[7];
+var o = {
+n: n, name: a[0], sign: a[1],
+label: 'Area ' + n + ', ' + a[0] + ', speed sign ' + a[1] + (lk ? ', too slow' : ', can escape'),
+x: 222 + (i < 5 ? i : 9 - i) * 150, y: i < 5 ? 112 : 360,
+bg: (PRE[i] || '') + 'linear-gradient(180deg,' + a[11] + ')', acc: a[9],
+ab: al[0], ah: al[1], ac: al[2], an: al[3],
+locked: lk, open: !lk, signColor: lk ? '#ff3b3b' : '#5cff6a',
+top: a[6], topCash: a[8], topColor: R[tr][1], topSecret: tr === 'S', topPlain: tr !== 'S',
+topGlow: tr === 'D' ? '0 0 8px #ffd02e,0 0 14px #ffc61a' : 'none',
+bc: on ? '#ffe14a' : '#1a0f05',
+sh: on ? '0 0 0 4px #1a0f05,0 0 28px 8px rgba(255,225,74,.85),0 8px 0 #1a0f05' : '0 5px 0 #1a0f05',
+pressed: on ? 'true' : 'false',
+pick: function () { self.setState({ sel: n }); }
+};
+TH.forEach(function (k, j) { o[k] = j === i; });
+return o;
+});
+
+var ci = (sel || YOU) - 1, a = A[ci], t = areas[ci];
+var beasts = a[13].split('|').map(function (s, j) {
+var b = s.split(':'), r = R[b[1]], d = b[1] === 'D';
+return {
+name: b[0], rarity: r[0], color: r[1],
+secret: b[1] === 'S', plain: b[1] !== 'S',
+tsh: d ? '0 0 6px #ffd02e,0 0 12px #ffc61a' : 'none',
+pglow: d ? '0 0 8px 2px #ffd02e' : 'none',
+hasCash: !!b[2], cash: b[2] || '',
+bg: j % 2 ? 'rgba(0,0,0,.22)' : 'rgba(255,255,255,.07)'
+};
+});
+
+var PC = ['#9AA0A6,#3CCF5A', '#2F9BFF,#9AA0A6', '#FFC61A,#FF4FD8', '#A44DFF,#3CCF5A', '#9AA0A6,#2F9BFF', '#FF3B3B,#9AA0A6', '#3CCF5A,#A44DFF'];
+var plots = PC.map(function (s, j) {
+var c = s.split(','), me = j === 2;
+return { y: 148 + j * 56, c1: c[0], c2: c[1], you: me, bc: me ? '#ffe14a' : '#1a0f05', sh: me ? '0 0 0 3px #1a0f05,0 0 14px 4px #ffe14a' : 'none' };
+});
+
+return {
+areas: areas, plots: plots, beasts: beasts,
+hasSel: sel > 0, noSel: !sel,
+num: t.n, name: a[0], acc: a[9], hd: 'linear-gradient(180deg,' + a[10] + ')', plate: t.bg,
+sub: 'AREA ' + t.n + ' OF 10' + (t.n === YOU ? ' · YOU ARE HERE' : ''),
+ab: t.ab, ah: t.ah, ac: t.ac, an: t.an,
+alpha: a[3], alphaSub: a[4] ? a[4] + ' · asleep' : 'Asleep in the herd',
+sign: a[1], signColor: t.signColor,
+vBg: t.locked ? '#e02424' : '#2fbf3f',
+verdict: t.locked ? 'YOU: 1.2M · TOO SLOW!' : 'YOU: 1.2M · CAN ESCAPE',
+weapon: a[5],
+goBg: t.locked ? 'linear-gradient(180deg,#ffb23e,#ff5a1a)' : 'linear-gradient(180deg,#7dff6a,#2fbf3f)',
+goSub: t.locked ? 'RISKY: ALPHA IS FASTER' : 'HOLD E TO LASSO',
+close: function () { self.setState({ sel: 0 }); },
+scoutMine: function () { self.setState({ sel: YOU }); }
+};
+}
+}
+</script>
+</body>
+</html>

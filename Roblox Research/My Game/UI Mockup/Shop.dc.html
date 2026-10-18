@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Steal a Beast – Shop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.lg{font-family:'Luckiest Guy',cursive;letter-spacing:1px}
+.st{-webkit-text-stroke:5px #1a0f05;paint-order:stroke fill}
+.st2{-webkit-text-stroke:3px #1a0f05;paint-order:stroke fill}
+.btn{border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;cursor:pointer;transition:transform .12s}
+.btn:hover{transform:scale(1.06)}
+.btn:active{transform:translateY(3px) scale(.97)}
+.rail{width:76px;height:76px;border-radius:18px;border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;cursor:pointer;transition:transform .12s}
+.rail:hover{transform:scale(1.08)}
+.dot{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:#ff2d2d;border:3px solid #1a0f05;color:#fff;font:700 13px Fredoka,sans-serif;display:flex;align-items:center;justify-content:center}
+.bb{display:flex;flex-direction:column;align-items:center;font-family:'Luckiest Guy',cursive;text-align:center;line-height:1.05}
+.rb{background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* add any @keyframes you need here */
+.ic,.ti svg{stroke:#1a0f05;stroke-linecap:round;stroke-linejoin:round}
+.ti{display:flex}.ti svg{width:74px;height:74px}
+.a{position:absolute}
+.sm{-webkit-text-stroke:2px #1a0f05;paint-order:stroke fill}
+.cl{position:absolute;background:#fff;border-radius:20px;box-shadow:inset 0 -8px 0 #d4ecff}
+.ca{position:absolute;background:#3aa64a;border:4px solid #1f6b2b;border-radius:9px}
+.rk{position:absolute;background:linear-gradient(180deg,#b9a894,#8f7e6c);border:4px solid #3a2a1e;border-radius:14px 10px 6px 6px}
+.wh{position:absolute;width:100px;height:100px;box-sizing:border-box;border-radius:50%;border:10px solid #b07034;box-shadow:0 0 0 4px #1a0f05,inset 0 0 0 4px #1a0f05;background:radial-gradient(circle,#ffd02e 0 4px,#1a0f05 5px 6px,#6b3f1f 7px 11px,#1a0f05 12px 15px,transparent 16px),repeating-conic-gradient(#1a0f05 0 2deg,#e0a25a 2deg 8deg,#1a0f05 8deg 10deg,transparent 10deg 45deg);animation:spin 3s linear infinite}
+.spin{transform-box:fill-box;transform-origin:center;animation:spin 6s linear infinite}
+.bob{animation:bob 2.2s ease-in-out infinite}
+.tw{animation:tw 1.6s ease-in-out infinite}
+.tab{flex:1;min-width:0;position:relative;padding:0 4px;border-radius:16px 16px 8px 8px;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;font-size:18px;white-space:nowrap}
+.pill{display:flex;align-items:center;gap:6px;padding:0 12px 0 8px;border-radius:14px;border:4px solid #1a0f05;background:linear-gradient(180deg,#8a5426,#6b3f1f);box-shadow:inset 0 -5px 0 rgba(0,0,0,.25);white-space:nowrap}
+.card{position:relative;box-sizing:border-box;height:178px;border-radius:18px;border:5px solid #fff;box-shadow:0 0 0 3px #1a0f05,0 7px 0 2px #1a0f05}
+.tile{position:absolute;left:8px;top:8px;width:96px;height:96px;box-sizing:border-box;border-radius:16px;border:4px solid #1a0f05;box-shadow:inset 0 -6px 0 rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.info{position:absolute;left:114px;top:6px;right:8px;height:104px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;overflow:hidden}
+.rp{padding:2px 7px 0;border-radius:8px;border:2px solid #1a0f05;color:#1a0f05;font-size:12px;line-height:1.3}
+.sx{font:700 13px/1.15 Fredoka,sans-serif;color:#fff3dc;text-shadow:0 2px 0 rgba(26,15,5,.7)}
+.row{position:absolute;left:8px;right:8px;bottom:8px;height:46px;display:flex;gap:8px}
+.pb{flex:1;min-width:0;height:46px;box-sizing:border-box;padding:0 4px;border-radius:12px;border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Luckiest Guy',cursive;letter-spacing:1px}
+.eqg{position:absolute;inset:-11px;border-radius:24px;box-shadow:0 0 0 4px #5cff6a,0 0 24px 8px rgba(92,255,106,.75);animation:glow 1.2s ease-in-out infinite;pointer-events:none}
+.ribbon{position:absolute;top:-16px;right:-14px;padding:5px 12px 2px;border-radius:10px;border:3px solid #1a0f05;background:linear-gradient(180deg,#ff5a4a,#d81e1e);font-size:16px;box-shadow:0 3px 0 #1a0f05;white-space:nowrap;animation:wig 1.4s ease-in-out infinite}
+.toast{display:flex;align-items:center;gap:12px;padding:8px 24px;border-radius:18px;border:5px solid #1a0f05;background:linear-gradient(180deg,#5ee87a,#1a8a34);box-shadow:inset 0 -6px 0 rgba(0,0,0,.2),0 5px 0 #1a0f05;animation:t1 2.6s ease-out forwards;white-space:nowrap}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-9px) rotate(8deg)}}
+@keyframes tw{0%,100%{transform:scale(.55);opacity:.4}50%{transform:scale(1.15);opacity:1}}
+@keyframes glow{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes wig{0%,100%{transform:rotate(8deg)}50%{transform:rotate(3deg) scale(1.07)}}
+@keyframes t1{0%{opacity:0;transform:translateY(40px) scale(.6)}12%{opacity:1;transform:translateY(0) scale(1.08)}20%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-24px)}}
+@keyframes t2{0%{opacity:0;transform:translateY(40px) scale(.6)}12%{opacity:1;transform:translateY(0) scale(1.08)}20%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-24px)}}
+@keyframes popin{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+</style>
+</helmet>
+<div style="width:1280px;height:720px;position:relative;overflow:hidden;font-family:Fredoka,sans-serif;color:#fff;background:linear-gradient(180deg,#2a97ff 0%,#4fb6ff 17%,#8fd5ff 31%,#d4efff 37%,#ffe7b0 40%,#ffd28c 42%)">
+
+<!-- WORLD: Town (dimmed + blurred behind the shop) -->
+<div aria-hidden="true" class="a" style="left:0;top:0;width:1280px;height:720px;filter:blur(1.5px)">
+<div class="a" style="left:1150px;top:34px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fffbe0,#ffe066 55%,#ffc21f);box-shadow:0 0 0 12px rgba(255,236,140,.45),0 0 80px 34px rgba(255,226,120,.55)"></div>
+<div class="cl" style="left:10px;top:44px;width:124px;height:34px"></div>
+<div class="cl" style="left:290px;top:4px;width:160px;height:28px"></div>
+<div class="cl" style="left:790px;top:8px;width:180px;height:26px"></div>
+<div class="cl" style="left:1150px;top:168px;width:116px;height:30px"></div>
+<svg class="a" style="left:214px;top:12px" width="40" height="18" viewBox="0 0 44 20"><path d="M2 14q9-12 20 0q9-12 20 0" fill="none" stroke="#1a0f05" stroke-width="3.5" stroke-linecap="round"/></svg>
+<div class="a" style="left:-40px;top:226px;width:290px;height:76px;background:linear-gradient(180deg,#e08a5a 0 30%,#b85a30 30% 44%,#d47544 44%);clip-path:polygon(0 100%,10% 10%,16% 0,58% 0,64% 20%,78% 28%,90% 100%)"></div>
+<div class="a" style="left:1040px;top:214px;width:300px;height:88px;background:linear-gradient(180deg,#e08a5a 0 30%,#b85a30 30% 44%,#d47544 44%);clip-path:polygon(4% 100%,18% 8%,24% 0,70% 0,78% 18%,96% 100%)"></div>
+<div class="a" style="left:0;top:300px;width:1280px;height:420px;background:radial-gradient(circle,rgba(150,85,30,.22) 2px,transparent 3px) 0 0/46px 28px,linear-gradient(180deg,#d99a4c,#e6b065 10%,#d6964a)"></div>
+<div class="a" style="left:0;top:298px;width:1280px;height:6px;background:#c27f3e"></div>
+<!-- saloon -->
+<div class="a" style="left:-8px;top:118px;width:150px;height:200px;box-sizing:border-box;border:4px solid #1a0f05;background:repeating-linear-gradient(180deg,rgba(0,0,0,.14) 0 3px,transparent 3px 18px),#b5652a"></div>
+<div class="a" style="left:6px;top:132px;width:124px;height:34px;box-sizing:border-box;border:3px solid #1a0f05;border-radius:6px;background:#e9b25a;display:flex;align-items:center;justify-content:center"><span class="lg sm" style="font-size:20px">SALOON</span></div>
+<div class="a" style="left:14px;top:182px;width:40px;height:36px;border:3px solid #1a0f05;background:linear-gradient(180deg,#ffd27a,#e99a2e)"></div>
+<div class="a" style="left:82px;top:182px;width:40px;height:36px;border:3px solid #1a0f05;background:linear-gradient(180deg,#ffd27a,#e99a2e)"></div>
+<div class="a" style="left:-10px;top:232px;width:160px;height:12px;border:4px solid #1a0f05;background:#7a4a21"></div>
+<div class="a" style="left:-10px;top:312px;width:160px;height:8px;border:3px solid #1a0f05;background:#9a6230"></div>
+<!-- bank -->
+<div class="a" style="left:1146px;top:138px;width:150px;height:180px;box-sizing:border-box;border:4px solid #1a0f05;background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 3px,transparent 3px 20px),#4f8f9a"></div>
+<div class="a" style="left:1160px;top:150px;width:110px;height:32px;box-sizing:border-box;border:3px solid #1a0f05;border-radius:6px;background:#fff3d6;display:flex;align-items:center;justify-content:center"><span class="lg sm" style="font-size:20px;color:#ffd02e">BANK</span></div>
+<div class="a" style="left:1140px;top:226px;width:156px;height:16px;border:4px solid #1a0f05;background:repeating-linear-gradient(90deg,#e04848 0 16px,#fff3d6 16px 32px)"></div>
+<!-- cacti, rocks, barrel -->
+<div class="ca" style="left:1172px;top:396px;width:14px;height:38px"></div>
+<div class="ca" style="left:1176px;top:422px;width:30px;height:12px;border-radius:7px"></div>
+<div class="ca" style="left:1236px;top:384px;width:14px;height:40px"></div>
+<div class="ca" style="left:1214px;top:412px;width:30px;height:12px;border-radius:7px"></div>
+<div class="ca" style="left:1196px;top:360px;width:30px;height:112px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.13) 0 3px,transparent 3px 9px),#3aa64a;border-radius:16px 16px 6px 6px"></div>
+<div class="ca" style="left:34px;top:530px;width:14px;height:36px"></div>
+<div class="ca" style="left:38px;top:554px;width:30px;height:12px;border-radius:7px"></div>
+<div class="ca" style="left:58px;top:500px;width:30px;height:116px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.13) 0 3px,transparent 3px 9px),#3aa64a;border-radius:16px 16px 6px 6px"></div>
+<div class="rk" style="left:4px;top:470px;width:46px;height:30px"></div>
+<div class="rk" style="left:96px;top:620px;width:56px;height:40px"></div>
+<div class="a" style="left:1146px;top:476px;width:42px;height:54px;border:4px solid #1a0f05;border-radius:10px;background:linear-gradient(90deg,#6b3f1f,#a8652e 50%,#6b3f1f)"></div>
+<!-- treadmill wheel -->
+<div class="a" style="left:1150px;top:636px;width:126px;height:20px;border:4px solid #1a0f05;border-radius:8px;background:repeating-linear-gradient(90deg,#3a2a1e 0 8px,#5a4030 8px 16px)"></div>
+<div class="wh" style="left:1166px;top:540px"></div>
+<!-- fence -->
+<div class="a" style="left:0;top:664px;width:1280px;height:60px;background:repeating-linear-gradient(90deg,#1a0f05 0 4px,#8a5426 4px 14px,#1a0f05 14px 18px,transparent 18px 90px)"></div>
+<div class="a" style="left:-4px;top:676px;width:1282px;height:7px;border:3px solid #1a0f05;background:#9a6230"></div>
+<div class="a" style="left:-4px;top:700px;width:1282px;height:7px;border:3px solid #1a0f05;background:#9a6230"></div>
+</div>
+
+<!-- dim + light rays + sparkles -->
+<div aria-hidden="true" class="a" style="left:0;top:0;width:1280px;height:720px;background:radial-gradient(ellipse at 50% 50%,rgba(20,10,2,.4),rgba(20,10,2,.78))"></div>
+<div aria-hidden="true" class="a" style="left:-260px;top:-540px;width:1800px;height:1800px;border-radius:50%;background:repeating-conic-gradient(rgba(255,206,110,.2) 0 9deg,transparent 9deg 18deg);mask:radial-gradient(circle,#000 18%,transparent 60%);animation:spin 60s linear infinite"></div>
+<div aria-hidden="true">
+<svg class="a bob" style="left:46px;top:40px" width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="#c98a00" stroke-width="2.2"/></svg>
+<svg class="a bob" style="left:1200px;top:318px;animation-delay:.7s" width="44" height="44" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="#c98a00" stroke-width="2.2"/></svg>
+<svg class="a tw" style="left:112px;top:18px" width="26" height="26" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#fff6c2"/></svg>
+<svg class="a tw" style="left:1180px;top:110px;animation-delay:.5s" width="30" height="30" viewBox="0 0 24 24"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z" fill="#fff6c2"/></svg>
+</div>
+
+<!-- LEFT RAIL (stays live while the shop is open) -->
+<nav aria-label="Menu" class="a" style="left:18px;top:108px;display:flex;flex-direction:column;gap:14px">
+<button class="rail" onClick="{{gotr}}" aria-label="Shop (open)" style="padding:0;color:#fff;background:linear-gradient(180deg,#ffb23e,#ff7a00);box-shadow:0 0 0 4px #fff,0 0 24px 8px rgba(255,200,80,.85),inset 0 -7px 0 rgba(0,0,0,.28)">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#1a0f05" stroke-width="2.5" stroke-linejoin="round"><path d="M3 4h3l2 11h11l2-8H7" fill="#fff"/><circle cx="10" cy="19" r="1.8" fill="#fff"/><circle cx="17" cy="19" r="1.8" fill="#fff"/></svg>
+<span class="lg st2" style="font-size:15px">SHOP</span>
+<span aria-hidden="true" class="a" style="right:-24px;top:24px;width:0;height:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:14px solid #fff"></span>
+</button>
+<a href="Index.dc.html" class="rail" style="background:linear-gradient(180deg,#5cb8ff,#2f7cff)" aria-label="Index, 3 to claim">
+<svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true" stroke="#1a0f05" stroke-width="2.2" stroke-linejoin="round"><path d="M4 4h7v16H4zM13 4h7v16h-7z" fill="#fff"/></svg>
+<span class="lg st2" style="font-size:15px">INDEX</span>
+<span class="dot">3</span>
+</a>
+<button class="rail" onClick="{{gosp}}" aria-label="Spurs" style="padding:0;color:#fff;background:linear-gradient(180deg,#ffe066,#ffb800)">
+<svg class="ic" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 4.2L18 5.5l-1.7 4.3L21 12l-4.7 2.2L18 18.5l-4.4-1.7L12 21l-1.6-4.2L6 18.5l1.7-4.3L3 12l4.7-2.2L6 5.5l4.4 1.7z" fill="#e9eef5" stroke-width="2"/><circle cx="12" cy="12" r="2.8" fill="#ffd02e" stroke-width="2"/></svg>
+<span class="lg st2" style="font-size:15px">SPURS</span>
+</button>
+<button class="rail" onClick="{{gorb}}" aria-label="Passes" style="padding:0;color:#fff;background:linear-gradient(180deg,#c77dff,#8a2be2)">
+<svg class="ic" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4z" fill="#fff" stroke-width="2.2"/><path d="M12 8.6l1 2.2 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3z" fill="#ffd02e" stroke-width="1.4"/></svg>
+<span class="lg st2" style="font-size:15px">PASSES</span>
+</button>
+</nav>
+
+<!-- SHOP PANEL -->
+<section aria-label="Shop" class="a" style="left:146px;top:40px;width:988px;height:650px;box-sizing:border-box;border-radius:30px;border:6px solid #1a0f05;background:repeating-linear-gradient(180deg,rgba(0,0,0,.13) 0 3px,transparent 3px 48px),linear-gradient(180deg,#9a5e2a,#7a4a21);box-shadow:inset 0 0 0 7px #b07034,inset 0 0 0 10px rgba(26,15,5,.45),0 10px 0 #1a0f05,0 20px 50px rgba(0,0,0,.6)">
+
+<!-- title bar -->
+<div class="a" style="left:0;top:0;width:976px;height:88px;box-sizing:border-box;border-radius:24px 24px 0 0;border-bottom:6px solid #1a0f05;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 3px,transparent 3px 62px),linear-gradient(180deg,#6b3f1f,#4f2c12)"></div>
+<div class="a" style="left:18px;top:14px;height:56px;box-sizing:border-box;padding:0 8px 0 6px;border-radius:18px;border:4px solid #1a0f05;background:linear-gradient(180deg,#2a1a0c,#3d250f);display:flex;align-items:center;gap:8px;box-shadow:0 4px 0 #1a0f05">
+<svg class="ic" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke-width="2"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="#c98a00" stroke-width="2.2"/></svg>
+<span class="lg st" style="font-size:36px;color:#5cff6a;line-height:1;padding-top:4px">$4.2B</span>
+<button class="btn" onClick="{{gorb}}" aria-label="Get more" style="width:34px;height:34px;box-sizing:border-box;border-radius:10px;padding:0;background:linear-gradient(180deg,#6be07a,#22a63a);display:flex;align-items:center;justify-content:center">
+<svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16" stroke-width="7"/><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="3.5"/></svg>
+</button>
+</div>
+<div class="a" style="left:298px;top:-34px;width:380px;height:110px;box-sizing:border-box;border-radius:24px;border:6px solid #1a0f05;background:repeating-linear-gradient(115deg,rgba(255,255,255,.14) 0 14px,transparent 14px 28px),linear-gradient(180deg,#ffc94a,#ff8a00 60%,#ff6a00);box-shadow:inset 0 0 0 5px rgba(255,255,255,.35),inset 0 -10px 0 rgba(0,0,0,.18),0 7px 0 #1a0f05;display:flex;align-items:center;justify-content:center;gap:12px">
+<svg class="ic" width="46" height="46" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5L14.75 7.24 21.1 6.75 17.5 12 21.1 17.25 14.75 16.76 12 22.5 9.25 16.76 2.9 17.25 6.5 12 2.9 6.75 9.25 7.24z" fill="#ffd02e" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="#fff6c2" stroke-width="1.5"/></svg>
+<h1 class="lg st" style="margin:0;font-size:78px;font-weight:400;line-height:1;-webkit-text-stroke:7px #1a0f05;padding-top:8px">SHOP</h1>
+<svg class="ic" width="46" height="46" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5L14.75 7.24 21.1 6.75 17.5 12 21.1 17.25 14.75 16.76 12 22.5 9.25 16.76 2.9 17.25 6.5 12 2.9 6.75 9.25 7.24z" fill="#ffd02e" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="#fff6c2" stroke-width="1.5"/></svg>
+</div>
+<div class="a" style="left:684px;top:16px;width:236px;height:52px;box-sizing:border-box;padding:0 8px;border-radius:12px;border:4px solid #1a0f05;background:linear-gradient(180deg,#fff3d6,#f0d29c);display:flex;align-items:center;gap:8px;transform:rotate(-2deg);box-shadow:0 4px 0 #1a0f05">
+<svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-5-8-11a4.5 4.5 0 0 1 8-2.8 4.5 4.5 0 0 1 8 2.8c0 6-8 11-8 11z" fill="#ff4f6a" stroke-width="2"/></svg>
+<div style="display:flex;flex-direction:column;line-height:1.05">
+<span class="lg st2" style="font-size:16px;color:#5cff6a;white-space:nowrap">FREE +10K SPEED</span>
+<span style="font:700 12px Fredoka,sans-serif;color:#5a3214;white-space:nowrap">Like, favourite + join group</span>
+</div>
+</div>
+<a href="Main.dc.html" class="btn a" aria-label="Close shop" style="right:-26px;top:-24px;width:66px;height:66px;box-sizing:border-box;border-radius:18px;background:linear-gradient(180deg,#ff6a5a,#e0262a);display:flex;align-items:center;justify-content:center">
+<svg class="ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke-width="7"/><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="3.5"/></svg>
+</a>
+
+<!-- tabs -->
+<div role="tablist" aria-label="Shop sections" class="a" style="left:16px;top:92px;width:944px;height:66px;display:flex;gap:10px;align-items:flex-end">
+<button role="tab" aria-selected="{{trSel}}" class="btn tab" onClick="{{gotr}}" style="height:{{trH}}px;background:{{trBg}}">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke-width="5"/><circle cx="12" cy="12" r="9" fill="none" stroke="#e9b25a" stroke-width="2.2"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#ffd02e" stroke-width="2"/></svg>
+<span class="lg st2">TREADMILLS</span>
+</button>
+<button role="tab" aria-selected="{{spSel}}" class="btn tab" onClick="{{gosp}}" style="height:{{spH}}px;background:{{spBg}}">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 4.2L18 5.5l-1.7 4.3L21 12l-4.7 2.2L18 18.5l-4.4-1.7L12 21l-1.6-4.2L6 18.5l1.7-4.3L3 12l4.7-2.2L6 5.5l4.4 1.7z" fill="#e9eef5" stroke-width="2"/><circle cx="12" cy="12" r="2.8" fill="#ffd02e" stroke-width="2"/></svg>
+<span class="lg st2">SPURS</span>
+</button>
+<button role="tab" aria-selected="{{raSel}}" class="btn tab" onClick="{{gora}}" style="height:{{raH}}px;background:{{raBg}}">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 11L12 3.5l9.5 7.5v10h-19z" fill="#e04848" stroke-width="2"/><rect x="8.5" y="13" width="7" height="8" fill="#fff3d6" stroke-width="1.8"/></svg>
+<span class="lg st2">RANCH</span>
+</button>
+<button role="tab" aria-selected="{{geSel}}" class="btn tab" onClick="{{goge}}" style="height:{{geH}}px;background:{{geBg}}">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 15c4-3 9-3 11 0s-1 6-5 5-3-5 1-6" fill="none" stroke-width="4"/><path d="M8 15c4-3 9-3 11 0s-1 6-5 5-3-5 1-6" fill="none" stroke="#e9b25a" stroke-width="1.8"/><rect x="2" y="15" width="8" height="4.5" rx="1.5" transform="rotate(-35 6 17)" fill="#6b3f1f" stroke-width="2"/></svg>
+<span class="lg st2">GEAR</span>
+</button>
+<button role="tab" aria-selected="{{rbSel}}" class="btn tab" onClick="{{gorb}}" style="height:{{rbH}}px;background:{{rbBg}}">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l9.5 5.5v10L12 22.5 2.5 17V7z" fill="#fff" stroke-width="2.2"/><rect x="8.5" y="8.5" width="7" height="7" fill="#0b5c34" stroke-width="1.6" transform="rotate(15 12 12)"/></svg>
+<span class="lg st2">ROBUX</span>
+<span class="dot">!</span>
+</button>
+</div>
+
+<!-- sub header -->
+<div class="a" style="left:16px;top:166px;width:944px;height:42px;display:flex;gap:10px">
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:12px;border:3px solid #1a0f05;background:rgba(26,15,5,.5);font:700 15px Fredoka,sans-serif;color:#ffe9c2;white-space:nowrap;overflow:hidden">
+<svg class="ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="10" fill="#3fb4ff" stroke-width="2"/><path d="M12 10.5v7" stroke="#fff" stroke-width="3"/><circle cx="12" cy="6.8" r="1.8" fill="#fff" stroke="none"/></svg>
+<sc-if value="{{trOn}}" hint-placeholder-val="{{ true }}"><span>Each treadmill step gives Speed, even while you're AFK.</span></sc-if>
+<sc-if value="{{spOn}}" hint-placeholder-val="{{ false }}"><span>Spurs multiply your treadmill gains. Equip one at a time.</span></sc-if>
+<sc-if value="{{raOn}}" hint-placeholder-val="{{ false }}"><span>More pen slots, a longer gate lock and the Breeding Barn.</span></sc-if>
+<sc-if value="{{geOn}}" hint-placeholder-val="{{ false }}"><span>Knock riders loose. Index weapons unlock per area.</span></sc-if>
+<sc-if value="{{rbOn}}" hint-placeholder-val="{{ false }}"><span>Gamepasses last forever. Products are used once.</span></sc-if>
+</div>
+<div class="pill">
+<svg class="ic" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8v10l5 2.5c1.6.8 2.2 1.8 2.2 3V19H9l-1 2H5l.2-3L6 15z" fill="#b5652a" stroke-width="2"/><path d="M6.2 6h7.6" stroke-width="1.6"/><circle cx="3.6" cy="18.4" r="2.2" fill="#e9eef5" stroke-width="1.6"/></svg>
+<span class="lg st2" style="font-size:20px"><span style="color:#ffe14a">SPEED</span> 1.2M</span>
+</div>
+<div class="pill">
+<svg class="ic" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#3ccf5a" stroke-width="2.2"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3"/></svg>
+<span class="lg st2" style="font-size:20px">OWNED {{ownedN}}/6</span>
+</div>
+</div>
+
+<!-- item grid -->
+<div class="a" style="left:16px;top:216px;width:944px;height:404px;box-sizing:border-box;padding:12px;border-radius:20px;border:4px solid #1a0f05;background:repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 3px,transparent 3px 74px),linear-gradient(180deg,#4a2810,#3a1f0b);box-shadow:inset 0 6px 0 rgba(0,0,0,.3);display:grid;grid-template-columns:repeat(3,296px);grid-template-rows:repeat(2,178px);gap:16px 12px">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="6">
+<div class="card" style="border-color:{{it.col}};background:linear-gradient(180deg,rgba(26,15,5,.2),rgba(26,15,5,.72)),{{it.col}}">
+<sc-if value="{{it.gEq}}" hint-placeholder-val="{{ false }}"><div class="eqg"></div></sc-if>
+<div class="tile" style="background:radial-gradient(circle,rgba(255,255,255,.8) 0,rgba(255,255,255,0) 62%),repeating-conic-gradient(rgba(255,255,255,.28) 0 12deg,transparent 12deg 24deg),{{it.col}}">
+<div class="ti" style="filter:{{it.filt}}">
+<sc-if value="{{it.iwheel}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="52" width="56" height="9" rx="4" fill="#3a2a1e" stroke-width="2.5"/><g class="spin"><circle cx="32" cy="29" r="23" fill="none" stroke-width="11"/><circle cx="32" cy="29" r="23" fill="none" style="stroke:{{it.c1}}" stroke-width="5.5"/><path d="M32 8v42M11 29h42M17 14l30 30M47 14L17 44" stroke-width="6"/><path d="M32 9v40M12 29h40M18 15l28 28M46 15L18 43" style="stroke:{{it.c1}}" stroke-width="2.6"/><circle cx="32" cy="29" r="7" style="fill:{{it.c2}}" stroke-width="2.5"/></g></svg></sc-if>
+<sc-if value="{{it.ispur}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 10c-4 16 2 30 18 34h12" fill="none" stroke-width="12"/><path d="M8 10c-4 16 2 30 18 34h12" fill="none" style="stroke:{{it.c1}}" stroke-width="6"/><rect x="5" y="20" width="12" height="9" rx="2" fill="#6b3f1f" stroke-width="2.5"/><g class="spin"><path d="M62 46L53.5 48.3 57.9 55.9 50.3 51.5 48 60 45.7 51.5 38.1 55.9 42.5 48.3 34 46 42.5 43.7 38.1 36.1 45.7 40.5 48 32 50.3 40.5 57.9 36.1 53.5 43.7z" style="fill:{{it.c2}}" stroke-width="2.5"/></g><circle cx="48" cy="46" r="4" fill="#1a0f05" stroke="none"/></svg></sc-if>
+<sc-if value="{{it.ipen}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><g stroke-width="2.5"><rect x="2" y="26" width="60" height="9" rx="2" fill="#c58a42"/><rect x="2" y="42" width="60" height="9" rx="2" fill="#c58a42"/><path d="M7 20l5-7 5 7v36H7zM27 20l5-7 5 7v36H27zM47 20l5-7 5 7v36H47z" fill="#8a5426"/></g><rect x="1" y="55" width="62" height="7" rx="3" fill="#6fbf3f" stroke-width="2"/></svg></sc-if>
+<sc-if value="{{it.ilock}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 30v-9a12 12 0 0 1 24 0v9" fill="none" stroke-width="11"/><path d="M20 30v-9a12 12 0 0 1 24 0v9" fill="none" stroke="#d9e2ec" stroke-width="5"/><rect x="11" y="28" width="42" height="30" rx="7" fill="#ffd02e" stroke-width="3"/><circle cx="32" cy="40" r="5" fill="#1a0f05" stroke="none"/><path d="M32 42v8" stroke-width="4"/></svg></sc-if>
+<sc-if value="{{it.ibarn}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 30L32 10l26 20v28H6z" fill="#d23b2c" stroke-width="3"/><path d="M2 32L32 8l30 24" fill="none" stroke-width="8"/><path d="M2 32L32 8l30 24" fill="none" stroke="#f4ead8" stroke-width="3.5"/><rect x="22" y="36" width="20" height="22" fill="#8f2219" stroke-width="2.5"/><path d="M22 36l20 22M42 36L22 58" stroke="#f4ead8" stroke-width="2.5"/><rect x="27" y="20" width="10" height="9" fill="#ffe14a" stroke-width="2"/></svg></sc-if>
+<sc-if value="{{it.ivip}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 22l13 12 13-20 13 20 13-12-5 30H11z" fill="#ffd02e" stroke-width="3"/><rect x="10" y="50" width="44" height="9" rx="3" fill="#ffb800" stroke-width="3"/><circle cx="32" cy="38" r="5" fill="#ff3b3b" stroke-width="2.5"/><circle cx="18" cy="42" r="3.5" fill="#2f9bff" stroke-width="2"/><circle cx="46" cy="42" r="3.5" fill="#3ccf5a" stroke-width="2"/></svg></sc-if>
+<sc-if value="{{it.iwhip}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M24 40c8-14 30-18 33-7s-14 16-22 9c-6-6 0-16 14-17l9-4" fill="none" stroke-width="8"/><path d="M24 40c8-14 30-18 33-7s-14 16-22 9c-6-6 0-16 14-17l9-4" fill="none" style="stroke:{{it.c1}}" stroke-width="4"/><path d="M6 58l18-18" stroke-width="12"/><path d="M6 58l18-18" stroke="#6b3f1f" stroke-width="6"/><path d="M10 52l4 4M15 47l4 4" stroke="#e9b25a" stroke-width="2"/></svg></sc-if>
+<sc-if value="{{it.itrap}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="48" rx="28" ry="10" fill="#5b636b" stroke-width="3"/><path d="M6 46c0-20 12-30 26-30s26 10 26 30" fill="none" stroke-width="9"/><path d="M6 46c0-20 12-30 26-30s26 10 26 30" fill="none" stroke="#9aa5b1" stroke-width="4"/><path d="M12 38l4-8 4 7 4-9 4 8 4-9 4 9 4-8 4 9 4-7 4 8" fill="none" stroke-width="5"/><path d="M12 38l4-8 4 7 4-9 4 8 4-9 4 9 4-8 4 9 4-7 4 8" fill="none" stroke="#e9eef5" stroke-width="2.2"/><circle cx="32" cy="48" r="7" fill="#ffd02e" stroke-width="2.5"/></svg></sc-if>
+<sc-if value="{{it.iclub}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 58l14-14" stroke-width="12"/><path d="M10 58l14-14" stroke="#8a5426" stroke-width="6"/><path d="M20 46c-6-10 6-36 24-38 9-1 14 6 10 15-6 14-24 27-34 23z" fill="#3aa64a" stroke-width="3"/><path d="M30 34l-5 2M34 24l-4-3M44 16l-1-5M52 24l5 1M44 32l3 4M36 40l1 5" stroke="#fff6c2" stroke-width="3"/><circle cx="47" cy="10" r="5" fill="#ff4f9a" stroke-width="2"/></svg></sc-if>
+<sc-if value="{{it.irope}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="36" cy="24" rx="22" ry="14" fill="none" stroke-width="10"/><ellipse cx="36" cy="24" rx="22" ry="14" fill="none" style="stroke:{{it.c1}}" stroke-width="5" stroke-dasharray="5 2"/><path d="M20 34c-6 8-11 14-14 24" fill="none" stroke-width="9"/><path d="M20 34c-6 8-11 14-14 24" fill="none" style="stroke:{{it.c1}}" stroke-width="4"/><path d="M54 42l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff" stroke-width="1.5"/></svg></sc-if>
+<sc-if value="{{it.imoney}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><g stroke-width="3"><rect x="4" y="30" width="46" height="24" rx="3" fill="#2fa84a" transform="rotate(-10 27 42)"/><rect x="10" y="20" width="46" height="24" rx="3" fill="#5cff6a" transform="rotate(-10 33 32)"/></g><circle cx="33" cy="32" r="7" fill="#2fa84a" stroke-width="2.5"/><circle cx="48" cy="48" r="12" fill="#ffd02e" stroke-width="3"/><circle cx="48" cy="48" r="6.5" fill="none" stroke="#c98a00" stroke-width="2.5"/></svg></sc-if>
+<sc-if value="{{it.iglass}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 8h24c0 13-9 17-10 24 1 7 10 11 10 24H20c0-13 9-17 10-24-1-7-10-11-10-24z" fill="#d6f3ff" stroke-width="3"/><path d="M24 14h16c-2 6-6 9-8 12-2-3-6-6-8-12zM22 54c2-8 8-10 10-14 2 4 8 6 10 14z" fill="#ffc61a" stroke="none"/><path d="M14 6h36M14 58h36" stroke-width="9"/><path d="M14 6h36M14 58h36" stroke="#a8652e" stroke-width="4.5"/></svg></sc-if>
+<sc-if value="{{it.ibrand}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="44" cy="20" r="18" fill="#ff9a1f" opacity=".45" stroke="none"/><path d="M8 56L34 30" stroke-width="9"/><path d="M8 56L34 30" stroke="#7d8597" stroke-width="4"/><path d="M4 60l10-10" stroke-width="12"/><path d="M4 60l10-10" stroke="#8a5426" stroke-width="6"/><path d="M33 9h22v22H33z" fill="none" stroke-width="9"/><path d="M33 9h22v22H33z" fill="none" stroke="#ff7a00" stroke-width="4.5"/><path d="M39 20h10" stroke-width="8"/><path d="M39 20h10" stroke="#ffe14a" stroke-width="3.5"/></svg></sc-if>
+<sc-if value="{{it.ibolt}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M38 3L11 37h17l-5 24 29-36H35z" fill="#ffe14a" stroke-width="3.5"/><path d="M34 12L20 31" stroke="#fff" stroke-width="3" opacity=".8"/></svg></sc-if>
+<sc-if value="{{it.iboot}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M2 26h10M0 36h12M4 46h8" stroke="#fff" stroke-width="3.5"/><path d="M20 6h20v28l12 5c6 3 9 8 9 15v4H24l-2 4h-8l2-26z" fill="#a8652e" stroke-width="3"/><path d="M18 14h24" stroke-width="3"/><path d="M24 22l6 4 6-4" fill="none" stroke="#ffd02e" stroke-width="2.5"/><circle cx="14" cy="52" r="6" fill="#e9eef5" stroke-width="2.5"/></svg></sc-if>
+</div>
+<sc-if value="{{it.gLock}}" hint-placeholder-val="{{ false }}"><div class="a" style="left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(26,15,5,.3)"><svg class="ic" width="46" height="46" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke-width="5"/><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#d9e2ec" stroke-width="2.4"/><rect x="4" y="10" width="16" height="12" rx="3" fill="#ffd02e" stroke-width="2"/><path d="M12 14v4" stroke-width="2.6"/></svg></div></sc-if>
+<sc-if value="{{it.hasTag}}" hint-placeholder-val="{{ false }}"><span class="lg st2 a" style="right:4px;bottom:0;font-size:24px;color:#ffe14a">{{it.tag}}</span></sc-if>
+</div>
+<div class="info">
+<span class="lg st2" style="font-size:20px;line-height:1">{{it.n}}</span>
+<span class="lg rp" style="background:{{it.col}}">{{it.lab}}</span>
+<sc-if value="{{it.hasBig}}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:5px"><span class="lg st2" style="font-size:28px;line-height:1;color:#ffe14a">{{it.b}}</span><span class="lg sm" style="font-size:13px">{{it.u}}</span></div></sc-if>
+<span class="sx">{{it.t}}</span>
+</div>
+<div class="row">
+<sc-if value="{{it.grey}}" hint-placeholder-val="{{ false }}"><button class="pb" aria-disabled="true" style="cursor:default;background:linear-gradient(180deg,#b9bec4,#7d838a)">
+<sc-if value="{{it.gOwn}}" hint-placeholder-val="{{ false }}"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#3ccf5a" stroke-width="2.5"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="3"/></svg></sc-if>
+<sc-if value="{{it.gEq}}" hint-placeholder-val="{{ false }}"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5L14.75 7.24 21.1 6.75 17.5 12 21.1 17.25 14.75 16.76 12 22.5 9.25 16.76 2.9 17.25 6.5 12 2.9 6.75 9.25 7.24z" fill="#ffd02e" stroke-width="1.8"/></svg></sc-if>
+<sc-if value="{{it.gLock}}" hint-placeholder-val="{{ false }}"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke-width="3"/><rect x="4" y="10" width="16" height="12" rx="3" fill="#e9eef5" stroke-width="2"/></svg></sc-if>
+<span class="st2" style="font-size:21px">{{it.gt}}</span>
+</button></sc-if>
+<sc-if value="{{it.cash}}" hint-placeholder-val="{{ true }}"><button class="btn pb" onClick="{{it.buy}}" style="background:linear-gradient(180deg,#6be07a,#24a83a)">
+<svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke-width="2.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="#c98a00" stroke-width="2.4"/></svg>
+<span class="st2" style="font-size:{{it.fs}}px">{{it.cp}}</span>
+</button></sc-if>
+<sc-if value="{{it.rbx}}" hint-placeholder-val="{{ false }}"><button class="btn pb" onClick="{{it.ask}}" style="background:linear-gradient(180deg,#1f9a5a,#0b5c34)">
+<svg class="ic" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l9.5 5.5v10L12 22.5 2.5 17V7z" fill="#fff" stroke-width="2.2"/><rect x="8.5" y="8.5" width="7" height="7" fill="#0b5c34" stroke-width="1.6" transform="rotate(15 12 12)"/></svg>
+<span class="st2" style="font-size:{{it.fs}}px">{{it.rx}}</span>
+</button></sc-if>
+</div>
+<sc-if value="{{it.best}}" hint-placeholder-val="{{ false }}"><span class="lg st2 ribbon">BEST VALUE</span></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<!-- purchase toast (animation name flips on every buy so it replays) -->
+<sc-if value="{{toastOn}}" hint-placeholder-val="{{ false }}">
+<div role="status" class="a" style="left:0;right:0;top:604px;display:flex;justify-content:center;pointer-events:none"><div class="toast" style="animation-name:{{tAnim}}">
+<svg class="ic" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#fff" stroke-width="2.5"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#1a8a34" stroke-width="3.2"/></svg>
+<span class="lg st" style="font-size:32px">PURCHASED!</span>
+<span class="lg st2" style="font-size:26px;color:#ffe14a">{{tName}}</span>
+<span class="lg st2" style="font-size:22px;padding:2px 10px;border-radius:10px;background:rgba(26,15,5,.35)">{{tCost}}</span>
+</div></div>
+</sc-if>
+
+<!-- Robux confirm prompt -->
+<sc-if value="{{askOn}}" hint-placeholder-val="{{ false }}">
+<div class="a" style="left:0;top:0;width:1280px;height:720px;background:rgba(10,5,0,.62);display:flex;align-items:center;justify-content:center">
+<div role="dialog" aria-modal="true" aria-label="Confirm Robux purchase" style="position:relative;width:470px;box-sizing:border-box;padding:48px 28px 20px;border-radius:26px;border:6px solid #1a0f05;background:repeating-linear-gradient(180deg,rgba(0,0,0,.12) 0 3px,transparent 3px 40px),linear-gradient(180deg,#9a5e2a,#7a4a21);box-shadow:inset 0 0 0 7px #b07034,0 8px 0 #1a0f05;display:flex;flex-direction:column;align-items:center;gap:10px;animation:popin .28s ease-out">
+<div class="a" style="left:50%;top:-32px;transform:translateX(-50%);padding:8px 26px 2px;border-radius:16px;border:5px solid #1a0f05;background:linear-gradient(180deg,#5ee87a,#12904a);box-shadow:inset 0 -6px 0 rgba(0,0,0,.2),0 5px 0 #1a0f05;white-space:nowrap"><span class="lg st" style="font-size:40px">BUY ITEM?</span></div>
+<span class="lg st" style="font-size:38px;line-height:1;text-align:center">{{askName}}</span>
+<span style="font:700 17px Fredoka,sans-serif;color:#ffe9c2;text-align:center">{{askStat}}</span>
+<div style="display:flex;align-items:center;gap:10px;padding:6px 20px 2px;border-radius:16px;border:4px solid #1a0f05;background:rgba(26,15,5,.55)">
+<svg class="ic" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5l9.5 5.5v10L12 22.5 2.5 17V7z" fill="#fff" stroke-width="2.2"/><rect x="8.5" y="8.5" width="7" height="7" fill="#0b5c34" stroke-width="1.6" transform="rotate(15 12 12)"/></svg>
+<span class="lg st" style="font-size:40px;color:#5cff6a">{{askPrice}}</span>
+</div>
+<div style="display:flex;gap:14px;width:100%;margin-top:8px">
+<button class="btn pb" onClick="{{askNo}}" style="height:58px;background:linear-gradient(180deg,#b9bec4,#7d838a)"><span class="st2" style="font-size:26px">CANCEL</span></button>
+<button class="btn pb" onClick="{{askYes}}" style="height:58px;background:linear-gradient(180deg,#5ee87a,#12904a)"><span class="st2" style="font-size:26px">BUY</span></button>
+</div>
+<span style="font:600 12px Fredoka,sans-serif;color:#e9c79a">Mockup: no Robux are spent.</span>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: 'tr', owned: {}, ask: '', n: 0, tName: '', tCost: '' }; }
+  renderVals() {
+    const s = this.state;
+    const R = { c: ['#9AA0A6', 'COMMON'], u: ['#3CCF5A', 'UNCOMMON'], r: ['#2F9BFF', 'RARE'], e: ['#A44DFF', 'EPIC'], l: ['#FFC61A', 'LEGENDARY'], m: ['#FF3B3B', 'MYTHIC'], k: ['#2EE6D6', 'COSMIC'], d: ['#FFF6C2', 'DIVINE'] };
+    const X = (id, n, r, ic, c1, c2, b, u, t, st, cash, rbx, more) => Object.assign({ id: id, n: n, r: r, ic: ic, c1: c1, c2: c2, b: b, u: u, t: t, st: st, cash: cash, rbx: rbx, tag: '', lab: '', best: false, pass: false }, more || {});
+    const Y = (id, n, r, ic, t, st, cash, rbx, more) => X(id, n, r, ic, '', '', '', '', t, st, cash, rbx, more);
+    const D = {
+      tr: [
+        X('t1','Wooden','c','wheel','#c58a42','#6b3f1f','+2','/ STEP','Creaky starter wheel','own','',''),
+        X('t2','Iron','u','wheel','#9aa5b1','#5b636b','+5','/ STEP','Sturdy iron rim · $15K','own','',''),
+        X('t3','Copper','r','wheel','#e07b39','#8a3f1c','+12','/ STEP','Copper spokes · $250K','own','',''),
+        X('t4','Silver Spur','e','wheel','#e3eaf1','#7d8597','+30','/ STEP','Polished silver · $5M','eq','',''),
+        X('t5','Gold Rush','l','wheel','#ffd02e','#c98a00','+80','/ STEP','Solid gold spokes','buy','$120M',''),
+        X('t6','Frostbite','k','wheel','#b8f4ff','#2ea8d6','+100','/ STEP','Ice-cold rim, red-hot speed','buy','$3B','')
+      ],
+      sp: [
+        X('s1','Rusty','c','spur','#a0522d','#c9743f','1.5x','GAINS','Squeaky starters · $100','own','',''),
+        X('s2','Iron','u','spur','#8d99a6','#d9e2ec','2x','GAINS','Cheap and cheerful','buy','$5K','R$ 8',{ pass: true }),
+        X('s3','Copper','r','spur','#c8642c','#ffad6e','2.5x','GAINS','Sparks on every step','buy','$75K','R$ 12',{ pass: true }),
+        X('s4','Silver','e','spur','#aab6c2','#ffffff','3x','GAINS', "The sheriff's pick · $1.5M", 'eq','',''),
+        X('s5','Gold','l','spur','#e0a800','#fff1a0','4x','GAINS','Pure prospector gold','buy','$90M',''),
+        X('s6','Diamond','k','spur','#5fd8e8','#e9fdff','5x','GAINS','Sparkle while you sprint','buy','$2B','')
+      ],
+      ra: [
+        Y('r1','Pen Slot +1 (Lv5)','r','pen','Room for one more beast','buy','$75M','',{ tag: '+1' }),
+        Y('r2','Pen Slot +1 (Lv6)','e','pen','Room for one more beast','buy','$50B','',{ tag: '+1' }),
+        Y('r3','Gate Lock +10s','u','lock','Your gate stays shut 10s longer','buy','$40M','',{ tag: '+10s' }),
+        Y('r4','Breeding Barn','l','barn','3 of the same beast = 1 wild calf','buy','$1B',''),
+        Y('vip','VIP Ranch','m','vip','+2 pen slots, gold gate, chat tag','buy','','R$ 299',{ lab: 'GAMEPASS', pass: true }),
+        Y('r6','Gate Lock Refill','r','lock','Reset your gate-lock cooldown now','buy','','R$ 49',{ tag: '0:00', lab: 'PRODUCT' })
+      ],
+      ge: [
+        X('g1','Rope Whip','c','whip','#d9a066','','','','Starter whip, short range','own','',''),
+        Y('g2','Bear Trap','u','trap','Roots a towing rider for 5s','buy','$25K','',{ tag: 'x3' }),
+        Y('g3','Cactus Club','r','club','Index reward: complete Cactus Canyon','lock','',''),
+        X('g4','Gator Tail Whip','e','whip','#4f9a3a','','','','Index reward: complete Bayou Swamp','lock','',''),
+        X('g5','Ice Whip','k','whip','#a8f0ff','','','','Index reward: complete Frost Peak','lock','',''),
+        X('g6','Golden Rope','l','rope','#ffd02e','','','', "Next lasso can't be knocked loose for 30s", 'buy','','R$ 25',{ lab: 'PRODUCT' })
+      ],
+      rb: [
+        Y('x1','2x Money','l','money','Double all your $/s forever','buy','','R$ 399',{ tag: '2x', lab: 'GAMEPASS', best: true, pass: true }),
+        Y('x2','2x Taming Speed','e','glass','Every beast tames 2x faster','buy','','R$ 467',{ tag: '2x', lab: 'GAMEPASS', pass: true }),
+        Y('vip','VIP Ranch','m','vip','+2 pen slots, gold gate, chat tag','buy','','R$ 299',{ lab: 'GAMEPASS', pass: true }),
+        Y('x4','Tame All','r','brand','Finish taming every beast in your pens','buy','','R$ 160',{ lab: 'PRODUCT' }),
+        Y('x5','Instant Tame','u','bolt','Finish one beast now','buy','','R$ 9',{ lab: 'PRODUCT' }),
+        Y('x6','+1B Speed','d','boot','+1,000,000,000 Speed in one go','buy','','R$ 2,999',{ tag: '+1B', lab: 'SPEED PACK' })
+      ]
+    };
+    const ALL = {};
+    Object.keys(D).forEach((k) => { D[k].forEach((a) => { ALL[a.id] = a; }); });
+    const ICONS = ['wheel', 'spur', 'pen', 'lock', 'barn', 'vip', 'whip', 'trap', 'club', 'rope', 'money', 'glass', 'brand', 'bolt', 'boot'];
+    const buy = (a) => () => {
+      const o = Object.assign({}, this.state.owned);
+      o[a.id] = true;
+      this.setState({ owned: o, n: this.state.n + 1, tName: a.n, tCost: a.cash });
+    };
+    const ask = (a) => () => this.setState({ ask: a.id, n: 0 });
+    const items = D[s.tab].map((a) => {
+      const st = s.owned[a.id] ? 'own' : a.st;
+      const open = st === 'buy';
+      const o = {
+        n: a.n, t: a.t, b: a.b, u: a.u, tag: a.tag, c1: a.c1, c2: a.c2,
+        col: R[a.r][0], lab: a.lab || R[a.r][1],
+        hasBig: !!a.b, hasTag: !!a.tag, best: a.best,
+        gOwn: st === 'own', gEq: st === 'eq', gLock: st === 'lock', grey: !open,
+        gt: st === 'own' ? 'OWNED' : (st === 'eq' ? 'EQUIPPED' : 'LOCKED'),
+        cash: open && !!a.cash, rbx: open && !!a.rbx, cp: a.cash, rx: a.rbx,
+        fs: a.cash && a.rbx ? 18 : 22,
+        filt: st === 'lock' ? 'brightness(0) opacity(.55)' : 'none',
+        buy: buy(a), ask: ask(a)
+      };
+      ICONS.forEach((k) => { o['i' + k] = a.ic === k; });
+      return o;
+    });
+    const q = ALL[s.ask];
+    const v = {
+      items: items,
+      ownedN: items.filter((x) => x.gOwn || x.gEq).length,
+      toastOn: s.n > 0,
+      tAnim: s.n % 2 === 1 ? 't1' : 't2',
+      tName: s.tName,
+      tCost: s.tCost,
+      askOn: !!q,
+      askName: q ? q.n : '',
+      askStat: q ? q.t : '',
+      askPrice: q ? q.rbx : '',
+      askNo: () => this.setState({ ask: '' }),
+      askYes: () => {
+        const a = ALL[this.state.ask];
+        if (!a) { this.setState({ ask: '' }); return; }
+        const o = Object.assign({}, this.state.owned);
+        if (a.pass) { o[a.id] = true; }
+        this.setState({ ask: '', owned: o, n: this.state.n + 1, tName: a.n, tCost: a.rbx });
+      }
+    };
+    ['tr', 'sp', 'ra', 'ge', 'rb'].forEach((k) => {
+      const on = s.tab === k;
+      v[k + 'On'] = on;
+      v[k + 'Sel'] = on ? 'true' : 'false';
+      v[k + 'H'] = on ? 64 : 52;
+      v[k + 'Bg'] = on ? (k === 'rb' ? 'linear-gradient(180deg,#5ee87a,#12904a)' : 'linear-gradient(180deg,#ffc04a,#ff7a00)') : 'linear-gradient(180deg,#8a5426,#5e3615)';
+      v['go' + k] = () => this.setState({ tab: k, ask: '', n: 0 });
+    });
+    return v;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{
+ "v": 3,
+ "attachments": {},
+ "boards": {
+  "Map.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 720,
+   "title": "1 · The Lane (area map)",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Main.dc.html": {
+   "x": 1360,
+   "y": 0,
+   "w": 1280,
+   "h": 720,
+   "title": "2 · Town HUD + treadmill",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Grab.dc.html": {
+   "x": 2720,
+   "y": 0,
+   "w": 1280,
+   "h": 720,
+   "title": "3 · Lasso a beast",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Chase.dc.html": {
+   "x": 0,
+   "y": 840,
+   "w": 1280,
+   "h": 720,
+   "title": "4 · Tow it home (Alpha chase)",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Ranch.dc.html": {
+   "x": 1360,
+   "y": 840,
+   "w": 1280,
+   "h": 720,
+   "title": "5 · Ranch, taming + rustling",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Tamed.dc.html": {
+   "x": 2720,
+   "y": 840,
+   "w": 1280,
+   "h": 720,
+   "title": "6 · TAMED! reveal",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Shop.dc.html": {
+   "x": 0,
+   "y": 1680,
+   "w": 1280,
+   "h": 720,
+   "title": "7 · Shop",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Index.dc.html": {
+   "x": 1360,
+   "y": 1680,
+   "w": 1280,
+   "h": 720,
+   "title": "8 · Beast Index",
+   "is_interactive": true,
+   "radius": 16
+  },
+  "Thumbnail.dc.html": {
+   "x": 2720,
+   "y": 1680,
+   "w": 1280,
+   "h": 720,
+   "title": "9 · Game thumbnail",
+   "radius": 16
+  }
+ },
+ "createdOnFiles": {
+  "at": "2026-10-18T19:00:00Z",
+  "v": 1
+ },
+ "designSystems": [],
+ "launch": {
+  "view": "canvas"
+ },
+ "notes": {
+  "t1": {
+   "x": 0,
+   "y": -260,
+   "text": "Steal a Beast — game UI v2 (Steal An Egg structure)",
+   "kind": "title1",
+   "maxW": 4000
+  }
+ },
+ "order": [
+  "Map.dc.html",
+  "Main.dc.html",
+  "Grab.dc.html",
+  "Chase.dc.html",
+  "Ranch.dc.html",
+  "Tamed.dc.html",
+  "Shop.dc.html",
+  "Index.dc.html",
+  "Thumbnail.dc.html"
+ ],
+ "pages": [],
+ "title": "Steal a Beast UI"
+}
