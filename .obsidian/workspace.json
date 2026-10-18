@@ -11,14 +11,12 @@
             "id": "9ea0385ac5c147c7",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Roblox Research/00 Index.md",
-                "mode": "source",
-                "source": false
+                "file": "Roblox Research/Attachments/steal-an-egg.webp"
               },
-              "icon": "lucide-file",
-              "title": "00 Index"
+              "icon": "lucide-image",
+              "title": "steal-an-egg"
             }
           }
         ]
@@ -99,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Roblox Research/00 Index.md",
+                "file": "Roblox Research/Attachments/steal-an-egg.webp",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Roblox Research/00 Index.md",
+                "file": "Roblox Research/Attachments/steal-an-egg.webp",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +159,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Roblox Research/00 Index.md",
+                "file": "Roblox Research/Attachments/steal-an-egg.webp",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -185,11 +183,17 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9ea0385ac5c147c7",
+  "active": "e4590fc1bf1d054e",
   "lastOpenFiles": [
+    "Roblox Research/Attachments/break-and-steal-an-egg.webp",
+    "Roblox Research/Attachments/steal-a-brainrot.webp",
+    "Roblox Research/Concepts/UI Patterns.md",
+    "Roblox Research/Sources.md",
+    "Roblox Research/00 Index.md",
     "CLAUDE.md"
   ]
 }
