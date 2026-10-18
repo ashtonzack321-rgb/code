@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Roblox Research/My Game/Areas and Beasts.md",
+                "file": "Roblox Research/My Game/Map Layout.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Areas and Beasts"
+              "title": "Map Layout"
             }
           }
         ]
@@ -199,12 +199,25 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e4590fc1bf1d054e",
+  "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
-    "Roblox Research/My Game/Monetization and Launch.md.tmp.8972.3cd21b47006c",
+    "Roblox Research/My Game/Areas and Beasts.md",
+    "game/MAP_SPEC.md",
+    "game",
+    "Roblox Research/Progress Log.md",
+    "Roblox Research/My Game/UI Mockup/UI Mockup.md",
+    "Roblox Research/My Game/UI Mockup/Ranch.dc.html",
+    "Roblox Research/My Game/UI Mockup/Thumbnail.dc.html",
+    "Roblox Research/My Game/UI Mockup/Shop.dc.html",
+    "Roblox Research/My Game/UI Mockup/Tamed.dc.html",
+    "Roblox Research/My Game/UI Mockup/Map.dc.html",
+    "Roblox Research/My Game/UI Mockup/Main.dc.html",
+    "Roblox Research/My Game/UI Mockup/canvas.json",
+    "Roblox Research/My Game/UI Mockup/Grab.dc.html",
+    "Roblox Research/My Game/UI Mockup/Index.dc.html",
+    "Roblox Research/My Game/Map Layout.md",
     "Roblox Research/My Game/Systems and Scripts.md",
     "Roblox Research/00 Index.md",
-    "Roblox Research/My Game/Areas and Beasts.md",
     "Roblox Research/My Game/Core Loop.md",
     "Roblox Research/Concepts/Build Your Own Checklist.md",
     "Roblox Research/Sources.md",
