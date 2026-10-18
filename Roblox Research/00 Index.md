@@ -15,6 +15,9 @@ A study of three top "steal-a-X" Roblox games: why they blew up, how their UI wo
 
 *Numbers come from the user's screenshots, taken on 2026-10-18.*
 
+## 🤠 My Game
+- [[Steal a Beast - Overview]]: our game design document (lasso + day/night raids)
+
 ## Concepts (cross-game analysis)
 - [[Steal Genre Formula]]: why these games work
 - [[UI Patterns]]: HUD, shop, base, popups
