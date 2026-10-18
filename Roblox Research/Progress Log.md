@@ -22,5 +22,8 @@ updated: 2026-10-18
 3. Walk the map in Studio and note anything that doesn't feel like Steal An Egg.
 4. Then build the gameplay in this order (see [[Systems and Scripts]]): treadmill and Speed → herds and lasso and tow and Alpha chase → whip and traps → taming and rustling → Sundown and rare spawns → UI → shop.
 
+**To decide**
+- Your PC Claude merged the gamepass tables and kept 3 old v1 passes in [[Monetization and Launch]]: **Auto-Tug**, **Fast Horse** and **Extra Guard Slot**. In v2 the tug-of-war minigame and guard beasts no longer exist, so Auto-Tug and Extra Guard Slot don't fit any more. Fast Horse could still work with mounts. Keep, change or delete them.
+
 **Notes**
 - If Obsidian shows a merge conflict, keep the **GitHub (origin/main)** version of notes Claude wrote, unless you typed something yourself.
