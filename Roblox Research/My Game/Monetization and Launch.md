@@ -4,13 +4,13 @@ tags: [my-game, gdd, monetization]
 # Monetization and Launch
 
 ## Gamepasses
-| Pass | Robux (suggested) |
-|---|---|
-| 2x Cash | 399 |
-| VIP Ranch (gold gate, +2 pens, chat tag) | 299 |
-| Auto-Tug (wins Common/Uncommon tugs automatically) | 249 |
-| Fast Horse (+25% speed) | 199 |
-| Extra Guard Slot | 149 |
+| Pass                                               | Robux (suggested) |
+| -------------------------------------------------- | ----------------- |
+| 2x Cash                                            | 399               |
+| VIP Ranch (gold gate, +2 pens, chat tag)           | 299               |
+| Auto-Tug (wins Common/Uncommon tugs automatically) | 249               |
+| Fast Horse (+25% speed)                            | 199               |
+| Extra Guard Slot                                   | 149               |
 
 ## Developer products
 - **Night Shield**: your ranch stays closed for one night (high demand right before the siren). 49 R$
