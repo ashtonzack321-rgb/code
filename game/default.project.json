@@ -1,0 +1,22 @@
+{
+  "name": "steal-a-beast",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Shared": {
+        "$path": "src/ReplicatedStorage/Shared"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$path": "src/ServerScriptService"
+    },
+    "ServerStorage": {
+      "$className": "ServerStorage",
+      "MapBuilder": {
+        "$path": "src/ServerStorage/MapBuilder"
+      }
+    }
+  }
+}
