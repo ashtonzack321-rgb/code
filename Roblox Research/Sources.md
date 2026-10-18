@@ -1,0 +1,13 @@
+# Sources
+- Game stats: user screenshots, 2026-10-18
+- https://medium.com/@emtertoszef/steal-a-brainrot-phenomenon-6af7b49081e0
+- https://deltiasgaming.com/roblox-steal-a-brainrot-all-gear-and-game-passes
+- https://fandomwire.com/roblox-steal-a-brainrot-rebirth-list-all-requirements-rewards/
+- https://www.sportskeeda.com/roblox-news/steal-brainrot-rebirth-1-guide
+- https://techwiser.com/roblox-steal-an-egg-wiki/
+- https://www.player.one/robloxs-steal-egg-beating-some-platforms-biggest-games-164086
+- https://www.pocketgamer.com/roblox/steal-an-egg-codes-and-tips/
+- https://stealthygaming.com/steal-an-egg-all-eggs-and-pets-list/
+- https://rowatcher.com/games/10765288803/break-and-steal-an-egg
+- https://roonby.com/2026/10/08/break-and-steal-an-egg-progression-guide-tips-and-tricks/amp/
+- https://progameguides.com/roblox/how-to-claim-the-sabertooth-egg-in-break-and-steal-an-egg/
