@@ -16,7 +16,11 @@ A study of three top "steal-a-X" Roblox games: why they blew up, how their UI wo
 *Numbers come from the user's screenshots, taken on 2026-10-18.*
 
 ## 🤠 My Game
-- [[Steal a Beast - Overview]]: our game design document (lasso + day/night raids)
+- [[Steal a Beast - Overview]]: our game design document, v2. It copies Steal An Egg's lane of areas, then adds the lasso, towing and rustling.
+  - [[Core Loop]] · [[Areas and Beasts]] · [[My Game UI]] · [[Systems and Scripts]] · [[Monetization and Launch]]
+  - [Clickable UI mockup](https://claude.ai/artifact/4ziAJWGDzwJTSY8KVuADkz)
+
+*[[Steal An Egg]] now has a full deep dive (areas, speed gates, the steal flow, economy, UI and the update timeline), researched 2026-10-18.*
 
 ## Concepts (cross-game analysis)
 - [[Steal Genre Formula]]: why these games work
