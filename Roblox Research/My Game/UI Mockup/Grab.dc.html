@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Steal a Beast – Lasso a beast</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Fredoka:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.lg{font-family:'Luckiest Guy',cursive;letter-spacing:1px}
+.st{-webkit-text-stroke:5px #1a0f05;paint-order:stroke fill}
+.st2{-webkit-text-stroke:3px #1a0f05;paint-order:stroke fill}
+.btn{border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;cursor:pointer;transition:transform .12s}
+.btn:hover{transform:scale(1.06)}
+.btn:active{transform:translateY(3px) scale(.97)}
+.rail{width:76px;height:76px;border-radius:18px;border:4px solid #1a0f05;box-shadow:inset 0 -7px 0 rgba(0,0,0,.28),0 4px 0 #1a0f05;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;cursor:pointer;transition:transform .12s}
+.rail:hover{transform:scale(1.08)}
+.dot{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:#ff2d2d;border:3px solid #1a0f05;color:#fff;font:700 13px Fredoka,sans-serif;display:flex;align-items:center;justify-content:center}
+.bb{display:flex;flex-direction:column;align-items:center;font-family:'Luckiest Guy',cursive;text-align:center;line-height:1.05}
+.rb{background:linear-gradient(90deg,#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* add any @keyframes you need here */
+.a{position:absolute;box-sizing:border-box}
+.k{position:absolute;box-sizing:border-box;border:4px solid #1a0f05;border-radius:6px}
+.t{border-width:3px}
+.o{border-radius:50%}
+.e{position:absolute;background:#1a0f05}
+.sh{position:absolute;border-radius:50%;background:rgba(0,0,0,.5)}
+.sm{-webkit-text-stroke:2px #1a0f05;paint-order:stroke fill}
+.cr{position:absolute;height:5px;border-radius:3px;background:#ffd04a;box-shadow:0 0 0 2px #8a1e00,0 0 12px 3px rgba(255,90,0,.85);transform-origin:0 50%;animation:glow 2.2s ease-in-out infinite}
+.rk{position:absolute;box-sizing:border-box;background:linear-gradient(#4d3e40,#261d1f);border:4px solid #0d0809;border-radius:16px 12px 6px 6px;box-shadow:inset 0 5px 0 rgba(255,140,70,.3)}
+.ac{position:absolute;background:#4a3a3c;border-radius:40px;box-shadow:inset 0 -10px 0 #36292b}
+.em{position:absolute;width:6px;height:6px;background:#ffc23a;box-shadow:0 0 8px 3px #ff5a00;animation:ember 3.6s linear infinite}
+.as{position:absolute;top:0;width:5px;height:5px;background:#a89c9d;animation:ash 6s linear infinite}
+.sk{position:absolute;border-radius:50%;background:radial-gradient(circle at 40% 35%,#7a6d6e,#4a3f40);animation:smoke 4.5s linear infinite}
+.fi{background:radial-gradient(circle,#ffd04a,#ff5a00 60%,rgba(255,60,0,0))}
+.fl{position:absolute;box-sizing:border-box;border:3px solid #7a1a00;border-radius:50% 50% 45% 45%/65% 65% 35% 35%;background:radial-gradient(at 50% 78%,#fff6b0 0 18%,#ffd23a 34%,#ff8a00 58%,#e8380a 80%);transform-origin:50% 100%;animation:flick .45s ease-in-out infinite alternate}
+.ca{position:absolute;box-sizing:border-box;background:linear-gradient(90deg,#3a3030,#241d1d);border:4px solid #0d0809;border-radius:8px}
+.bp{position:absolute;box-sizing:border-box;background:linear-gradient(#5a4648 0 9px,#2f2527 9px);border:4px solid #0d0809;border-radius:4px}
+.ob{position:absolute;box-sizing:border-box;border:4px solid #0d0809;border-radius:12px 12px 3px 3px;background:linear-gradient(90deg,#7a5aaa,#2a1840 55%,#160c22);box-shadow:0 0 14px 3px rgba(180,80,255,.45)}
+.ls{position:absolute;left:844px;top:72px;width:454px;height:274px;background:linear-gradient(#fff0a0,#ffb02e 22%,#ff6a00 58%,#d43a00);animation:glow 2s ease-in-out infinite}
+.cu{position:absolute;border-radius:9px;background:#2a1a16;box-shadow:0 0 0 3px #ff9a2a}
+.fe{background:#3d2a20;border-radius:3px}
+.fp{background:linear-gradient(#ff7a1a 0 6px,#3a2620 6px);border-radius:4px}
+.nl{position:absolute;width:11px;height:11px;border-radius:50%;background:#d8c49a;border:2px solid #1a0f05}
+.sp{background:linear-gradient(135deg,#5a4a6a,#1a1222);box-shadow:0 0 12px 3px rgba(255,90,0,.6)}
+.hu{border-radius:12px 12px 4px 4px;background:linear-gradient(#ffd04a,#ff6a00 28%,#e6d6b2 62%);box-shadow:0 -4px 14px rgba(255,90,0,.85)}
+.ry{position:absolute;box-sizing:border-box;border-radius:50%;border:8px solid #d9a55a;box-shadow:0 0 0 3px #1a0f05,inset 0 0 0 3px #1a0f05}
+.re{background:#ff2a2a;border:3px solid #1a0f05;box-shadow:0 0 16px 6px rgba(255,30,30,.95)}
+.ng{background:#ff8a00;box-shadow:0 0 8px 2px rgba(255,120,0,.9)}
+.hf{background:linear-gradient(#2e2222 0 70%,#ff8a00 70%)}
+.ss{position:absolute;background:#fff6c2;clip-path:polygon(50% 0,63% 37%,100% 50%,63% 63%,50% 100%,37% 63%,0 50%,37% 37%);animation:tw 1.4s ease-in-out infinite}
+.fc{display:flex;align-items:center;justify-content:center}
+.fx{display:flex;align-items:center}
+.nw{white-space:nowrap}
+.g{color:#5cff6a}
+.gy{color:#d6d6d6}
+.po{background:linear-gradient(90deg,#8a5426,#6b3f1f)}
+.zz{position:absolute;font-family:'Luckiest Guy',cursive;color:#fff;-webkit-text-stroke:2px #1a0f05;paint-order:stroke fill;animation:zz 2.4s ease-out infinite}
+.pg{position:absolute;left:1022px;top:546px;width:240px;height:156px;box-sizing:border-box;border-radius:32px;border:5px solid}
+.r1{transform:rotate(-35deg)}.r2{transform:rotate(-24deg)}.r3{transform:rotate(-12deg)}.r4{transform:rotate(-6deg)}.r5{transform:rotate(8deg)}.r6{transform:rotate(14deg)}.r7{transform:rotate(24deg)}.r8{transform:rotate(34deg)}.r9{transform:rotate(70deg)}.r0{transform:rotate(45deg)}
+.d1{animation-delay:.3s}.d2{animation-delay:.6s}.d3{animation-delay:1s}.d4{animation-delay:1.4s}.d5{animation-delay:1.8s}.d6{animation-delay:2.4s}
+.u1{animation-duration:1s}.u2{animation-duration:2.4s}.u3{animation-duration:3s}
+@keyframes glow{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes flow{to{background-position:76px 0,0 0}}
+@keyframes ember{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(16px,-150px);opacity:0}}
+@keyframes ash{0%{transform:translate(0,-10px);opacity:0}10%{opacity:.8}100%{transform:translate(-40px,340px);opacity:0}}
+@keyframes smoke{0%{transform:translate(0,0) scale(.5);opacity:.85}100%{transform:translate(26px,-100px) scale(1.7);opacity:0}}
+@keyframes flick{0%{transform:scaleY(.86) skewX(-5deg)}100%{transform:scaleY(1.12) skewX(5deg)}}
+@keyframes zz{0%{transform:translate(0,0) scale(.7);opacity:0}25%{opacity:1}100%{transform:translate(16px,-30px) scale(1.15);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes lasso{from{transform:scaleY(.35) rotate(0)}to{transform:scaleY(.35) rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.025)}}
+@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(-4px,2px) rotate(-.6deg)}75%{transform:translate(4px,-2px) rotate(.6deg)}}
+@keyframes tug{0%,100%{transform:rotate(0) translateX(0)}50%{transform:rotate(-2deg) translateX(-5px)}}
+@keyframes flash{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.05);filter:brightness(1.35)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.18);opacity:0}}
+@keyframes danger{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.12)}}
+@keyframes tw{0%,100%{transform:scale(.5) rotate(0);opacity:.35}50%{transform:scale(1.1) rotate(45deg);opacity:1}}
+@keyframes rbshift{to{background-position:200% 0}}
+</style>
+</helmet>
+<div style="width:1280px;height:720px;position:relative;overflow:hidden;font-family:Fredoka,sans-serif;color:#fff;background:linear-gradient(#1b1113 0%,#2c1b1e 15%,#46231f 28%,#7a2e18 38%,#c24c1a 45%,#ff8a2a 47.6%,#2e2427 47.7%,#262022 62%,#1a1315 100%)">
+<div aria-hidden="true">
+<div class="a o" style="left:70px;top:22px;width:92px;height:92px;background:radial-gradient(circle at 42% 40%,#ffd9a0,#ff8a3a 55%,#d2481a);box-shadow:0 0 0 10px rgba(255,120,60,.18),0 0 70px 26px rgba(255,90,30,.35)"></div>
+<div class="ac" style="left:20px;top:84px;width:170px;height:40px"></div>
+<div class="ac" style="left:140px;top:56px;width:120px;height:34px"></div>
+<div class="ac" style="left:560px;top:150px;width:190px;height:36px;opacity:.8"></div>
+<div class="ac" style="left:1160px;top:30px;width:150px;height:40px"></div>
+<div class="as" style="left:90px"></div>
+<div class="as d2" style="left:1240px"></div>
+<div class="a" style="left:0;top:236px;width:1280px;height:110px;background:#3a2429;clip-path:polygon(0 55%,5% 35%,10% 48%,16% 22%,22% 40%,28% 30%,34% 52%,41% 38%,47% 58%,53% 44%,60% 62%,66% 100%,0 100%)"></div>
+<div class="sk" style="left:1020px;top:40px;width:80px;height:80px"></div>
+<div class="sk d4" style="left:1050px;top:30px;width:90px;height:90px"></div>
+<div class="a" style="left:836px;top:64px;width:470px;height:282px;background:#0d0809;clip-path:polygon(37% 0,61% 0,100% 100%,0 100%)"></div>
+<div class="a" style="left:844px;top:72px;width:454px;height:274px;background:linear-gradient(90deg,#241a1c,#45302f 46%,#2a1e20 70%,#1c1416);clip-path:polygon(37% 0,61% 0,100% 100%,0 100%)"></div>
+<div class="ls" style="clip-path:polygon(44% 0,49% 0,46% 22%,50% 45%,45% 70%,48% 100%,42% 100%,40% 72%,44% 46%,41% 22%)"></div>
+<div class="ls d2" style="clip-path:polygon(55% 0,59% 0,62% 20%,69% 44%,74% 70%,82% 100%,76% 100%,69% 72%,63% 46%,57% 22%)"></div>
+<div class="a o" style="left:990px;top:6px;width:170px;height:110px;background:radial-gradient(rgba(255,210,90,.95),rgba(255,90,0,.5) 40%,rgba(255,60,0,0) 70%);animation:glow 1.6s ease-in-out infinite"></div>
+<div class="a o" style="left:1004px;top:60px;width:126px;height:24px;background:#ffb02e;border:4px solid #0d0809;box-shadow:inset 0 6px 0 #1a1213"></div>
+<div class="em d1 u2" style="left:1050px;top:66px"></div>
+<div class="em d5 u2" style="left:1030px;top:70px"></div>
+<div class="bp" style="left:1186px;top:262px;width:30px;height:86px"></div>
+<div class="bp" style="left:1212px;top:238px;width:30px;height:110px"></div>
+<div class="bp" style="left:1238px;top:256px;width:30px;height:92px"></div>
+<div class="a o" style="left:950px;top:326px;width:250px;height:28px;background:radial-gradient(#fff0a0,#ffb02e 35%,#ff6a00 65%,#c83a00);border:4px solid #0d0809;box-shadow:0 0 34px 12px rgba(255,100,0,.6);animation:glow 2s ease-in-out infinite"></div>
+<div class="a" style="left:0;top:340px;width:1280px;height:12px;background:#140d0e;box-shadow:0 4px 0 #3a2a2c"></div>
+<div class="a" style="left:0;top:352px;width:1280px;height:368px;background:repeating-linear-gradient(60deg,rgba(0,0,0,.2) 0 3px,transparent 3px 54px),repeating-linear-gradient(-60deg,rgba(0,0,0,.2) 0 3px,transparent 3px 54px)"></div>
+<div class="cr r4" style="left:18px;top:488px;width:120px"></div>
+<div class="cr r8 d2" style="left:96px;top:480px;width:50px"></div>
+<div class="cr r6 d3" style="left:250px;top:598px;width:80px"></div>
+<div class="cr r5 d1" style="left:596px;top:398px;width:90px"></div>
+<div class="cr r3 d3" style="left:1000px;top:512px;width:110px"></div>
+<div class="cr r7 d5" style="left:1090px;top:494px;width:60px"></div>
+<div class="cr r2 d2" style="left:530px;top:652px;width:60px"></div>
+<div class="a" style="left:336px;top:667px;width:724px;height:112px;border-radius:72px 110px 0 0;background:radial-gradient(22px 9px at 50% 50%,#fff3a0 0 55%,rgba(255,243,160,0) 72%) 0 0/76px 36px,linear-gradient(#ffd23a,#ff8a00 35%,#e84a00 75%,#b82a00);animation:flow 2.6s linear infinite;box-shadow:0 0 0 8px #120a0a,0 0 40px 18px rgba(255,100,0,.6);transform:rotate(-1.5deg)"></div>
+<div class="cu" style="left:470px;top:692px;width:56px;height:16px"></div>
+<div class="cu" style="left:700px;top:684px;width:74px;height:18px"></div>
+<div class="a" style="left:0;top:470px;width:1280px;height:250px;background:linear-gradient(rgba(255,80,0,0),rgba(255,80,0,.2))"></div>
+<div class="k t fe" style="left:-10px;top:416px;width:140px;height:14px"></div>
+<div class="k t fe r5" style="left:126px;top:420px;width:120px;height:14px"></div>
+<div class="k t fe" style="left:-10px;top:444px;width:310px;height:14px"></div>
+<div class="k t fp" style="left:120px;top:398px;width:18px;height:78px"></div>
+<div class="k t fp r5" style="left:280px;top:404px;width:18px;height:72px"></div>
+<div class="rk" style="left:24px;top:500px;width:74px;height:42px"></div>
+<div class="rk" style="left:232px;top:468px;width:52px;height:32px"></div>
+<div class="rk" style="left:1064px;top:466px;width:64px;height:36px"></div>
+<div class="ob r3" style="left:166px;top:524px;width:26px;height:66px"></div>
+<div class="ob r6" style="left:194px;top:540px;width:22px;height:52px"></div>
+<div class="ob r1" style="left:142px;top:558px;width:20px;height:38px"></div>
+<div class="k t r2" style="left:472px;top:604px;width:18px;height:9px;background:#efe4cc;border-radius:8px 2px 2px 2px"></div>
+<div class="k t r7" style="left:512px;top:604px;width:18px;height:9px;background:#efe4cc;border-radius:2px 8px 2px 2px"></div>
+<div class="k t" style="left:486px;top:606px;width:30px;height:30px;background:#f2ead8;border-radius:6px 6px 12px 12px"><div class="e" style="left:4px;top:7px;width:7px;height:7px"></div><div class="e" style="left:13px;top:7px;width:7px;height:7px"></div></div>
+<div class="ca" style="left:1192px;top:398px;width:36px;height:104px;border-radius:14px 14px 4px 4px"></div>
+<div class="ca" style="left:1222px;top:440px;width:30px;height:16px"></div>
+<div class="ca" style="left:1238px;top:410px;width:16px;height:44px"></div>
+<div class="ca" style="left:1168px;top:452px;width:30px;height:16px"></div>
+<div class="ca" style="left:1166px;top:426px;width:16px;height:40px"></div>
+<div class="a" style="left:1200px;top:400px;width:20px;height:6px;background:#ff8a1a;border-radius:4px;box-shadow:0 0 10px 3px rgba(255,90,0,.8)"></div>
+<div class="cr r9" style="left:1204px;top:430px;width:24px"></div>
+<div class="em" style="left:120px;top:560px"></div>
+<div class="em d2" style="left:470px;top:660px"></div>
+<div class="em d5" style="left:640px;top:690px"></div>
+<div class="em d5" style="left:1000px;top:680px"></div>
+<div class="em d6" style="left:1120px;top:500px"></div>
+<div class="em d4" style="left:560px;top:400px"></div>
+<div class="sk" style="left:40px;top:466px;width:30px;height:30px"></div>
+<div class="fl" style="left:236px;top:104px;width:26px;height:36px"></div>
+<div class="k po" style="left:46px;top:300px;width:24px;height:172px"></div>
+<div class="k po" style="left:212px;top:300px;width:24px;height:172px"></div>
+</div>
+<div class="k" style="left:14px;top:124px;width:258px;height:190px;border-width:5px;border-radius:14px;background:repeating-linear-gradient(#8a5426 0 42px,#6b3f1f 42px 46px);box-shadow:inset 0 0 0 4px #b07034,0 6px 0 #1a0f05;transform:rotate(-2deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
+<div class="a" aria-hidden="true" style="inset:0">
+<div class="nl" style="left:6px;top:6px"></div>
+<div class="nl" style="right:6px;top:6px"></div>
+<div class="nl" style="left:6px;bottom:6px"></div>
+<div class="nl" style="right:6px;bottom:6px"></div>
+</div>
+<span class="lg st" style="font-size:46px;line-height:.95;text-align:center">VOLCANO<br>RIDGE</span>
+<span class="fx" style="gap:5px;padding:3px 12px 1px 6px;border-radius:12px;background:rgba(26,15,5,.6);border:3px solid #1a0f05">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="#5cff6a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st2 nw" style="font-size:26px;color:#5cff6a">700K SPEED</span>
+</span>
+<span class="fx" style="gap:4px">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#5cff6a" stroke="#1a0f05" stroke-width="2.4"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#1a0f05" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<span class="lg sm" style="font-size:15px;color:#d9ffde">YOU HAVE 1.2M</span>
+</span>
+</div>
+<div class="a" aria-hidden="true" style="left:0;top:344px;width:200px;height:54px;background:#1a0f05;clip-path:polygon(30px 0,100% 0,100% 100%,30px 100%,0 50%)"></div>
+<div class="a fc" style="left:5px;top:349px;width:190px;height:44px;padding-left:22px;background:repeating-linear-gradient(#b07034 0 20px,#8a5426 20px 22px);clip-path:polygon(27px 0,100% 0,100% 100%,27px 100%,0 50%);gap:6px">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12l9-8v5h11v6H11v5z" fill="#fff" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st2" style="font-size:30px;line-height:1">TOWN</span>
+</div>
+<div class="nl" aria-hidden="true" style="left:53px;top:365px"></div>
+<div class="a" aria-hidden="true" style="left:284px;top:312px;width:116px;height:82px;animation:bob 1.6s ease-in-out infinite">
+<div class="sh" style="left:8px;top:70px;width:100px;height:12px"></div>
+<div class="fl" style="left:-8px;top:2px;width:34px;height:48px"></div>
+<div class="k" style="left:16px;top:28px;width:70px;height:34px;background:linear-gradient(#ff9a3c,#ff6a1a);border-radius:8px"><div class="a" style="left:38px;top:12px;width:24px;height:14px;background:#fff3e0;border-radius:4px"></div></div>
+<div class="k t" style="left:22px;top:56px;width:12px;height:24px;background:#2a1a14"></div>
+<div class="k t" style="left:62px;top:56px;width:12px;height:24px;background:#2a1a14"></div>
+<div class="k t" style="left:72px;top:-6px;width:12px;height:20px;background:#ffb02e;border-radius:5px 5px 0 0"></div>
+<div class="k t" style="left:94px;top:-6px;width:12px;height:20px;background:#ffb02e;border-radius:5px 5px 0 0"></div>
+<div class="k" style="left:68px;top:8px;width:42px;height:38px;background:#ff8a2a;border-radius:8px"><div class="e" style="left:20px;top:8px;width:6px;height:8px"></div><div class="a" style="left:0;top:20px;width:14px;height:10px;background:#fff3e0;border-radius:3px"></div></div>
+<div class="k t" style="left:100px;top:22px;width:18px;height:15px;background:#fff3e0"><div class="e" style="right:-2px;top:0;width:5px;height:5px"></div></div>
+</div>
+<div class="a" aria-hidden="true" style="left:320px;top:490px;width:210px;height:130px;animation:bob 2.2s ease-in-out .4s infinite">
+<div class="a o" style="left:-20px;top:-10px;width:250px;height:150px;background:radial-gradient(rgba(164,77,255,.4),rgba(164,77,255,0) 68%)"></div>
+<div class="sh" style="left:10px;top:114px;width:190px;height:14px"></div>
+<div class="k" style="left:0;top:34px;width:16px;height:46px;background:#2e2222;border-radius:4px 4px 8px 8px"><div class="a ng" style="left:0;bottom:0;width:8px;height:10px"></div></div>
+<div class="k" style="left:10px;top:28px;width:142px;height:68px;border-width:5px;border-radius:12px;background:linear-gradient(#4a3230,#281c1c);box-shadow:inset 0 -8px 0 rgba(255,90,0,.25)">
+<div class="cr r9" style="left:20px;top:4px;width:44px"></div>
+<div class="cr r9 d2" style="left:58px;top:6px;width:48px"></div>
+<div class="cr r9 d3" style="left:96px;top:8px;width:44px"></div>
+</div>
+<div class="k hf" style="left:22px;top:90px;width:24px;height:36px"></div>
+<div class="k hf" style="left:100px;top:90px;width:24px;height:36px"></div>
+<div class="k" style="left:128px;top:4px;width:26px;height:22px;background:#e8dcc0;border-radius:10px 4px 4px 4px"></div>
+<div class="k hu" style="left:124px;top:-14px;width:14px;height:28px"></div>
+<div class="k" style="left:184px;top:4px;width:26px;height:22px;background:#e8dcc0;border-radius:4px 10px 4px 4px"></div>
+<div class="k hu" style="left:198px;top:-14px;width:14px;height:28px"></div>
+<div class="k" style="left:138px;top:16px;width:64px;height:62px;border-width:5px;border-radius:10px;background:#352626">
+<div class="a" style="left:34px;top:12px;width:13px;height:13px;background:#ffb02e;border:2px solid #1a0f05;box-shadow:0 0 8px 2px rgba(255,140,0,.9)"></div>
+<div class="k t" style="left:22px;top:30px;width:38px;height:24px;background:#5a4040"><div class="a o" style="left:6px;top:10px;width:14px;height:14px;border:3px solid #ffd02e"></div></div>
+</div>
+</div>
+<div class="a" style="left:380px;top:176px;width:420px;height:220px;transform-origin:50% 100%;animation:{{alphaAnim}}">
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="a o" aria-hidden="true" style="left:-50px;top:30px;width:520px;height:230px;background:radial-gradient(rgba(255,30,30,.6),rgba(255,30,30,0) 68%);animation:blink .5s ease-in-out infinite"></div>
+</sc-if>
+<div aria-hidden="true">
+<div class="sh" style="left:30px;top:194px;width:380px;height:28px;background:rgba(0,0,0,.55)"></div>
+<div class="k" style="left:392px;top:96px;width:24px;height:70px;background:#241b1c"></div>
+<div class="fl" style="left:388px;top:64px;width:32px;height:40px"></div>
+<div class="k sp r0" style="left:150px;top:52px;width:30px;height:30px"></div>
+<div class="k sp r0" style="left:206px;top:42px;width:34px;height:34px"></div>
+<div class="k sp r0" style="left:264px;top:46px;width:30px;height:30px"></div>
+<div class="k sp r0" style="left:320px;top:56px;width:26px;height:26px"></div>
+<div class="k" style="left:140px;top:180px;width:66px;height:30px;background:#1a1414"></div>
+<div class="k" style="left:318px;top:180px;width:66px;height:30px;background:#1a1414"></div>
+<div class="k" style="left:96px;top:72px;width:308px;height:122px;border-width:5px;border-radius:16px 22px 8px 8px;background:linear-gradient(#3d2e2e,#211919);box-shadow:inset 0 -14px 0 rgba(255,80,0,.28),inset 0 6px 0 rgba(255,255,255,.06)">
+<div class="cr r6" style="left:18px;top:30px;width:64px"></div>
+<div class="cr r3 d2" style="left:78px;top:52px;width:58px"></div>
+<div class="cr r6 d3" style="left:130px;top:22px;width:70px"></div>
+<div class="cr r2 d4" style="left:196px;top:64px;width:56px"></div>
+<div class="cr r8 d5" style="left:236px;top:28px;width:46px"></div>
+</div>
+<div class="k" style="left:18px;top:90px;width:128px;height:110px;border-width:5px;border-radius:14px;background:linear-gradient(#45332f,#2a1f1f)">
+<div class="cr r8" style="left:30px;top:14px;width:34px"></div>
+<div class="cr r1" style="left:58px;top:33px;width:34px"></div>
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<div class="e" style="left:12px;top:42px;width:32px;height:7px;border-radius:4px;box-shadow:0 -3px 0 #5a4440"></div>
+<div class="e" style="left:72px;top:42px;width:32px;height:7px;border-radius:4px;box-shadow:0 -3px 0 #5a4440"></div>
+</sc-if>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="a re" style="left:10px;top:30px;width:34px;height:22px"><div class="a" style="left:3px;top:2px;width:7px;height:6px;background:#fff"></div></div>
+<div class="a re" style="left:72px;top:30px;width:34px;height:22px"><div class="a" style="left:3px;top:2px;width:7px;height:6px;background:#fff"></div></div>
+<div class="e" style="left:6px;top:20px;width:42px;height:8px;transform:rotate(16deg)"></div>
+<div class="e" style="left:70px;top:20px;width:42px;height:8px;transform:rotate(-16deg)"></div>
+</sc-if>
+<div class="k" style="left:16px;top:58px;width:86px;height:40px;background:#574140;border-radius:10px">
+<div class="a ng" style="left:12px;top:8px;width:12px;height:12px"></div>
+<div class="a ng" style="left:54px;top:8px;width:12px;height:12px"></div>
+<div class="a o" style="left:30px;top:18px;width:18px;height:18px;border:4px solid #ffd02e"></div>
+</div>
+</div>
+<div class="k" style="left:-6px;top:76px;width:44px;height:24px;background:#e6d6b2;border-radius:12px 4px 4px 12px"></div>
+<div class="k hu" style="left:-6px;top:30px;width:22px;height:54px"></div>
+<div class="k" style="left:126px;top:76px;width:44px;height:24px;background:#e6d6b2;border-radius:4px 12px 12px 4px"></div>
+<div class="k hu" style="left:148px;top:30px;width:22px;height:54px"></div>
+</div>
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true">
+<div class="sk u3" style="left:40px;top:176px;width:18px;height:18px"></div>
+<div class="sk d4 u3" style="left:84px;top:178px;width:16px;height:16px"></div>
+<div class="k fc" style="left:36px;top:0;width:96px;height:54px;background:#fff;border-radius:26px"><span class="lg" style="font-size:28px;color:#3a2a8a;line-height:1">zz<span style="font-size:36px">Z</span></span></div>
+<div class="k t o" style="left:92px;top:56px;width:16px;height:16px;background:#fff"></div>
+<div class="k t o" style="left:84px;top:74px;width:10px;height:10px;background:#fff"></div>
+<span class="zz" style="left:136px;top:-4px;font-size:22px">Z</span>
+<span class="zz d3" style="left:150px;top:-14px;font-size:16px">Z</span>
+</div>
+</sc-if>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true">
+<div class="sk fi u1" style="left:34px;top:176px;width:30px;height:30px"></div>
+<div class="sk fi d2 u1" style="left:80px;top:178px;width:30px;height:30px"></div>
+<span class="lg st a" style="left:62px;top:18px;font-size:82px;line-height:1;color:#ff2d2d;text-shadow:0 0 22px rgba(255,40,40,.95);animation:bounce .5s ease-in-out infinite">!</span>
+</div>
+</sc-if>
+<div class="a" style="left:130px;top:28px;width:290px;display:flex;justify-content:center">
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<div style="padding:4px 14px 1px;border-radius:12px;border:3px solid #1a0f05;background:rgba(26,15,5,.82);box-shadow:0 3px 0 #1a0f05"><span class="lg st2 nw" style="font-size:22px"><span style="color:#ff9a1f">ALPHA</span> · MAGMA OX</span></div>
+</sc-if>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 14px 1px;border-radius:12px;border:3px solid #1a0f05;background:linear-gradient(#ff4a3a,#c80c0c);box-shadow:0 3px 0 #1a0f05,0 0 20px 5px rgba(255,30,30,.8);animation:flash .4s ease-in-out infinite"><span class="lg st2 nw" style="font-size:22px">MAGMA OX IS AWAKE!</span></div>
+</sc-if>
+</div>
+</div>
+<div class="a" aria-hidden="true" style="left:990px;top:340px;width:150px;height:112px;animation:bob 1.9s ease-in-out .2s infinite">
+<div class="a o" style="left:-40px;top:-30px;width:230px;height:170px;background:radial-gradient(rgba(255,214,64,.65),rgba(255,214,64,0) 68%)"></div>
+<div class="sh" style="left:20px;top:100px;width:130px;height:12px"></div>
+<div class="k" style="left:32px;top:26px;width:114px;height:58px;border-radius:16px;background:radial-gradient(circle,#fff3a0 0 4px,rgba(255,243,160,0) 5px) 0 0/16px 16px,linear-gradient(#ffe066,#ffc21a 60%,#e8a400);box-shadow:inset 0 -7px 0 rgba(160,90,0,.35),0 0 14px 3px rgba(255,210,60,.6)">
+<div class="a ng" style="left:22px;top:-4px;width:7px;height:7px"></div>
+<div class="a ng" style="left:58px;top:-6px;width:7px;height:7px"></div>
+<div class="a ng" style="left:86px;top:-3px;width:7px;height:7px"></div>
+</div>
+<div class="k t" style="left:44px;top:80px;width:18px;height:30px;background:linear-gradient(#4a2a12 0 70%,#ffd02e 70%)"></div>
+<div class="k t" style="left:104px;top:80px;width:18px;height:30px;background:linear-gradient(#4a2a12 0 70%,#ffd02e 70%)"></div>
+<div class="k" style="left:2px;top:20px;width:48px;height:46px;border-radius:10px;background:linear-gradient(#ffd84a,#e8a400)"><div class="e" style="left:9px;top:14px;width:8px;height:9px"></div><div class="a" style="left:-2px;top:26px;width:22px;height:14px;background:#c88a00;border-radius:3px"></div></div>
+<div class="a o" style="left:22px;top:2px;width:42px;height:42px;border:9px solid #b8692a;box-shadow:0 0 0 3px #1a0f05,inset 0 0 0 3px #1a0f05,0 0 12px 3px rgba(255,120,0,.7)"><div class="e o" style="left:6px;top:6px;width:6px;height:6px"></div></div>
+<div class="ss" style="left:-14px;top:0;width:20px;height:20px"></div>
+<div class="ss d2" style="left:140px;top:6px;width:16px;height:16px"></div>
+</div>
+<div class="a" style="left:690px;top:446px;width:300px;height:210px;transform-origin:50% 100%;animation:{{mamAnim}}">
+<div aria-hidden="true">
+<div class="a o" style="left:-80px;top:-60px;width:460px;height:320px;background:radial-gradient(rgba(255,110,210,.5),rgba(255,140,0,.38) 42%,rgba(255,80,0,0) 70%)"></div>
+<div class="a o" style="left:30px;top:-14px;width:250px;height:226px;background:conic-gradient(#ff3b3b,#ff9a1f,#ffe14a,#5cff6a,#3bc8ff,#b44dff,#ff3b3b);filter:blur(28px);opacity:.5;animation:spin 5s linear infinite"></div>
+<div class="sh" style="left:20px;top:194px;width:270px;height:22px;background:rgba(0,0,0,.55)"></div>
+<div class="k" style="left:282px;top:62px;width:18px;height:50px;background:#4a221a;border-radius:4px 8px 8px 4px"></div>
+<div class="fl" style="left:282px;top:102px;width:20px;height:26px"></div>
+<div class="k" style="left:160px;top:140px;width:40px;height:60px;background:#3a160e"></div>
+<div class="k" style="left:250px;top:140px;width:40px;height:58px;background:#3a160e"></div>
+<div class="fl" style="left:110px;top:0;width:34px;height:48px"></div>
+<div class="fl d1" style="left:148px;top:-14px;width:44px;height:62px"></div>
+<div class="fl d1" style="left:198px;top:4px;width:32px;height:44px"></div>
+<div class="k" style="left:66px;top:36px;width:228px;height:124px;border-width:5px;border-radius:28px 34px 12px 12px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 6px,transparent 6px 18px),linear-gradient(#8a3a26,#5a2418 70%,#4a1c12);box-shadow:inset 0 -12px 0 rgba(255,90,0,.32),inset 0 8px 0 rgba(255,180,120,.2)">
+<div class="cr r7" style="left:20px;top:40px;width:60px"></div>
+<div class="cr r3 d2" style="left:84px;top:70px;width:70px"></div>
+<div class="cr r7 d3" style="left:140px;top:28px;width:54px"></div>
+<div class="cr r5 d1" style="left:168px;top:80px;width:40px"></div>
+</div>
+<div class="k" style="left:100px;top:146px;width:48px;height:62px;background:linear-gradient(#6a2a1a 0 80%,#f2e2c2 80%)"></div>
+<div class="k" style="left:214px;top:146px;width:48px;height:62px;background:linear-gradient(#6a2a1a 0 80%,#f2e2c2 80%)"></div>
+<div class="fl d1" style="left:40px;top:-8px;width:34px;height:44px"></div>
+<div class="k" style="left:12px;top:24px;width:110px;height:106px;border-width:5px;border-radius:24px 18px 12px 12px;background:linear-gradient(#9a4430,#64281a)">
+<div class="cr r5" style="left:40px;top:10px;width:40px"></div>
+<div class="k t" style="left:20px;top:36px;width:22px;height:22px;background:#fff;border-radius:4px"><div class="e" style="left:5px;top:4px;width:7px;height:9px"></div></div>
+<div class="a" style="left:14px;top:26px;width:38px;height:9px;background:#2a0f08;border-radius:3px;transform:rotate(14deg)"></div>
+</div>
+<div class="k" style="left:84px;top:40px;width:56px;height:80px;border-radius:12px 16px 20px 12px;background:linear-gradient(#7a3020,#4e1c12)"><div class="a" style="left:10px;top:10px;width:26px;height:50px;background:rgba(255,110,50,.55);border-radius:8px"></div></div>
+<div class="k" style="left:12px;top:112px;width:34px;height:64px;border-radius:6px 6px 10px 10px;background:repeating-linear-gradient(rgba(0,0,0,.22) 0 3px,transparent 3px 14px),linear-gradient(90deg,#9a4430,#6a2a1a)"></div>
+<div class="k" style="left:-8px;top:164px;width:34px;height:22px;border-radius:14px 6px 14px 14px;background:#7a3020"></div>
+<div class="k" style="left:-26px;top:108px;width:56px;height:22px;background:linear-gradient(#fffaf0,#e9d8b0);border-radius:6px 4px 4px 14px"></div>
+<div class="k" style="left:-32px;top:80px;width:20px;height:38px;background:linear-gradient(#ffb02e,#fff3d8 50%);border-radius:12px 12px 4px 4px;box-shadow:0 -4px 12px rgba(255,120,0,.8)"></div>
+<div class="ss" style="left:-12px;top:30px;width:24px;height:24px"></div>
+<div class="ss d2" style="left:270px;top:20px;width:20px;height:20px;background:#ffd0f0"></div>
+<div class="ss d3" style="left:296px;top:150px;width:22px;height:22px;background:#c8f4ff"></div>
+</div>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="ry" aria-hidden="true" style="left:82px;top:40px;width:46px;height:104px;transform:rotate(-8deg)"></div>
+</sc-if>
+</div>
+<div class="a" aria-hidden="true" style="left:540px;top:470px;width:120px;height:172px">
+<div class="sh" style="left:8px;top:160px;width:86px;height:14px"></div>
+<div class="k t" style="left:2px;top:78px;width:16px;height:44px;background:#1d1d1d"></div>
+<div class="k t" style="left:2px;top:118px;width:16px;height:12px;background:#ffd7a8"></div>
+<div class="k t" style="left:16px;top:122px;width:30px;height:38px;background:#26532b"></div>
+<div class="k t" style="left:44px;top:122px;width:30px;height:38px;background:#26532b"></div>
+<div class="k t" style="left:12px;top:152px;width:36px;height:16px;background:#6b3f1f"></div>
+<div class="k t" style="left:42px;top:152px;width:36px;height:16px;background:#6b3f1f"></div>
+<div class="k t" style="left:14px;top:74px;width:62px;height:52px;background:#1d1d1d;border-radius:4px"><div class="a" style="left:22px;top:0;width:12px;height:38px;background:#2f7cff"></div><div class="a" style="left:0;bottom:0;width:56px;height:8px;background:#6b3f1f"></div><div class="a" style="left:22px;bottom:0;width:12px;height:8px;background:#ffd02e"></div></div>
+<div class="k t" style="left:72px;top:80px;width:26px;height:16px;background:#1d1d1d"></div>
+<div class="k t" style="left:94px;top:78px;width:14px;height:18px;background:#ffd7a8"></div>
+<div class="k t" style="left:24px;top:32px;width:44px;height:44px;background:#ffd7a8">
+<div class="a" style="left:0;top:0;width:38px;height:10px;background:#8a3a12"></div>
+<div class="a" style="left:0;top:0;width:7px;height:24px;background:#8a3a12"></div>
+<div class="a" style="left:31px;top:0;width:7px;height:20px;background:#8a3a12"></div>
+<div class="e" style="left:10px;top:17px;width:5px;height:7px"></div>
+<div class="e" style="left:23px;top:17px;width:5px;height:7px"></div>
+<div class="a" style="left:11px;top:26px;width:16px;height:6px;border-bottom:3px solid #1a0f05;border-radius:0 0 8px 8px"></div>
+</div>
+<div class="k t" style="left:22px;top:0;width:50px;height:30px;background:linear-gradient(#8a5426,#6b3f1f);border-radius:12px 12px 2px 2px"><div class="a" style="left:0;bottom:0;width:44px;height:6px;background:#3a2010"></div></div>
+<div class="k t" style="left:4px;top:24px;width:86px;height:14px;background:#6b3f1f;border-radius:12px"></div>
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<div class="a" style="left:99px;top:-6px;width:9px;height:88px;background:#d9a55a;border:2px solid #1a0f05;border-radius:4px;transform:rotate(6deg)"></div>
+<div class="ry" style="left:40px;top:-74px;width:104px;height:104px;animation:lasso .7s linear infinite"><div class="a" style="left:36px;top:-11px;width:16px;height:16px;background:#8a5a22;border:3px solid #1a0f05;border-radius:3px"></div></div>
+</sc-if>
+</div>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="a" aria-hidden="true" style="left:644px;top:552px;width:144px;height:12px;border:3px solid #1a0f05;border-radius:6px;background:repeating-linear-gradient(90deg,#e8b468 0 10px,#a8702e 10px 14px);transform-origin:0 50%;transform:rotate(-7deg)"></div>
+</sc-if>
+<div class="bb a" style="left:240px;top:234px;width:170px">
+<span class="st2" style="font-size:20px">Fire Fox</span>
+<span class="st2" style="font-size:16px;color:#3CCF5A">UNCOMMON</span>
+<span class="sm gy" style="font-size:14px">340 kg</span>
+<span class="st2 g" style="font-size:21px">$14/s</span>
+</div>
+<div class="bb a" style="left:345px;top:392px;width:170px">
+<span class="st2" style="font-size:22px">Lava Ox</span>
+<span class="st2" style="font-size:18px;color:#A44DFF">EPIC</span>
+<span class="sm gy" style="font-size:15px">2,140 kg</span>
+<span class="st2 g" style="font-size:22px">$9.5K/s</span>
+</div>
+<div class="bb a" style="left:978px;top:224px;width:176px">
+<span class="st2" style="font-size:22px">Cinder Ram</span>
+<span class="st2" style="font-size:18px;color:#FFC61A">LEGENDARY</span>
+<span class="fx" style="gap:3px"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z" fill="#FFD02E" stroke="#1a0f05" stroke-width="2.4" stroke-linejoin="round"/></svg><span class="st2" style="font-size:16px;color:#FFD02E">GOLDEN</span></span>
+<span class="sm gy" style="font-size:15px">880 kg</span>
+<span class="st2 g" style="font-size:22px">$310K/s</span>
+</div>
+<div class="bb a" style="left:710px;top:254px;width:260px">
+<span class="st2" style="font-size:26px">Inferno Mammoth</span>
+<span style="margin:2px 0;padding:2px 14px 0;border-radius:10px;border:3px solid #1a0f05;background:#120c14;box-shadow:0 0 14px 3px rgba(255,255,255,.4)"><span class="st2 rb" style="font-size:22px;background-size:200% 100%;animation:rbshift 2s linear infinite">SECRET</span></span>
+<span class="sm gy" style="font-size:16px">18,400 kg</span>
+<span class="st2 g" style="font-size:30px">$8M/s</span>
+</div>
+<div class="a fx" style="left:700px;top:368px;width:280px;height:74px;padding:3px 10px 3px 5px;border-radius:18px;border:4px solid #1a0f05;background:linear-gradient(rgba(44,26,20,.94),rgba(18,11,8,.94));box-shadow:0 4px 0 #1a0f05,0 0 18px 4px rgba(255,140,60,.45);gap:10px">
+<div class="o" style="position:relative;flex:none;width:60px;height:60px;box-sizing:border-box;border:3px solid #1a0f05;background:{{ring}}">
+<div class="e o" style="left:6px;top:6px;width:42px;height:42px"></div>
+<div class="a fc" style="left:11px;top:11px;width:32px;height:32px;border-radius:8px;border:3px solid #1a0f05;background:#fff;box-shadow:inset 0 -5px 0 #cfcfcf"><span class="lg" style="font-size:20px;line-height:1;color:#1a0f05;margin-top:2px">E</span></div>
+</div>
+<div style="display:flex;flex-direction:column;line-height:1.05">
+<span style="font:700 13px Fredoka,sans-serif;color:#ffd9b0">Inferno Mammoth</span>
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<span class="lg st2 nw" style="font-size:24px">HOLD · LASSO</span>
+</sc-if>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<span class="lg st2 nw" style="font-size:24px;color:#5cff6a">LASSOED!</span>
+</sc-if>
+<span class="nw"><span class="lg sm rb" style="font-size:16px">SECRET</span><span class="lg sm" style="font-size:16px"> · 2.0s</span></span>
+</div>
+</div>
+<div class="a" aria-hidden="true" style="left:828px;top:441px;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:14px solid #1a0f05"></div>
+<div class="a" style="left:340px;top:4px;width:600px;display:flex;flex-direction:column;align-items:center">
+<div class="fx" style="gap:10px">
+<svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><circle cx="12" cy="12" r="6.5" fill="none" stroke="#e8a800" stroke-width="1.6"/><path d="M12 7.5v9" stroke="#a86b00" stroke-width="2.4" stroke-linecap="round"/></svg>
+<span class="lg st" style="font-size:54px;color:#5cff6a;line-height:1">$4.2B</span>
+</div>
+<span class="lg st2" style="font-size:21px;color:#c8ffcf;line-height:1;margin-top:2px">+$12.5M/s</span>
+<div class="fx" style="gap:8px;margin-top:6px">
+<svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="#ffd02e" stroke="#1a0f05" stroke-width="2"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M4 20l2-2M18 6l2-2" stroke="#1a0f05" stroke-width="2" stroke-linecap="round"/></svg>
+<div style="position:relative;width:290px;height:28px;border-radius:18px;border:4px solid #1a0f05;background:#3a2412;overflow:hidden;box-shadow:0 3px 0 #1a0f05">
+<div class="a" style="left:0;top:0;bottom:0;width:56%;background:linear-gradient(90deg,#ffe25c,#ff9a1f)"></div>
+<span class="lg st2 a fc nw" style="left:0;right:0;top:0;bottom:0;font-size:19px">2:47 UNTIL SUNDOWN</span>
+</div>
+</div>
+</div>
+<div class="a" style="left:18px;top:612px;width:312px;height:90px;padding:8px 14px 10px 10px;border-radius:20px;border:5px solid #1a0f05;background:linear-gradient(#8a5426,#6b3f1f);box-shadow:inset 0 0 0 3px #b07034,inset 0 -8px 0 rgba(0,0,0,.25),0 4px 0 #1a0f05;display:flex;flex-direction:column;gap:6px">
+<div class="fx" style="gap:8px">
+<svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8v10l5 2.5c1.6.8 2.2 1.8 2.2 3V19H9l-1 2H5l.2-3L6 15z" fill="#b5652a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/><path d="M6.2 6h7.6" stroke="#1a0f05" stroke-width="1.6"/><path d="M7.5 9.5l2 1.5 2-1.5" fill="none" stroke="#ffd02e" stroke-width="1.4" stroke-linecap="round"/><circle cx="3.6" cy="18.4" r="2.2" fill="#e9eef5" stroke="#1a0f05" stroke-width="1.6"/></svg>
+<span class="lg st2" style="font-size:22px;color:#ffe14a">SPEED</span>
+<span class="lg st nw" style="font-size:32px;line-height:1">1.2M</span>
+</div>
+<div style="position:relative;height:18px;border-radius:10px;border:3px solid #1a0f05;background:#2a1a0c;overflow:hidden">
+<div class="a" style="left:0;top:0;bottom:0;width:48%;background:linear-gradient(90deg,#3bc8ff,#5cff6a)"></div>
+<span class="lg sm a fc nw" style="left:0;right:0;top:0;bottom:0;font-size:12px">NEXT AREA: STORM MESA · 2.5M</span>
+</div>
+</div>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="a" aria-hidden="true" style="left:0;top:0;width:1280px;height:720px;pointer-events:none;box-shadow:inset 0 0 110px 26px rgba(255,20,20,.7);animation:danger .8s ease-in-out infinite"></div>
+<div role="alert" class="a" style="left:240px;top:118px;width:800px;display:flex;justify-content:center">
+<div class="fx" style="gap:12px;padding:6px 22px;border-radius:20px;border:5px solid #1a0f05;background:linear-gradient(#ff6a3a,#e01a0a 60%,#b80c04);box-shadow:inset 0 -8px 0 rgba(0,0,0,.25),0 5px 0 #1a0f05,0 0 30px 8px rgba(255,60,20,.75);animation:flash .45s ease-in-out infinite">
+<svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12l9-8v5h11v6H11v5z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st nw" style="font-size:44px;line-height:1.1"><span style="color:#ffe14a">LASSOED!</span> RUN TO TOWN!</span>
+<svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12l9-8v5h11v6H11v5z" fill="#ffe14a" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{asleep}}" hint-placeholder-val="{{ true }}">
+<div class="pg" aria-hidden="true" style="border-color:#ffe14a;animation:ping 1.2s ease-out infinite"></div>
+<button class="btn a" onClick="{{hold}}" style="left:1022px;top:546px;width:240px;height:156px;padding:8px 14px 16px;border-radius:32px;border-width:5px;color:#fff;font-family:Fredoka,sans-serif;background:linear-gradient(#ffc34a,#ff7a00 60%,#e85a00);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+<span class="fx" style="gap:10px"><span class="lg st" style="font-size:50px;line-height:1">HOLD</span><span class="lg" style="display:block;width:54px;height:54px;box-sizing:border-box;border-radius:12px;border:4px solid #1a0f05;background:#fff;box-shadow:inset 0 -6px 0 #cfcfcf,0 3px 0 #1a0f05;color:#1a0f05;font-size:34px;line-height:50px;text-align:center">E</span></span>
+<span class="nw" style="display:block;padding:2px 10px 0;border-radius:10px;border:3px solid #1a0f05;background:#120c14"><span class="lg sm rb" style="font-size:17px">SECRET</span><span class="lg st2" style="font-size:17px"> · 2.0s</span></span>
+<span style="display:block;position:relative;width:196px;height:20px;box-sizing:border-box;border-radius:10px;border:3px solid #1a0f05;background:#3a1a08;overflow:hidden">
+<span class="a" style="display:block;left:0;top:0;bottom:0;width:{{pct}}%;background:linear-gradient(90deg,#ffe14a,#5cff6a);transition:width .2s"></span>
+<span class="lg sm a" style="display:block;left:0;right:0;top:1px;font-size:12px;line-height:14px;text-align:center">{{left}}s LEFT</span>
+</span>
+</button>
+</sc-if>
+<sc-if value="{{awake}}" hint-placeholder-val="{{ false }}">
+<div class="pg" aria-hidden="true" style="border-color:#5cff6a;animation:ping .8s ease-out infinite"></div>
+<a href="Chase.dc.html" class="btn a" style="left:1022px;top:546px;width:240px;height:156px;border-radius:32px;border-width:5px;background:linear-gradient(#8dff6a,#2fd14a 55%,#1e9e34);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+<span class="fx" style="gap:8px;animation:flash .6s ease-in-out infinite">
+<svg width="46" height="46" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12l9-8v5h11v6H11v5z" fill="#fff" stroke="#1a0f05" stroke-width="2" stroke-linejoin="round"/></svg>
+<span class="lg st" style="font-size:66px;line-height:1">RUN!</span>
+</span>
+<span class="lg st2 nw" style="font-size:20px;color:#ffe14a">TOW IT TO TOWN</span>
+</a>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { pct: 0 }; }
+  renderVals() {
+    const p = this.state.pct;
+    const d = Math.round(p * 3.6);
+    const done = p >= 100;
+    return {
+      pct: p,
+      left: ((100 - p) / 50).toFixed(1),
+      ring: 'conic-gradient(#ff3b3b 0deg,#ff9a1f ' + Math.round(d * 0.25) + 'deg,#ffe14a ' + Math.round(d * 0.5) + 'deg,#5cff6a ' + Math.round(d * 0.75) + 'deg,#3bc8ff ' + d + 'deg,#2a1810 ' + d + 'deg)',
+      asleep: !done,
+      awake: done,
+      alphaAnim: done ? 'shake .22s linear infinite' : 'breathe 3.2s ease-in-out infinite',
+      mamAnim: done ? 'tug .4s ease-in-out infinite' : 'bob 2.4s ease-in-out infinite',
+      hold: () => this.setState({ pct: Math.min(100, p + 25) })
+    };
+  }
+}
+</script>
+</body>
+</html>
