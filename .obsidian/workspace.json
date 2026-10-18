@@ -11,12 +11,14 @@
             "id": "9ea0385ac5c147c7",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Roblox Research/Attachments/steal-an-egg.webp"
+                "file": "Roblox Research/My Game/Monetization and Launch.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "steal-an-egg"
+              "icon": "lucide-file",
+              "title": "Monetization and Launch"
             }
           }
         ]
@@ -97,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Roblox Research/Attachments/steal-an-egg.webp",
+                "file": "Roblox Research/00 Index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -116,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Roblox Research/Attachments/steal-an-egg.webp",
+                "file": "Roblox Research/00 Index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -159,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Roblox Research/Attachments/steal-an-egg.webp",
+                "file": "Roblox Research/00 Index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -187,13 +189,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e4590fc1bf1d054e",
+  "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
-    "Roblox Research/Attachments/break-and-steal-an-egg.webp",
-    "Roblox Research/Attachments/steal-a-brainrot.webp",
-    "Roblox Research/Concepts/UI Patterns.md",
+    "CLAUDE.md",
     "Roblox Research/Sources.md",
     "Roblox Research/00 Index.md",
-    "CLAUDE.md"
+    "Roblox Research/Attachments/steal-an-egg.webp",
+    "Roblox Research/Attachments/break-and-steal-an-egg.webp",
+    "Roblox Research/Attachments/steal-a-brainrot.webp",
+    "Roblox Research/Concepts/UI Patterns.md"
   ]
 }
