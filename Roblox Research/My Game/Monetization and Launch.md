@@ -12,6 +12,9 @@ These are modelled on [[Steal An Egg]]'s real prices (researched October 2026).
 | 2x Money | 399 | X2 MONEY! (399) |
 | 2x Taming Speed | 467 | X2 GROWTH SPEED! (467) |
 | VIP Ranch (+2 pen slots, gold gate, chat tag) | 299 | — (ours) |
+| Auto-Tug (wins Common/Uncommon tugs automatically) | 249 | — (ours) |
+| Fast Horse (+25% speed) | 199 | — (ours) |
+| Extra Guard Slot | 149 | — (ours) |
 
 ## Developer products
 - **Tame All:** about 160 R$ per batch (Steal An Egg's Grow All)

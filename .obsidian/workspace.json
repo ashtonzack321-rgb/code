@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Roblox Research/My Game/Monetization and Launch.md",
+                "file": "Roblox Research/My Game/Areas and Beasts.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Monetization and Launch"
+              "title": "Areas and Beasts"
             }
           }
         ]
@@ -169,13 +169,23 @@
               "icon": "lucide-list",
               "title": "Outline"
             }
+          },
+          {
+            "id": "47b1621f084a07ff",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -189,11 +199,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9ea0385ac5c147c7",
+  "active": "e4590fc1bf1d054e",
   "lastOpenFiles": [
-    "CLAUDE.md",
-    "Roblox Research/Sources.md",
+    "Roblox Research/My Game/Monetization and Launch.md.tmp.8972.3cd21b47006c",
+    "Roblox Research/My Game/Systems and Scripts.md",
     "Roblox Research/00 Index.md",
+    "Roblox Research/My Game/Areas and Beasts.md",
+    "Roblox Research/My Game/Core Loop.md",
+    "Roblox Research/Concepts/Build Your Own Checklist.md",
+    "Roblox Research/Sources.md",
+    "Roblox Research/My Game/Steal a Beast - Overview.md",
+    "Roblox Research/My Game/My Game UI.md",
+    "Roblox Research/My Game/Monetization and Launch.md",
+    "Roblox Research/My Game/Beasts and Rarity.md",
+    "CLAUDE.md",
     "Roblox Research/Attachments/steal-an-egg.webp",
     "Roblox Research/Attachments/break-and-steal-an-egg.webp",
     "Roblox Research/Attachments/steal-a-brainrot.webp",
