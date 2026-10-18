@@ -1,64 +1,63 @@
 ---
 tags: [my-game, gdd, ui]
+updated: 2026-10-18
 ---
-# UI Design
+# UI Design (v2)
 
-Style follows [[UI Patterns]]: Fredoka One / Luckiest Guy fonts, 3px black UIStroke, saturated gradients, UICorner 12, bounce tweens. **Theme: Wild West.** The palette is wood-brown and sunset-orange panels with rope borders and rarity accents.
+The style follows [[UI Patterns]] and the three reference games: **Luckiest Guy** for titles and numbers, **Fredoka** for labels, a 3–5 px black outline on all text, saturated gradients, chunky buttons with a bottom shadow, red notification dots and huge suffixed numbers (K, M, B, T, Qa). **Theme: Wild West.** Panels are wood-brown, the sky is sunset orange and blue, and rope borders frame the UI. Rarity colours come from [[Areas and Beasts]].
 
-## Main HUD
+## HUD (always on screen)
 ```
-┌─────────────────────────────────────────────────────┐
-│ [🛒Shop]      ☀️ DAY 2:41 ▓▓▓▓▓▓░░ 🌙      [⚙][🎁]   │
-│ [🔄Rebirth]   💰 $4.2B  (+$12.5M/s)                  │
-│ [📖Index]                                            │
-│ [🐣Breed]       🔥 LEGENDARY STAMPEDE IN 1:30        │
-│ [⭐Passes]                                           │
-│                                                      │
-│                  (3D world)                          │
-│                                                      │
-│ 🐎 Speed 320                     [🔪Cut] [🪢 THROW]  │
-│                                          [⏏ Jump]    │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ [🛒Shop]        💰 $4.2B  (+$12.5M/s)         [🎁][⚙]    │
+│ [📖Index]       ☀ 3:12 until SUNDOWN                     │
+│ [⭐Spurs]                                    ┌─TAMING──┐  │
+│ [💎Passes]   🌈 A SECRET Inferno Mammoth     │Bison 0:42│  │
+│                 roams Volcano Ridge!        │Wyrm 21:10│  │
+│                                             │[TAME ALL]│  │
+│                  (3D world)                  └─────────┘  │
+│ 👢 SPEED 1.2M                       [🪤 x3] [WHIP]        │
+└──────────────────────────────────────────────────────────┘
 ```
-- **Day/night bar** (top centre): a sun-to-moon gradient with a countdown. It flashes red for the last 10 seconds before night.
-- **Cash** (top centre): a huge number with $/s below it. A "+$" pops up with a coin-fly animation.
-- **Left rail:** square icon buttons with red notification dots.
-- **Right thumb zone (mobile):** a big round THROW button with auto-aim to the nearest beast in a cone.
+- **Speed** in the bottom-left with a boot icon (Steal An Egg puts it there).
+- **Cash** in the top centre with $/s under it, plus a coin-fly animation and a "+$" pop-up.
+- **Sundown timer** under the cash. It flashes orange for the last 10 s.
+- **Left rail:** Shop, Index (red dot when there's something to claim), Spurs, Passes.
+- **Taming panel** on the right: a countdown per beast and a **TAME ALL** button (Robux).
+- **Rare-spawn banner:** slides in from the top. It's rainbow for Secret, pink for Eternal and white-gold for Divine.
 
-## Tug-of-war popup
-```
-        THUNDER BISON  [RARE]
-   ┌──────────────────────────────┐
-   │░░░░░░▓▓▓[███]▓▓▓░░░░░░░░░░░░│  ← green sweet zone moves
-   └──────────────────────────────┘
-   CATCH ███████████░░░░ 72%
-        HOLD / TAP TO PULL!
-```
-The camera zooms toward the beast, the screen shakes on each pull and a rope-creak sound plays.
+## World UI
+- **Area sign** at each entrance: a wooden board with the area name and **"⚡ 10K SPEED"**, shown green if you have enough and red if not.
+- **Beast tag** above each wild beast: name, rarity in its colour, **weight kg**, mutation and $/s.
+- **Lasso prompt:** "HOLD E · LASSO" with a ring that fills (rarer beasts take longer).
+- **Alpha:** "zzZ" bubble while asleep. When it wakes, red eyes, a "!" and its name tag turns red.
 
-## Beast billboard (above every beast)
-```
-   ✨ Golden Stallion ✨
-      LEGENDARY  ⚡Neon
-      $4.5M/s
-```
+## Towing state
+- A rope from the player to the beast.
+- A top bar reading **"TOWING Thunder Bison · 412 kg · SPEED −30%"**.
+- A distance meter, **"TOWN 85m"**, with an arrow.
+- A red danger edge on the screen while the Alpha chases.
+- **DROP (Q)** and **TRAP** buttons.
 
-## Night raid overlay
-- Purple vignette and a "🌙 RAID NIGHT — GATES OPEN! 1:58" banner.
-- When something is being stolen from you: red edge flash, "⚠️ Bob is stealing your Storm Griffin!" and an arrow to the thief.
-- After the night: a **Raid Report** card showing beasts stolen, beasts defended and the top raider. This card is made to be shared in clips.
+## Ranch screen
+- A grid of pen slots. Each slot shows a beast, a **taming countdown** (or "TAME!" when ready) and its $/s once tamed.
+- **Equip Best**, **+1 SLOT**, **TAME ALL**.
+- **Gate lock** button with a timer and cooldown.
+- **Rustler alert:** a red banner ("⚠ BOB_YT IS RUSTLING YOUR CANYON WYRM!") with an arrow pointing at the rustler.
 
-## Other screens
-- **Shop** (tabs: Lassos, Horses, Pens, Traps, Robux): grid cards with rarity borders and a "BEST VALUE" ribbon.
-- **Index:** a silhouette grid of undiscovered beasts with % collected, plus a reward at 25/50/75/100%.
-- **Breeding:** two slots, then a heart animation and a timer. Shows the odds of the result.
-- **Rebirth:** shows the requirements with checkmarks next to the rewards.
-- **Catch reveal** (first-time catch): full-screen rarity flash with "NEW BEAST!" and confetti.
+## Tamed reveal
+A full-screen burst in the rarity colour, **"TAMED!"**, the beast with its weight and mutation, and a big $/s figure. Buttons: **Place** and **Index**. The first time you tame a species you also get **"+420 SPEED"**.
 
-## Thumbnail and icon
-Bacon-hair cowboy swinging a lasso at a giant glowing **Inferno Mammoth**, with "$1,250,000,000/s" in huge white stroked text, a rainbow "SECRET" tag, a red arrow and a sunset-orange sky.
+## Shop
+Tabs: **Treadmills · Spurs · Ranch · Gear · Robux**. Cards have rarity-coloured borders and a "BEST VALUE" ribbon. Robux prices are shown in green with "R$".
 
-Related: [[Core Loop]] · [[Systems and Scripts]]
+## Index
+Area tabs with **8 silhouettes each**. Each found beast has a **CLAIM** button (+Speed and cash), **CLAIM ALL**, and an area-completion reward (a weapon).
+
+## Thumbnail
+A bacon-hair cowboy towing a giant glowing **Inferno Mammoth** while a red-eyed **Alpha** charges behind. **"$8,000,000/s"** in huge outlined green text, a rainbow **"SECRET"**, a red arrow and a sunset sky.
 
 ## Clickable mockup
-**[Open the Steal a Beast UI mockup](https://claude.ai/artifact/4ziAJWGDzwJTSY8KVuADkz)**. It has 6 screens: Day HUD, Lasso tug-of-war (tap to pull), New beast reveal, Raid night (with a raid report), Shop (5 tabs) and the game thumbnail. Press Play on a screen to click through it.
+**[Open the Steal a Beast UI mockup](https://claude.ai/artifact/4ziAJWGDzwJTSY8KVuADkz)**. It has screens for the area map, Town HUD, lassoing a beast, the chase home, the ranch, the tamed reveal, the shop, the Index and the thumbnail. Press Play on a screen to click through it.
+
+Related: [[Core Loop]] · [[Systems and Scripts]]
