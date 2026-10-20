@@ -286,6 +286,60 @@ local function watchAreas()
 	end)
 end
 
+-- Steal An Egg's "OFFLINE CLAIM! $15K": big green text that pops in, then fades.
+local function offlineClaim(amount)
+	if not amount or amount <= 0 then
+		return
+	end
+	local holder = UI.new("Frame", {
+		Name = "OfflineClaim",
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.42, 0),
+		Size = UDim2.new(0, 560, 0, 130),
+		Parent = gui,
+	})
+	local pop = UI.new("UIScale", { Scale = 0.3, Parent = holder })
+	local title = UI.text("OFFLINE CLAIM!", { size = UDim2.new(1, 0, 0.5, 0), color = UI.Colors.CashGreen, stroke = 4, parent = holder })
+	local value = UI.text(NumberFormat.cash(amount), { size = UDim2.new(1, 0, 0.48, 0), position = UDim2.new(0, 0, 0.52, 0),
+		color = UI.Colors.CashGreen, stroke = 4, parent = holder })
+	TweenService:Create(pop, TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
+	task.delay(3, function()
+		local fade = TweenInfo.new(0.5)
+		for _, label in ipairs({ title, value }) do
+			TweenService:Create(label, fade, { TextTransparency = 1 }):Play()
+			TweenService:Create(label.Outline, fade, { Transparency = 1 }):Play()
+		end
+		task.wait(0.5)
+		holder:Destroy()
+	end)
+end
+
+-- A house icon floating over your own base, so you can find it (as in Steal An Egg).
+local function homeMarker()
+	local marker = UI.new("BillboardGui", {
+		Name = "HomeMarker",
+		Size = UDim2.new(6, 0, 6, 0),
+		StudsOffset = Vector3.new(0, 32, 0),
+		AlwaysOnTop = true,
+		LightInfluence = 0,
+		MaxDistance = 2000,
+		ResetOnSpawn = false,
+		Parent = player:WaitForChild("PlayerGui"),
+	})
+	UI.icon(GameConfig.Icons.Pen, { size = UDim2.new(1, 0, 1, 0), parent = marker })
+	local function attach()
+		local index = player:GetAttribute("PlotIndex")
+		local map = workspace:FindFirstChild("Map")
+		local plot = index and map and map:FindFirstChild("Plots") and map.Plots:FindFirstChild("Plot" .. index)
+		local anchor = plot and plot:FindFirstChild("Gate") and plot.Gate:FindFirstChild("OwnerSign")
+		marker.Adornee = anchor
+		marker.Enabled = anchor ~= nil
+	end
+	player:GetAttributeChangedSignal("PlotIndex"):Connect(attach)
+	attach()
+end
+
 function HUDController.start()
 	build()
 	for _, name in ipairs({ "Cash", "Income", "Speed" }) do
@@ -295,6 +349,11 @@ function HUDController.start()
 	Remotes:WaitForChild("Notify").OnClientEvent:Connect(HUDController.toast)
 	Remotes:WaitForChild("TreadmillStep").OnClientEvent:Connect(stepPop)
 	watchAreas()
+	homeMarker()
+	player:GetAttributeChangedSignal("OfflineClaim"):Connect(function()
+		offlineClaim(player:GetAttribute("OfflineClaim"))
+	end)
+	offlineClaim(player:GetAttribute("OfflineClaim"))
 end
 
 return HUDController

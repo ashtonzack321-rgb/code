@@ -86,6 +86,13 @@ GameConfig.Pen = {
 	IncomeTickSeconds = 1,
 }
 
+-- Offline earnings: when you rejoin, the pen pays for the time you were away ("OFFLINE CLAIM!")
+GameConfig.Offline = {
+	Rate = 0.5,              -- half the normal $/s while away [assumed]
+	MaxSeconds = 12 * 3600,  -- at most 12 hours count [assumed]
+	MinSeconds = 60,         -- shorter breaks pay nothing
+}
+
 ----------------------------------------------------------------------------------------------
 -- New players
 ----------------------------------------------------------------------------------------------

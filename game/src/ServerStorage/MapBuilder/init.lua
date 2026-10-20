@@ -710,22 +710,7 @@ local function buildTown(ctx, cfg, map)
 		{ "VCyl", { 0.2, 14 }, { 344, 0.1, -72 }, "Neon", { 255, 110, 200 }, { name = "BreedingPad", t = 0.25, nc = true, tags = { "BreedingPad" } } },
 	}, { primary = "Body", streaming = "Persistent" })
 
-	-- 4.7 Street furniture (32 parts)
-	local street = newFolder("Street", town)
-	local lamps = newFolder("Lamps", street)
-	local lampIndex = 0
-	for _, x in ipairs({ 72, 148, 220, 292, 368 }) do
-		for _, z in ipairs({ 25, -25 }) do
-			lampIndex = lampIndex + 1
-			buildLamp(ctx, lamps, string.format("Lamp_%02d", lampIndex), x, z)
-		end
-	end
-	local barrels = newFolder("AlleyBarrels", street)
-	for _, x in ipairs({ 148, 220, 292 }) do
-		for _, z in ipairs({ 60, 100, -60, -100 }) do
-			newPart(ctx, { "VCyl", { 3, 2.4 }, { x, 1.5, z }, "Wood", { 130, 90, 56 }, { name = "Barrel", decor = true } }, I, barrels)
-		end
-	end
+	-- 4.7 Street furniture: removed (section 13) so the base field stays open, like Steal An Egg's
 
 	return town
 end

@@ -81,6 +81,7 @@ function Economy.newData()
 		PenLevel = 1,
 		Pen = {},
 		Stats = { Steps = 0, CashEarned = 0 },
+		LastOnline = 0,          -- os.time() of the last save, for offline earnings
 	}
 	for i, beast in ipairs(start.StarterBeasts) do
 		data.Pen[i] = copy(beast)
@@ -322,6 +323,17 @@ function Economy.payIncome(data, seconds, multiplier)
 	data.Cash = data.Cash + amount
 	data.Stats.CashEarned = data.Stats.CashEarned + amount
 	return amount
+end
+
+-- Pays offline earnings for the time since LastOnline and resets it to now. Returns the amount.
+function Economy.claimOffline(data, now)
+	local cfg = GameConfig.Offline
+	local away = (data.LastOnline > 0) and (now - data.LastOnline) or 0
+	data.LastOnline = now
+	if away < cfg.MinSeconds then
+		return 0
+	end
+	return Economy.payIncome(data, math.min(away, cfg.MaxSeconds), cfg.Rate)
 end
 
 -- The lowest free active slot, or nil

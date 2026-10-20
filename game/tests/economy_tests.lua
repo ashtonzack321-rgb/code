@@ -292,6 +292,16 @@ test("NumberFormat.commasShort / cashLong (Steal An Egg counter style)", functio
 	return Format.cashLong(43931) == "$43,931"
 end)
 
+test("offline claim: half rate, capped at 12 h, nothing under a minute or on a first join", function()
+	local d = Economy.newData()
+	local first = Economy.claimOffline(d, 1000000)
+	local short = Economy.claimOffline(d, 1000030)
+	local hour = Economy.claimOffline(d, 1000030 + 3600)
+	local long = Economy.claimOffline(d, 1000030 + 3600 + 100 * 3600)
+	return first == 0 and short == 0 and hour == 1800 and long == 0.5 * 12 * 3600 and d.LastOnline == 1000030 + 3600 + 100 * 3600,
+		first .. " " .. short .. " " .. hour .. " " .. long
+end)
+
 test("inside Roblox (script set) the module sets itself up once, without recursing", function()
 	local savedScript, savedRequire = script, require
 	script = { Parent = { GameConfig = GAME_CONFIG, AreasConfig = AREAS_CONFIG } }

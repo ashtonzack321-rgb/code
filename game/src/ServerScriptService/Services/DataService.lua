@@ -93,6 +93,7 @@ local function save(player, release)
 	if not session or not session.saveable or not store then
 		return true
 	end
+	session.data.LastOnline = os.time()
 	local snapshot = Economy.serialize(session.data)
 	local ok, err = pcall(function()
 		store:UpdateAsync(keyFor(player), function(saved)
@@ -160,6 +161,11 @@ local function onPlayerAdded(player)
 		return
 	end
 	sessions[player] = { data = data, saveable = saveable }
+	-- "OFFLINE CLAIM!": pay for the time away; the HUD shows it from this attribute
+	local offline = Economy.claimOffline(data, os.time())
+	if offline > 0 then
+		player:SetAttribute("OfflineClaim", offline)
+	end
 	for _, fn in ipairs(loadedCallbacks) do
 		task.spawn(fn, player, data)
 	end
