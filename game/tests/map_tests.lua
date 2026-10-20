@@ -152,7 +152,7 @@ end
 -- Section 10 part budget. Area 1's prop total in the spec says 101, but the parts it lists
 -- add up to 100 (the covered wagon is listed as 7 parts and specified as 6), so 100 is expected.
 local SPEC_AREA_PROPS = { 100, 120, 121, 125, 114, 91, 106, 122, 114, 110 }
-local SPEC_TOWN_PARTS = 168 -- ground 6 + fence 55 + gate 8 + square 47 + trading post 15 + street 32 + zones 5
+local SPEC_TOWN_PARTS = 128 -- ground 6 + walls 5 + caps 5 + boundary 5 + gate 8 + square 47 + trading post 15 + street 32 + zones 5
 local SPEC_PLOT_PARTS = 148 -- section 13: Steal An Egg-style base (rail fence, pen circle, gym treadmill, no barn/gate arch)
 local SPEC_LANE_GLOBALS = 25
 local SPEC_AREA_FIXED = 29

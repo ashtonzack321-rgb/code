@@ -171,7 +171,8 @@ AreasConfig.Style = {
 	Town = {
 		grass = { 118, 214, 38 },   -- Square and ranch yards (Steal An Egg's bright green)
 		plot = { 104, 198, 30 },    -- plot floors, a shade darker than the yards
-		path = { 128, 118, 140 },   -- Main Street, boardwalks, trailhead (the purple-grey path)
+		street = { 118, 214, 38 },  -- Main Street and boardwalks: green too, like Steal An Egg's base field
+		path = { 128, 118, 140 },   -- trailhead (the purple-grey path)
 		wall = { 205, 120, 55 },    -- the Town palisade (the orange checker wall)
 	},
 	-- Per-area colours that replace the brightened theme (area 1 copies Steal An Egg's Forest)
@@ -3156,32 +3157,23 @@ local function buildTown(ctx, cfg, map)
 	})
 
 	-- 4.3 Fence: log palisade, 45 posts, 5 invisible boundary walls (55 parts)
+	-- Steal An Egg's starter area (section 13): tall orange checkered walls with a green top edge
 	local fence = newFolder("Fence", town)
-	local palisade = { 120, 82, 48 }
+	local wallH = 40
+	local wall = { 205, 120, 55 }
+	local cap = { 40, 200, 40 }
 	buildParts(ctx, fence, I, {
-		{ "Block", { 496, 12, 2 }, { 152, 6, 129 }, "Wood", palisade, { name = "Palisade_N" } },
-		{ "Block", { 496, 12, 2 }, { 152, 6, -129 }, "Wood", palisade, { name = "Palisade_S" } },
-		{ "Block", { 2, 12, 256 }, { -97, 6, 0 }, "Wood", palisade, { name = "Palisade_W" } },
-		{ "Block", { 2, 12, 64 }, { 401, 6, 96 }, "Wood", palisade, { name = "Palisade_EN" } },
-		{ "Block", { 2, 12, 64 }, { 401, 6, -96 }, "Wood", palisade, { name = "Palisade_ES" } },
+		{ "Block", { 496, wallH, 2 }, { 152, wallH / 2, 129 }, "Wood", wall, { name = "Palisade_N" } },
+		{ "Block", { 496, wallH, 2 }, { 152, wallH / 2, -129 }, "Wood", wall, { name = "Palisade_S" } },
+		{ "Block", { 2, wallH, 256 }, { -97, wallH / 2, 0 }, "Wood", wall, { name = "Palisade_W" } },
+		{ "Block", { 2, wallH, 64 }, { 401, wallH / 2, 96 }, "Wood", wall, { name = "Palisade_EN" } },
+		{ "Block", { 2, wallH, 64 }, { 401, wallH / 2, -96 }, "Wood", wall, { name = "Palisade_ES" } },
+		{ "Block", { 498, 1.5, 3 }, { 152, wallH + 0.75, 129 }, "SmoothPlastic", cap, { name = "Cap_N" } },
+		{ "Block", { 498, 1.5, 3 }, { 152, wallH + 0.75, -129 }, "SmoothPlastic", cap, { name = "Cap_S" } },
+		{ "Block", { 3, 1.5, 258 }, { -97, wallH + 0.75, 0 }, "SmoothPlastic", cap, { name = "Cap_W" } },
+		{ "Block", { 3, 1.5, 66 }, { 401, wallH + 0.75, 96 }, "SmoothPlastic", cap, { name = "Cap_EN" } },
+		{ "Block", { 3, 1.5, 66 }, { 401, wallH + 0.75, -96 }, "SmoothPlastic", cap, { name = "Cap_ES" } },
 	})
-	local postCount = 0
-	local function post(x, z)
-		postCount = postCount + 1
-		newPart(ctx, { "VCyl", { 14, 3 }, { x, 7, z }, "Wood", { 96, 64, 36 }, { name = string.format("Post_%03d", postCount) } }, I, fence)
-	end
-	for _, z in ipairs({ 129, -129 }) do
-		for x = -96, 384, 32 do
-			post(x, z)
-		end
-		post(400, z)
-	end
-	for z = -96, 96, 32 do
-		post(-97, z)
-	end
-	for _, z in ipairs({ 64, 96, -64, -96 }) do
-		post(401, z)
-	end
 	buildParts(ctx, fence, I, {
 		{ "Block", { 500, 80, 2 }, { 152, 40, 131 }, nil, nil, { name = "Boundary_N", invisible = true, collide = true } },
 		{ "Block", { 500, 80, 2 }, { 152, 40, -131 }, nil, nil, { name = "Boundary_S", invisible = true, collide = true } },
@@ -4670,9 +4662,9 @@ function MapBuilder.applyStyle(map, config)
 	apply(child(ground, "SquareGround"), style.Town.grass, TOP)
 	apply(child(ground, "RanchGroundN"), style.Town.grass, TOP)
 	apply(child(ground, "RanchGroundS"), style.Town.grass, TOP)
-	apply(child(ground, "MainStreet"), style.Town.path, TOP)
-	apply(child(ground, "BoardwalkN"), style.Town.path, TOP)
-	apply(child(ground, "BoardwalkS"), style.Town.path, TOP)
+	apply(child(ground, "MainStreet"), style.Town.street or style.Town.path, TOP)
+	apply(child(ground, "BoardwalkN"), style.Town.street or style.Town.path, TOP)
+	apply(child(ground, "BoardwalkS"), style.Town.street or style.Town.path, TOP)
 	local fence = child(town, "Fence")
 	for _, name in ipairs({ "Palisade_N", "Palisade_S", "Palisade_W", "Palisade_EN", "Palisade_ES" }) do
 		apply(child(fence, name), style.Town.wall, WALL, true)

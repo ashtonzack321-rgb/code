@@ -123,7 +123,8 @@ AreasConfig.Style = {
 	Town = {
 		grass = { 118, 214, 38 },   -- Square and ranch yards (Steal An Egg's bright green)
 		plot = { 104, 198, 30 },    -- plot floors, a shade darker than the yards
-		path = { 128, 118, 140 },   -- Main Street, boardwalks, trailhead (the purple-grey path)
+		street = { 118, 214, 38 },  -- Main Street and boardwalks: green too, like Steal An Egg's base field
+		path = { 128, 118, 140 },   -- trailhead (the purple-grey path)
 		wall = { 205, 120, 55 },    -- the Town palisade (the orange checker wall)
 	},
 	-- Per-area colours that replace the brightened theme (area 1 copies Steal An Egg's Forest)
