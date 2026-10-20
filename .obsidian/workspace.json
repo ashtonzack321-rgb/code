@@ -201,6 +201,8 @@
   },
   "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
+    "game/tools/InstallScripts.command.lua.tmp.6884.5dc2ef60a3a6",
+    "game/src/ReplicatedStorage/Shared/Economy.lua.tmp.6884.92ae6320e85d",
     "game/src/StarterPlayer/StarterPlayerScripts/Controllers/UI.lua",
     "game/src/StarterPlayer/StarterPlayerScripts/Controllers/ShopController.lua",
     "game/src/StarterPlayer/StarterPlayerScripts/Controllers/HUDController.lua",
@@ -210,8 +212,6 @@
     "game/src/StarterPlayer",
     "game/tools/build_install.js",
     "game/tools/InstallScripts.command.lua",
-    "game/tests/economy_tests.lua",
-    "game/src/ServerScriptService/Services/SpeedService.lua",
     "game/README.md",
     "Roblox Research/My Game/Steal a Beast - Overview.md",
     "Roblox Research/My Game/My Game UI.md",
