@@ -114,26 +114,38 @@ GameConfig.KgExponent = 0.617
 ----------------------------------------------------------------------------------------------
 GameConfig.Passes = {
 	{ id = "TwoXTaming", name = "x2 Taming", description = "Beasts Tame <green>x2</green> faster!", robux = 467,
-		gamePassId = 0, icon = "\u{23F1}\u{FE0F}", card = "Rainbow" },
+		gamePassId = 0, icon = "TwoXTaming", card = "Rainbow" },
 	{ id = "TwoXMoney", name = "x2 Money", description = "Get <green>x2</green> Money!", robux = 399,
-		gamePassId = 0, icon = "\u{1F4B0}", card = "Gold" },
+		gamePassId = 0, icon = "TwoXMoney", card = "Gold" },
 	{ id = "VipRanch", name = "VIP Ranch", description = "<green>+2</green> pen slots and a gold gate!", robux = 299,
-		gamePassId = 0, icon = "\u{1F451}", card = "Purple" },
+		gamePassId = 0, icon = "Vip", card = "Purple" },
 	{ id = "FastHorse", name = "Fast Horse", description = "Run <green>+25%</green> faster!", robux = 199,
-		gamePassId = 0, icon = "\u{1F40E}", card = "Blue" },
+		gamePassId = 0, icon = "FastHorse", card = "Blue" },
 }
 
--- HUD and shop icons. Emoji work with no uploads; replace any of them with an uploaded image
--- ("rbxassetid://123") to get Steal An Egg-style drawn icons.
+-- Icons: images already uploaded to Roblox by the Check-UI kit (MIT, game/vendor/CheckUI; the
+-- names in comments are their CheckUIIcons paths), with an emoji to show if an image fails to load.
+-- To change one, find another id in game/vendor/CheckUI/CheckUIIcons.luau.
 GameConfig.Icons = {
-	Featured = "\u{1F3F7}\u{FE0F}",
-	Speed = "\u{1F45F}",
-	Money = "\u{1F4B5}",
-	Index = "\u{1F4D6}",
-	Gift = "\u{1F381}",
-	Treadmill = "\u{1F3C3}",
-	Spurs = "\u{2B50}",
-	Pen = "\u{1F3E0}",
+	Featured = { image = "rbxassetid://112112253357068", emoji = "\u{1F3F7}\u{FE0F}" }, -- Main/Shopping_Bag/Red_Shopping_Bag_1st_Outline
+	Speed = { image = "rbxassetid://98292714980053", emoji = "\u{1F45F}" },        -- Item/Shoe/Blue_Shoe_1st_Outline
+	Money = { image = "rbxassetid://88694661500877", emoji = "\u{1F4B5}" },        -- Currency/Cash/Green_Cash_1st_Outline
+	Index = { image = "rbxassetid://116366045684496", emoji = "\u{1F4D6}" },       -- Item/Book/Blue_Book_1st_Outline
+	Gift = { image = "rbxassetid://88859793149024", emoji = "\u{1F381}" },         -- Item/Gift/Gift_White
+	Treadmill = { image = "rbxassetid://135086426027210", emoji = "\u{1F3C3}" },   -- Item/Shoe/Red_Shoe_1st_Outline
+	Spurs = { image = "rbxassetid://105103627769338", emoji = "\u{2B50}" },        -- Main/Star/Golden_Star_1st_Outline
+	Pen = { image = "rbxassetid://113557408634141", emoji = "\u{1F3E0}" },         -- Main/House/Green_House_1st_Outline
+	Robux = { image = "rbxassetid://132185731364109", emoji = "R$" },              -- Currency/Robux/Robux_White
+	TwoXTaming = { image = "rbxassetid://138525712797372", emoji = "\u{23F1}\u{FE0F}" }, -- Item/Clock/Golden_Clock_1st_Outline
+	TwoXMoney = { image = "rbxassetid://89267825858001", emoji = "\u{1F4B0}" },    -- Currency/Cash/Golden_Cash_1st_Outline
+	Vip = { image = "rbxassetid://87880162965828", emoji = "\u{1F451}" },          -- Exclusive/VIP/VIP_1st_Outline
+	FastHorse = { image = "rbxassetid://117522200604233", emoji = "\u{26A1}" },    -- Main/Lighting/Blue_Lighting_1st_Outline
+}
+
+-- Check-UI's shared UI textures (also uploaded already)
+GameConfig.UIAssets = {
+	Checker = "rbxassetid://385956923",   -- 2 x 2 checker squares per tile (damier overlays)
+	Sunburst = "rbxassetid://130563114903838",
 }
 
 ----------------------------------------------------------------------------------------------

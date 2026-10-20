@@ -2009,6 +2009,7 @@ local function studify(part, rgb, faces, style, allSides)
 			texture.StudsPerTileU = tile
 			texture.StudsPerTileV = tile
 			texture.Color3 = Color3.new(0, 0, 0)
+			texture.Transparency = style.CheckerTransparency or 0
 			texture.Parent = part
 			added = added + 1
 		end
@@ -2030,15 +2031,18 @@ function MapBuilder.applyStyle(map, config)
 	if not style or style.Enabled == false then
 		return 0, 0
 	end
-	-- The texture id can also come from the place itself, so nobody has to edit this repo:
+	-- A texture id set on the place wins, so nobody has to edit this repo to swap the tile:
 	--   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")   then rebuild the map
-	local fromPlace = game:GetService("Workspace"):GetAttribute("CheckerTexture")
-	if style.CheckerTexture == "" and type(fromPlace) == "string" and fromPlace ~= "" then
+	-- (CheckerTransparency on the place, default 0, goes with it.)
+	local ws = game:GetService("Workspace")
+	local fromPlace = ws:GetAttribute("CheckerTexture")
+	if type(fromPlace) == "string" and fromPlace ~= "" then
 		local copy = {}
 		for k, v in pairs(style) do
 			copy[k] = v
 		end
 		copy.CheckerTexture = fromPlace
+		copy.CheckerTransparency = tonumber(ws:GetAttribute("CheckerTransparency")) or 0
 		style = copy
 	end
 	local parts, textures = 0, 0
@@ -2164,8 +2168,8 @@ function MapBuilder.build(config, options)
 		if ctx.textures > 0 then
 			print(string.format("[MapBuilder] Studded checker look on %d parts (%d textures).", ctx.styledParts, ctx.textures))
 		else
-			print(string.format("[MapBuilder] Studs on %d parts. For the checkerboard, upload game/assets/checker_studs.png "
-				.. "and set AreasConfig.Style.CheckerTexture (see game/README.md).", ctx.styledParts))
+			print(string.format("[MapBuilder] Studs on %d parts (no checker texture: AreasConfig.Style.CheckerTexture is empty).",
+				ctx.styledParts))
 		end
 	end
 	if #removed > 0 then

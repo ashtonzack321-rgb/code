@@ -933,8 +933,17 @@ test("Steal An Egg look: other areas get their theme colour made brighter and mo
 	return c == Color3.fromRGB(want[1], want[2], want[3]) and brighter, table.concat(want, ",")
 end)
 
-test("no checker Textures until CheckerTexture is set", function()
-	return countTextures(map) == 0 and buildReport.textures == 0
+test("checkerboard: 269 Textures with Check-UI's uploaded checker tile, black at 0.85 transparency", function()
+	local n, wrong = 0, nil
+	for _, d in ipairs(map:GetDescendants()) do
+		if d:IsA("Texture") then
+			n = n + 1
+			if d.Texture ~= "rbxassetid://385956923" or d.Transparency ~= 0.85 or d.Color3 ~= Color3.new(0, 0, 0) then
+				wrong = d:GetFullName()
+			end
+		end
+	end
+	return n == 269 and buildReport.textures == 269 and wrong == nil, n .. " " .. tostring(wrong)
 end)
 
 ----------------------------------------------------------------------------------------------
@@ -996,24 +1005,18 @@ end)
 ----------------------------------------------------------------------------------------------
 -- Checker texture build (the source MapBuilder module with CheckerTexture set)
 ----------------------------------------------------------------------------------------------
-print("Building with a checker texture id (third run, source MapBuilder module)...")
-local styled = {}
-for k, v in pairs(CONFIG.Style) do
-	styled[k] = v
-end
-styled.CheckerTexture = "rbxassetid://1"
-local savedStyle = CONFIG.Style
-CONFIG.Style = styled
+print("Building with our own texture id set on the place (third run, source MapBuilder module)...")
+workspace:SetAttribute("CheckerTexture", "rbxassetid://1")
 local texReport = MAP_BUILDER.build(CONFIG)
-CONFIG.Style = savedStyle
+workspace:SetAttribute("CheckerTexture", nil)
 local texMap = workspace:FindFirstChild("Map")
 
-test("with CheckerTexture set: 269 tiling textures (top of ground, 5 faces of each wall), 8 studs per tile", function()
+test("workspace attribute CheckerTexture swaps the tile: 269 textures, 8 studs per tile, transparency 0", function()
 	local n, wrong = 0, nil
 	for _, d in ipairs(texMap:GetDescendants()) do
 		if d:IsA("Texture") then
 			n = n + 1
-			if d.Texture ~= "rbxassetid://1" or d.StudsPerTileU ~= 8 or d.StudsPerTileV ~= 8 then
+			if d.Texture ~= "rbxassetid://1" or d.StudsPerTileU ~= 8 or d.StudsPerTileV ~= 8 or d.Transparency ~= 0 then
 				wrong = d:GetFullName()
 			end
 		end

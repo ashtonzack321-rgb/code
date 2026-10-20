@@ -11,9 +11,18 @@
 
 	Sizes are in pixels for a 1280 x 720 screen. Each ScreenGui gets a UIScale (UI.autoScale),
 	so phones and big monitors see the same layout.
+
+	Components from the Check-UI kit (MIT, .claude/skills/check-ui-clean-roblox, game/vendor/CheckUI):
+	the 3D beveled buy and close buttons, damier (checkerboard) overlays, rotating sunbursts and
+	its uploaded icons (GameConfig.Icons, each with an emoji fallback if the image fails to load).
 ]]
 
 local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local GameConfig = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("GameConfig"))
 
 local UI = {}
 
@@ -28,13 +37,6 @@ UI.Colors = {
 	CashGreen = Color3.fromRGB(24, 255, 24),      -- the "$43,931" counter
 	HighlightGreen = Color3.fromRGB(40, 230, 40), -- "x2" inside descriptions
 	SpeedBlue = Color3.fromRGB(70, 215, 255),
-	PriceGreen = Color3.fromRGB(110, 222, 34),    -- price buttons
-	PriceGreenDark = Color3.fromRGB(60, 160, 14),
-	PriceBorder = Color3.fromRGB(30, 70, 12),
-	GiftPurple = Color3.fromRGB(176, 60, 230),
-	GiftBorder = Color3.fromRGB(70, 20, 100),
-	CloseRed = Color3.fromRGB(226, 24, 24),
-	CloseBorder = Color3.fromRGB(110, 0, 0),
 	HeaderTop = Color3.fromRGB(140, 236, 70),
 	HeaderBottom = Color3.fromRGB(86, 200, 30),
 	HeaderBorder = Color3.fromRGB(40, 110, 20),
@@ -179,38 +181,6 @@ function UI.highlight(text)
 	return (string.gsub(text, "<green>(.-)</green>", '<font color="' .. hex .. '">%1</font>'))
 end
 
--- Square/rect button with a coloured fill, darker bottom half and a dark border.
-function UI.button(opts)
-	local button = UI.new("TextButton", {
-		Name = opts.name or "Button",
-		Text = "",
-		AutoButtonColor = false,
-		BackgroundColor3 = opts.color or UI.Colors.PriceGreen,
-		BorderSizePixel = 0,
-		Size = opts.size,
-		Position = opts.position or UDim2.new(0, 0, 0, 0),
-		AnchorPoint = opts.anchor or Vector2.new(0, 0),
-		ZIndex = opts.z or 2,
-	}, { UI.corner(opts.radius or 5), UI.border(opts.borderThickness or 3, opts.border or UI.Colors.PriceBorder) })
-	if opts.dark then
-		UI.new("UIGradient", {
-			Rotation = 90,
-			Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-				ColorSequenceKeypoint.new(0.55, Color3.fromRGB(255, 255, 255)),
-				ColorSequenceKeypoint.new(0.56, Color3.fromRGB(215, 215, 215)),
-				ColorSequenceKeypoint.new(1, Color3.fromRGB(215, 215, 215)),
-			}),
-			Parent = button,
-		})
-	end
-	UI.pressable(button)
-	if opts.parent then
-		button.Parent = opts.parent
-	end
-	return button
-end
-
 -- Grow a little on hover, squash on press (UI Patterns: 1.0 -> 1.08 -> 0.95).
 function UI.pressable(button)
 	local scale = button:FindFirstChildOfClass("UIScale") or UI.new("UIScale", { Parent = button })
@@ -233,89 +203,270 @@ function UI.pressable(button)
 	end)
 end
 
--- Green price button: optional Robux icon + price text.
+-- Check-UI button states: { top, bottom, bevel, highlight }
+UI.ButtonStates = {
+	buy = { Color3.fromRGB(180, 255, 25), Color3.fromRGB(105, 225, 0), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130) },
+	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255) },
+	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200) },
+	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255) },
+	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255) },
+}
+
+-- Checkerboard overlay (Check-UI "damier"): the uploaded 2x2 checker tile, tinted, fading in
+-- toward the bottom. tile = pixels per tile, fade = { topTransparency, bottomTransparency }.
+function UI.damier(parent, color, tile, fade, z)
+	local layer = UI.new("ImageLabel", {
+		Name = "Damier",
+		BackgroundTransparency = 1,
+		Image = GameConfig.UIAssets.Checker,
+		ImageColor3 = color or Color3.new(0, 0, 0),
+		ScaleType = Enum.ScaleType.Tile,
+		TileSize = UDim2.new(0, tile or 18, 0, tile or 18),
+		Size = UDim2.new(1, 0, 1, 0),
+		ZIndex = z or parent.ZIndex,
+		Parent = parent,
+	})
+	fade = fade or { 0.91, 0.62 }
+	UI.new("UIGradient", {
+		Rotation = 90,
+		Transparency = NumberSequence.new(fade[1], fade[2]),
+		Parent = layer,
+	})
+	return layer
+end
+
+-- Rotating sunburst behind an icon (Check-UI: 20 degrees per second, only while visible)
+local sunbursts = {}
+function UI.sunburst(parent, size, position, transparency, z)
+	local burst = UI.new("ImageLabel", {
+		Name = "Sunburst",
+		BackgroundTransparency = 1,
+		Image = GameConfig.UIAssets.Sunburst,
+		ImageTransparency = transparency or 0.45,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = position,
+		Size = size,
+		SizeConstraint = Enum.SizeConstraint.RelativeYY,
+		ZIndex = z or parent.ZIndex,
+		Parent = parent,
+	})
+	table.insert(sunbursts, burst)
+	return burst
+end
+RunService.RenderStepped:Connect(function(dt)
+	for i = #sunbursts, 1, -1 do
+		local burst = sunbursts[i]
+		if not burst.Parent then
+			table.remove(sunbursts, i)
+		elseif burst.Visible then
+			burst.Rotation = (burst.Rotation + 20 * dt) % 360
+		end
+	end
+end)
+
+-- Check-UI 3D button: gradient face, 3px dark bevel along the bottom, pastel inner highlight,
+-- checker overlay and a 3px near-black border. state = a key of UI.ButtonStates.
+function UI.bevelButton(opts)
+	local button = UI.new("TextButton", {
+		Name = opts.name or "Button",
+		Text = "",
+		AutoButtonColor = false,
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		ClipsDescendants = true,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		ZIndex = opts.z or 3,
+	}, { UI.corner(4), UI.border(3, Color3.fromRGB(12, 20, 26)) })
+	UI.new("UIGradient", { Name = "Face", Rotation = 90, Parent = button })
+	UI.new("Frame", {
+		Name = "Bevel",
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, 0),
+		Size = UDim2.new(1, 0, 0, 3),
+		ZIndex = button.ZIndex,
+		Parent = button,
+	})
+	UI.damier(button, Color3.new(0, 0, 0), 18, { 0.92, 0.7 }, button.ZIndex)
+	local inner = UI.new("Frame", {
+		Name = "Inner",
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.5, -1),
+		Size = UDim2.new(1, -4, 1, -6),
+		ZIndex = button.ZIndex,
+		Parent = button,
+	}, { UI.corner(3) })
+	UI.new("UIStroke", { Name = "Highlight", Thickness = 1.2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = inner })
+	UI.setButtonState(button, opts.state or "buy")
+	UI.pressable(button)
+	if opts.parent then
+		button.Parent = opts.parent
+	end
+	return button
+end
+
+function UI.setButtonState(button, state)
+	local colors = UI.ButtonStates[state] or UI.ButtonStates.buy
+	local face = button:FindFirstChild("Face")
+	if face then
+		face.Color = ColorSequence.new(colors[1], colors[2])
+	end
+	local bevel = button:FindFirstChild("Bevel")
+	if bevel then
+		bevel.BackgroundColor3 = colors[3]
+	end
+	local inner = button:FindFirstChild("Inner")
+	local highlight = inner and inner:FindFirstChild("Highlight")
+	if highlight then
+		highlight.Color = colors[4]
+	end
+end
+
+-- Lime buy button with an optional Robux icon and the price ("467").
 function UI.priceButton(text, robux, opts)
 	opts = opts or {}
-	local button = UI.button({
+	local button = UI.bevelButton({
 		name = "Price",
-		color = opts.color or UI.Colors.PriceGreen,
-		border = opts.border or UI.Colors.PriceBorder,
+		state = opts.state or "buy",
 		size = opts.size,
 		position = opts.position,
 		anchor = opts.anchor,
-		dark = true,
 		parent = opts.parent,
 	})
 	local x = 0.06
 	if robux then
-		UI.new("ImageLabel", {
-			Name = "Robux",
-			BackgroundTransparency = 1,
-			Image = "rbxasset://textures/ui/common/robux.png",
-			ImageColor3 = UI.Colors.White,
-			AnchorPoint = Vector2.new(0, 0.5),
-			Position = UDim2.new(0.12, 0, 0.5, 0),
-			Size = UDim2.new(0.62, 0, 0.62, 0),
-			SizeConstraint = Enum.SizeConstraint.RelativeYY,
-			ZIndex = 3,
-			Parent = button,
+		UI.icon(GameConfig.Icons.Robux, {
+			name = "Robux",
+			anchor = Vector2.new(0, 0.5),
+			position = UDim2.new(0.1, 0, 0.5, -1),
+			size = UDim2.new(0.62, 0, 0.62, 0),
+			square = true,
+			z = button.ZIndex + 1,
+			parent = button,
 		})
 		x = 0.3
 	end
 	UI.text(text, {
 		name = "Label",
-		size = UDim2.new(1 - x - 0.06, 0, 0.7, 0),
-		position = UDim2.new(x, 0, 0.15, 0),
+		size = UDim2.new(1 - x - 0.06, 0, 0.68, 0),
+		position = UDim2.new(x, 0, 0.13, 0),
 		stroke = 2.5,
-		z = 3,
+		z = button.ZIndex + 1,
 		parent = button,
 	})
 	return button
 end
 
+-- Check-UI's 3D beveled square close button: burgundy base, crimson-pink face shifted up 4px,
+-- pastel inner line, white X.
 function UI.closeButton(parent)
-	local button = UI.button({
-		name = "Close",
-		color = UI.Colors.CloseRed,
-		border = UI.Colors.CloseBorder,
-		size = UDim2.new(0, 46, 0, 46),
-		anchor = Vector2.new(1, 0.5),
-		position = UDim2.new(1, -8, 0.5, 0),
-		radius = 3,
-		parent = parent,
+	local button = UI.new("TextButton", {
+		Name = "Close",
+		Text = "",
+		AutoButtonColor = false,
+		BackgroundColor3 = Color3.fromRGB(115, 0, 16),
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		Size = UDim2.new(0, 46, 0, 46),
+		ZIndex = 4,
+	}, { UI.border(2.8, Color3.new(0, 0, 0)) })
+	local face = UI.new("Frame", {
+		Name = "Face",
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 1, -4),
+		ZIndex = 5,
+		Parent = button,
 	})
-	UI.text("X", { size = UDim2.new(0.7, 0, 0.7, 0), position = UDim2.new(0.15, 0, 0.15, 0), stroke = 3, z = 3, parent = button })
+	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Color3.fromRGB(255, 125, 175), Color3.fromRGB(255, 20, 40)), Parent = face })
+	local inner = UI.new("Frame", {
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		Size = UDim2.new(1, -3, 1, -3),
+		ZIndex = 6,
+		Parent = face,
+	})
+	UI.new("UIStroke", { Thickness = 1.2, Color = Color3.fromRGB(255, 210, 235), ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = inner })
+	UI.new("Frame", {
+		BackgroundColor3 = Color3.fromRGB(70, 0, 10),
+		BorderSizePixel = 0,
+		Position = UDim2.new(0, 0, 1, -4),
+		Size = UDim2.new(1, 0, 0, 1),
+		ZIndex = 6,
+		Parent = button,
+	})
+	UI.text("X", { size = UDim2.new(0.72, 0, 0.72, 0), position = UDim2.new(0.14, 0, 0.12, 0), stroke = 3, z = 7, parent = face })
+	UI.pressable(button)
+	button.Parent = parent
 	return button
 end
 
--- An emoji or image icon. icon = "rbxassetid://..." for an uploaded image, otherwise an emoji.
-function UI.icon(icon, opts)
-	if string.sub(icon, 1, 13) == "rbxassetid://" then
-		return UI.new("ImageLabel", {
-			Name = "Icon",
-			BackgroundTransparency = 1,
-			Image = icon,
-			ScaleType = Enum.ScaleType.Fit,
-			Size = opts.size,
-			Position = opts.position or UDim2.new(0, 0, 0, 0),
-			AnchorPoint = opts.anchor or Vector2.new(0, 0),
-			ZIndex = opts.z or 2,
-			Parent = opts.parent,
-		})
-	end
+local function emojiLabel(emoji, opts)
 	return UI.new("TextLabel", {
-		Name = "Icon",
+		Name = opts.name or "Icon",
 		BackgroundTransparency = 1,
-		Text = icon,
+		Text = emoji,
 		TextScaled = true,
 		FontFace = UI.Font,
 		TextColor3 = UI.Colors.White,
 		Size = opts.size,
 		Position = opts.position or UDim2.new(0, 0, 0, 0),
 		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		SizeConstraint = opts.square and Enum.SizeConstraint.RelativeYY or Enum.SizeConstraint.RelativeXY,
 		ZIndex = opts.z or 2,
 		Parent = opts.parent,
 	})
+end
+
+--[[ An icon. icon = { image = "rbxassetid://...", emoji = "..." } (GameConfig.Icons), a plain
+	"rbxassetid://..." string, or an emoji string. Images keep their shape (ScaleType Fit, as
+	Check-UI requires); if one fails to load, the emoji takes its place. ]]
+function UI.icon(icon, opts)
+	local image, emoji = nil, nil
+	if type(icon) == "table" then
+		image, emoji = icon.image, icon.emoji
+	elseif type(icon) == "string" and string.sub(icon, 1, 13) == "rbxassetid://" then
+		image = icon
+	else
+		emoji = icon
+	end
+	if not image then
+		return emojiLabel(emoji or "?", opts)
+	end
+	local label = UI.new("ImageLabel", {
+		Name = opts.name or "Icon",
+		BackgroundTransparency = 1,
+		Image = image,
+		ScaleType = Enum.ScaleType.Fit,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		SizeConstraint = opts.square and Enum.SizeConstraint.RelativeYY or Enum.SizeConstraint.RelativeXY,
+		ZIndex = opts.z or 2,
+		Parent = opts.parent,
+	})
+	if emoji then
+		task.spawn(function()
+			local ok = pcall(function()
+				ContentProvider:PreloadAsync({ label }, function(_, status)
+					if status ~= Enum.AssetFetchStatus.Success and label.Parent then
+						local fallback = emojiLabel(emoji, opts)
+						fallback.Parent = label.Parent
+						label:Destroy()
+					end
+				end)
+			end)
+			if not ok then
+				warn("[UI] could not preload icon " .. image)
+			end
+		end)
+	end
+	return label
 end
 
 -- Keeps a 1280x720 layout the same size relative to any screen.

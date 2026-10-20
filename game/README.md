@@ -13,7 +13,7 @@ The map follows `MAP_SPEC.md`. The rules follow `Core Loop.md` and `Systems and 
 | **Treadmill + Speed** (`SpeedService`) | Done. Stand on your own treadmill belt to train (AFK works). Speed sets your WalkSpeed using the MAP_SPEC §2 curve. |
 | **Shop** (`ShopService` + shop UI) | Done. Built like Steal An Egg's: sections `-- PASSES --`, `-- SPEED --` (11 treadmills, 10 Spurs), `-- MONEY --` (pen slots up to 19). Opens from the left rail or the yellow ring in Town. Gamepasses say "Coming soon!" until their ids are set in `GameConfig.Passes`. |
 | **HUD** | Done, in Steal An Egg's style: green italic cash with a money stack, a left rail (Featured, Speed, Money, Index), Speed with a shoe at the bottom left, `+2 Speed` popups, toasts, and the area name in yellow when you enter an area. |
-| **Look** | Steal An Egg's: Montserrat Black (Roblox's Gotham) with black outlines everywhere, headshot name tags over players, and a bright studded map. The checkerboard needs one image upload (see [The studded checkerboard](#the-studded-checkerboard)). |
+| **Look** | Steal An Egg's: Montserrat Black (Roblox's Gotham) with black outlines everywhere, headshot name tags over players, X-brace pen fences, an Upgrade Pen sign, and a bright studded checkerboard map. Icons, 3D buttons and the checker texture come from the Check-UI kit, already uploaded, so nothing to upload. |
 | Herds, lasso, tow, Alpha chase | Next (build order step 3). |
 | Whip, traps, taming, rustling, Sundown, Index, Breeding | Later (steps 4–6). |
 
@@ -36,7 +36,7 @@ Or do it by hand. Each step pastes a file into **View → Command Bar** and pres
 
 1. **Map:** paste `tools/BuildMap.command.lua`. Wait for `[MapBuilder] Built workspace.Map ...`.
    Skip this if the place already has `workspace.Map` and the map hasn't changed.
-2. **Scripts:** paste `tools/InstallScripts.command.lua`. Wait for `[InstallScripts] 19 scripts installed ...`.
+2. **Scripts:** paste `tools/InstallScripts.command.lua`. Wait for `[InstallScripts] 20 scripts installed ...`.
    It creates or updates every script under ReplicatedStorage, ServerScriptService, ServerStorage and
    StarterPlayerScripts. Run it again after every `git pull`.
 3. **Save** the place (Ctrl+S).
@@ -62,23 +62,30 @@ the Command Bar, because it is static geometry, not a script.
 ### The studded checkerboard
 
 Steal An Egg's map is bright Plastic with a two-tone checkerboard and a stud on every stud. The map
-builder already makes the colours and the studs. The checkerboard itself is an image, which Roblox
-only shows after you upload it once:
+builder does all of it, with **nothing to upload**:
+- the colours and **Studs** surfaces
+- a checker Texture on every ground and wall face. It uses the Check-UI kit's already-uploaded 2×2 checker
+  tile (`rbxassetid://385956923`), drawn black at 85% see-through, so every other 4×4-stud square is a
+  shade darker.
 
-1. Publish the place (**File → Publish to Roblox**) if you haven't yet.
-2. **View → Asset Manager → Bulk Import** (the button with the up arrow), and pick
-   `game/assets/checker_studs.png`. Wait for it to finish uploading.
-3. In Asset Manager, open **Images**, right-click **checker_studs** and choose **Copy ID to Clipboard**.
-4. In the Command Bar, run this (paste your id in place of 123):
-   ```lua
-   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")
-   ```
-5. Run `tools/BuildMap.command.lua` again. The Output says `Studded checker look on 109 parts (269 textures)`.
-   Save the place. The id stays in the place, so later rebuilds keep the checkerboard.
+If the studs don't show in your Studio, swap in our own tile, which has the studs drawn on:
+1. Publish the place, then **View → Asset Manager → Bulk Import** and pick `game/assets/checker_studs.png`.
+2. Right-click it in **Images**, then choose **Copy ID to Clipboard**.
+3. In the Command Bar: `workspace:SetAttribute("CheckerTexture", "rbxassetid://<your id>")`
+4. Run `tools/BuildMap.command.lua` again and save. The id stays in the place.
 
-The image is mostly see-through, so one upload works on every colour: green grass, orange walls,
-purple-grey paths and each area's colours. Its source is `tools/make_checker_texture.py`. Colours live
-in `AreasConfig.Style`.
+Colours live in `AreasConfig.Style`. The tile's source is `tools/make_checker_texture.py`.
+
+### Check-UI (icons and components)
+
+The UI uses the MIT-licensed **Check-UI** kit by TemporaryLooker22
+(https://github.com/TemporaryLooker22/Check-UI-Clean-Roblox):
+- its icons, already uploaded to Roblox, listed in `GameConfig.Icons` with an emoji fallback for any image that fails to load
+- its 3D buy and close buttons, checker overlays and rotating sunbursts, in `Controllers/UI.lua`
+- its skill, installed at `.claude/skills/check-ui-clean-roblox/` (Claude Code uses it automatically)
+
+The full icon list (1,022 icons) is in `vendor/CheckUI/CheckUIIcons.luau`. Where Check-UI and Steal
+An Egg disagree, Steal An Egg wins (see `.claude/skills/check-ui-clean-roblox/SOURCE.md`).
 
 ### Dev commands (Studio only)
 
@@ -114,7 +121,8 @@ game/
     StarterPlayer/StarterPlayerScripts/
       Main.client.lua             starts the UI
       Controllers/                HUDController, ShopController, UI (the Steal An Egg style kit)
-  assets/checker_studs.png        the checkerboard texture to upload (made by tools/make_checker_texture.py)
+  assets/checker_studs.png        optional studded checker tile (made by tools/make_checker_texture.py)
+  vendor/CheckUI/                 Check-UI's icon registry and theme, for reference (MIT)
   tools/
     BuildMap.command.lua          GENERATED: paste to build the map
     InstallScripts.command.lua    GENERATED: paste to install all scripts

@@ -155,12 +155,16 @@ AreasConfig.Plots = {
 -- Look: Steal An Egg's bright, studded checkerboard style (2026-10-20 screenshots).
 -- MapBuilder restyles the ground, paths, walls and plot floors after building:
 --   * Plastic with Studs surfaces, colours from this table (or the area theme made brighter)
---   * plus the checkerboard Texture, once game/assets/checker_studs.png is uploaded to Roblox
---     and its id is pasted into CheckerTexture (see game/README.md). Until then: studs only.
+--   * plus a checkerboard Texture on the faces you see. The default is the Check-UI kit's
+--     already-uploaded 2x2 checker tile (rbxassetid://385956923, MIT, game/vendor/CheckUI),
+--     drawn black at CheckerTransparency so it only darkens every other square.
+--   * To use our own studded tile instead (game/assets/checker_studs.png, studs drawn in), upload
+--     it and set workspace attribute CheckerTexture to its id (see game/README.md).
 ----------------------------------------------------------------------------------------------
 AreasConfig.Style = {
 	Enabled = true,
-	CheckerTexture = "",        -- e.g. "rbxassetid://1234567890"; or set workspace attribute CheckerTexture
+	CheckerTexture = "rbxassetid://385956923",
+	CheckerTransparency = 0.85, -- 0 for a see-through image like checker_studs.png
 	TileStuds = 4,              -- one checker square = 4 x 4 studs (the image holds 2 x 2 squares)
 	Saturation = 1.35,          -- area theme colours are made this much more saturated ...
 	Brightness = 1.12,          -- ... and this much brighter
@@ -1105,26 +1109,38 @@ GameConfig.KgExponent = 0.617
 ----------------------------------------------------------------------------------------------
 GameConfig.Passes = {
 	{ id = "TwoXTaming", name = "x2 Taming", description = "Beasts Tame <green>x2</green> faster!", robux = 467,
-		gamePassId = 0, icon = "\u{23F1}\u{FE0F}", card = "Rainbow" },
+		gamePassId = 0, icon = "TwoXTaming", card = "Rainbow" },
 	{ id = "TwoXMoney", name = "x2 Money", description = "Get <green>x2</green> Money!", robux = 399,
-		gamePassId = 0, icon = "\u{1F4B0}", card = "Gold" },
+		gamePassId = 0, icon = "TwoXMoney", card = "Gold" },
 	{ id = "VipRanch", name = "VIP Ranch", description = "<green>+2</green> pen slots and a gold gate!", robux = 299,
-		gamePassId = 0, icon = "\u{1F451}", card = "Purple" },
+		gamePassId = 0, icon = "Vip", card = "Purple" },
 	{ id = "FastHorse", name = "Fast Horse", description = "Run <green>+25%</green> faster!", robux = 199,
-		gamePassId = 0, icon = "\u{1F40E}", card = "Blue" },
+		gamePassId = 0, icon = "FastHorse", card = "Blue" },
 }
 
--- HUD and shop icons. Emoji work with no uploads; replace any of them with an uploaded image
--- ("rbxassetid://123") to get Steal An Egg-style drawn icons.
+-- Icons: images already uploaded to Roblox by the Check-UI kit (MIT, game/vendor/CheckUI; the
+-- names in comments are their CheckUIIcons paths), with an emoji to show if an image fails to load.
+-- To change one, find another id in game/vendor/CheckUI/CheckUIIcons.luau.
 GameConfig.Icons = {
-	Featured = "\u{1F3F7}\u{FE0F}",
-	Speed = "\u{1F45F}",
-	Money = "\u{1F4B5}",
-	Index = "\u{1F4D6}",
-	Gift = "\u{1F381}",
-	Treadmill = "\u{1F3C3}",
-	Spurs = "\u{2B50}",
-	Pen = "\u{1F3E0}",
+	Featured = { image = "rbxassetid://112112253357068", emoji = "\u{1F3F7}\u{FE0F}" }, -- Main/Shopping_Bag/Red_Shopping_Bag_1st_Outline
+	Speed = { image = "rbxassetid://98292714980053", emoji = "\u{1F45F}" },        -- Item/Shoe/Blue_Shoe_1st_Outline
+	Money = { image = "rbxassetid://88694661500877", emoji = "\u{1F4B5}" },        -- Currency/Cash/Green_Cash_1st_Outline
+	Index = { image = "rbxassetid://116366045684496", emoji = "\u{1F4D6}" },       -- Item/Book/Blue_Book_1st_Outline
+	Gift = { image = "rbxassetid://88859793149024", emoji = "\u{1F381}" },         -- Item/Gift/Gift_White
+	Treadmill = { image = "rbxassetid://135086426027210", emoji = "\u{1F3C3}" },   -- Item/Shoe/Red_Shoe_1st_Outline
+	Spurs = { image = "rbxassetid://105103627769338", emoji = "\u{2B50}" },        -- Main/Star/Golden_Star_1st_Outline
+	Pen = { image = "rbxassetid://113557408634141", emoji = "\u{1F3E0}" },         -- Main/House/Green_House_1st_Outline
+	Robux = { image = "rbxassetid://132185731364109", emoji = "R$" },              -- Currency/Robux/Robux_White
+	TwoXTaming = { image = "rbxassetid://138525712797372", emoji = "\u{23F1}\u{FE0F}" }, -- Item/Clock/Golden_Clock_1st_Outline
+	TwoXMoney = { image = "rbxassetid://89267825858001", emoji = "\u{1F4B0}" },    -- Currency/Cash/Golden_Cash_1st_Outline
+	Vip = { image = "rbxassetid://87880162965828", emoji = "\u{1F451}" },          -- Exclusive/VIP/VIP_1st_Outline
+	FastHorse = { image = "rbxassetid://117522200604233", emoji = "\u{26A1}" },    -- Main/Lighting/Blue_Lighting_1st_Outline
+}
+
+-- Check-UI's shared UI textures (also uploaded already)
+GameConfig.UIAssets = {
+	Checker = "rbxassetid://385956923",   -- 2 x 2 checker squares per tile (damier overlays)
+	Sunburst = "rbxassetid://130563114903838",
 }
 
 ----------------------------------------------------------------------------------------------
@@ -4616,6 +4632,7 @@ local function studify(part, rgb, faces, style, allSides)
 			texture.StudsPerTileU = tile
 			texture.StudsPerTileV = tile
 			texture.Color3 = Color3.new(0, 0, 0)
+			texture.Transparency = style.CheckerTransparency or 0
 			texture.Parent = part
 			added = added + 1
 		end
@@ -4637,15 +4654,18 @@ function MapBuilder.applyStyle(map, config)
 	if not style or style.Enabled == false then
 		return 0, 0
 	end
-	-- The texture id can also come from the place itself, so nobody has to edit this repo:
+	-- A texture id set on the place wins, so nobody has to edit this repo to swap the tile:
 	--   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")   then rebuild the map
-	local fromPlace = game:GetService("Workspace"):GetAttribute("CheckerTexture")
-	if style.CheckerTexture == "" and type(fromPlace) == "string" and fromPlace ~= "" then
+	-- (CheckerTransparency on the place, default 0, goes with it.)
+	local ws = game:GetService("Workspace")
+	local fromPlace = ws:GetAttribute("CheckerTexture")
+	if type(fromPlace) == "string" and fromPlace ~= "" then
 		local copy = {}
 		for k, v in pairs(style) do
 			copy[k] = v
 		end
 		copy.CheckerTexture = fromPlace
+		copy.CheckerTransparency = tonumber(ws:GetAttribute("CheckerTransparency")) or 0
 		style = copy
 	end
 	local parts, textures = 0, 0
@@ -4771,8 +4791,8 @@ function MapBuilder.build(config, options)
 		if ctx.textures > 0 then
 			print(string.format("[MapBuilder] Studded checker look on %d parts (%d textures).", ctx.styledParts, ctx.textures))
 		else
-			print(string.format("[MapBuilder] Studs on %d parts. For the checkerboard, upload game/assets/checker_studs.png "
-				.. "and set AreasConfig.Style.CheckerTexture (see game/README.md).", ctx.styledParts))
+			print(string.format("[MapBuilder] Studs on %d parts (no checker texture: AreasConfig.Style.CheckerTexture is empty).",
+				ctx.styledParts))
 		end
 	end
 	if #removed > 0 then
@@ -5272,7 +5292,9 @@ local function card(parent, order, spec)
 	else
 		gradient.Color = ColorSequence.new(spec.colors[1], spec.colors[2])
 	end
+	UI.damier(frame, Color3.new(1, 1, 1), 22, { 0.88, 0.7 }, frame.ZIndex)
 	UI.shine(frame, 0.82)
+	UI.sunburst(frame, UDim2.new(0, 150, 0, 150), UDim2.new(0, 62, 0, 66), 0.5, frame.ZIndex)
 
 	UI.icon(spec.icon, { size = UDim2.new(0, 104, 0, 104), position = UDim2.new(0, 10, 0, 14), z = 3, parent = frame })
 	UI.text(spec.title, {
@@ -5296,17 +5318,15 @@ local function card(parent, order, spec)
 
 	local priceX = 8
 	if spec.gift then
-		local gift = UI.button({
+		local gift = UI.bevelButton({
 			name = "Gift",
-			color = UI.Colors.GiftPurple,
-			border = UI.Colors.GiftBorder,
+			state = "gift",
 			size = UDim2.new(0, 64, 0, 44),
 			position = UDim2.new(0, 8, 1, -52),
-			dark = true,
 			z = 3,
 			parent = frame,
 		})
-		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.1, 0), z = 4, parent = gift })
+		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.08, 0), z = 5, parent = gift })
 		gift.Activated:Connect(function()
 			toast("Gifting is coming soon!", "info")
 		end)
@@ -5317,22 +5337,14 @@ local function card(parent, order, spec)
 		position = UDim2.new(0, priceX, 1, -52),
 		parent = frame,
 	})
-	price.ZIndex = 3
 	return frame, price, description
 end
 
--- Sets a price button's text and colour (green = buy, blue = equip, grey = owned/locked).
+-- Sets a price button's text and Check-UI state: lime "buy", cyan "equip", silver "owned"
+-- (owned, equipped or locked) and red "poor" (not enough cash).
 local function setButton(button, text, kind)
 	button.Label.Text = text
-	local fills = {
-		buy = { UI.Colors.PriceGreen, UI.Colors.PriceBorder },
-		equip = { UI.Colors.SpeedBlue, Color3.fromRGB(10, 70, 110) },
-		owned = { UI.Colors.Grey, Color3.fromRGB(50, 50, 54) },
-		poor = { Color3.fromRGB(230, 70, 60), Color3.fromRGB(110, 10, 10) },
-	}
-	local fill = fills[kind] or fills.buy
-	button.BackgroundColor3 = fill[1]
-	button:FindFirstChildOfClass("UIStroke").Color = fill[2]
+	UI.setButtonState(button, kind)
 end
 
 ----------------------------------------------------------------------------------------------
@@ -5342,7 +5354,7 @@ local function buildPasses(order)
 	local g = grid(order)
 	for i, pass in ipairs(GameConfig.Passes) do
 		local colors = pass.card == "Rainbow" and "Rainbow" or CARD_COLORS[pass.card] or CARD_COLORS.Gold
-		local _, price = card(g, i, { title = pass.name, icon = pass.icon, description = pass.description,
+		local _, price = card(g, i, { title = pass.name, icon = GameConfig.Icons[pass.icon], description = pass.description,
 			colors = colors, gift = true, robux = true })
 		price.Label.Text = NumberFormat.commas(pass.robux)
 		price.Activated:Connect(function()
@@ -5474,7 +5486,13 @@ local function build()
 		Parent = window,
 	}, { UI.corner(4), UI.border(3, UI.Colors.HeaderBorder) })
 	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(UI.Colors.HeaderTop, UI.Colors.HeaderBottom), Parent = header })
+	UI.damier(header, Color3.fromRGB(53, 128, 0), 26, { 0.9, 0.55 }, header.ZIndex)
 	UI.shine(header, 0.75)
+	-- Check-UI's 2-tier divider under the header: a dark green line, then a black line
+	UI.new("Frame", { BackgroundColor3 = Color3.fromRGB(37, 96, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, -3), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
+	UI.new("Frame", { BackgroundColor3 = Color3.new(0, 0, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, 0), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
 	UI.text("Shop", {
 		name = "Title",
 		align = "Left",
@@ -5499,6 +5517,7 @@ local function build()
 		Size = UDim2.new(1, 0, 1, -76),
 		Parent = window,
 	}, { UI.corner(4), UI.border(3, UI.Colors.BodyBorder) })
+	UI.damier(body, Color3.new(0, 0, 0), 26, { 0.94, 0.8 }, body.ZIndex)
 
 	list = UI.new("ScrollingFrame", {
 		Name = "List",
@@ -5630,9 +5649,18 @@ install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "UI" }, "Modul
 
 	Sizes are in pixels for a 1280 x 720 screen. Each ScreenGui gets a UIScale (UI.autoScale),
 	so phones and big monitors see the same layout.
+
+	Components from the Check-UI kit (MIT, .claude/skills/check-ui-clean-roblox, game/vendor/CheckUI):
+	the 3D beveled buy and close buttons, damier (checkerboard) overlays, rotating sunbursts and
+	its uploaded icons (GameConfig.Icons, each with an emoji fallback if the image fails to load).
 ]]
 
 local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local GameConfig = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("GameConfig"))
 
 local UI = {}
 
@@ -5647,13 +5675,6 @@ UI.Colors = {
 	CashGreen = Color3.fromRGB(24, 255, 24),      -- the "$43,931" counter
 	HighlightGreen = Color3.fromRGB(40, 230, 40), -- "x2" inside descriptions
 	SpeedBlue = Color3.fromRGB(70, 215, 255),
-	PriceGreen = Color3.fromRGB(110, 222, 34),    -- price buttons
-	PriceGreenDark = Color3.fromRGB(60, 160, 14),
-	PriceBorder = Color3.fromRGB(30, 70, 12),
-	GiftPurple = Color3.fromRGB(176, 60, 230),
-	GiftBorder = Color3.fromRGB(70, 20, 100),
-	CloseRed = Color3.fromRGB(226, 24, 24),
-	CloseBorder = Color3.fromRGB(110, 0, 0),
 	HeaderTop = Color3.fromRGB(140, 236, 70),
 	HeaderBottom = Color3.fromRGB(86, 200, 30),
 	HeaderBorder = Color3.fromRGB(40, 110, 20),
@@ -5798,38 +5819,6 @@ function UI.highlight(text)
 	return (string.gsub(text, "<green>(.-)</green>", '<font color="' .. hex .. '">%1</font>'))
 end
 
--- Square/rect button with a coloured fill, darker bottom half and a dark border.
-function UI.button(opts)
-	local button = UI.new("TextButton", {
-		Name = opts.name or "Button",
-		Text = "",
-		AutoButtonColor = false,
-		BackgroundColor3 = opts.color or UI.Colors.PriceGreen,
-		BorderSizePixel = 0,
-		Size = opts.size,
-		Position = opts.position or UDim2.new(0, 0, 0, 0),
-		AnchorPoint = opts.anchor or Vector2.new(0, 0),
-		ZIndex = opts.z or 2,
-	}, { UI.corner(opts.radius or 5), UI.border(opts.borderThickness or 3, opts.border or UI.Colors.PriceBorder) })
-	if opts.dark then
-		UI.new("UIGradient", {
-			Rotation = 90,
-			Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-				ColorSequenceKeypoint.new(0.55, Color3.fromRGB(255, 255, 255)),
-				ColorSequenceKeypoint.new(0.56, Color3.fromRGB(215, 215, 215)),
-				ColorSequenceKeypoint.new(1, Color3.fromRGB(215, 215, 215)),
-			}),
-			Parent = button,
-		})
-	end
-	UI.pressable(button)
-	if opts.parent then
-		button.Parent = opts.parent
-	end
-	return button
-end
-
 -- Grow a little on hover, squash on press (UI Patterns: 1.0 -> 1.08 -> 0.95).
 function UI.pressable(button)
 	local scale = button:FindFirstChildOfClass("UIScale") or UI.new("UIScale", { Parent = button })
@@ -5852,89 +5841,270 @@ function UI.pressable(button)
 	end)
 end
 
--- Green price button: optional Robux icon + price text.
+-- Check-UI button states: { top, bottom, bevel, highlight }
+UI.ButtonStates = {
+	buy = { Color3.fromRGB(180, 255, 25), Color3.fromRGB(105, 225, 0), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130) },
+	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255) },
+	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200) },
+	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255) },
+	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255) },
+}
+
+-- Checkerboard overlay (Check-UI "damier"): the uploaded 2x2 checker tile, tinted, fading in
+-- toward the bottom. tile = pixels per tile, fade = { topTransparency, bottomTransparency }.
+function UI.damier(parent, color, tile, fade, z)
+	local layer = UI.new("ImageLabel", {
+		Name = "Damier",
+		BackgroundTransparency = 1,
+		Image = GameConfig.UIAssets.Checker,
+		ImageColor3 = color or Color3.new(0, 0, 0),
+		ScaleType = Enum.ScaleType.Tile,
+		TileSize = UDim2.new(0, tile or 18, 0, tile or 18),
+		Size = UDim2.new(1, 0, 1, 0),
+		ZIndex = z or parent.ZIndex,
+		Parent = parent,
+	})
+	fade = fade or { 0.91, 0.62 }
+	UI.new("UIGradient", {
+		Rotation = 90,
+		Transparency = NumberSequence.new(fade[1], fade[2]),
+		Parent = layer,
+	})
+	return layer
+end
+
+-- Rotating sunburst behind an icon (Check-UI: 20 degrees per second, only while visible)
+local sunbursts = {}
+function UI.sunburst(parent, size, position, transparency, z)
+	local burst = UI.new("ImageLabel", {
+		Name = "Sunburst",
+		BackgroundTransparency = 1,
+		Image = GameConfig.UIAssets.Sunburst,
+		ImageTransparency = transparency or 0.45,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = position,
+		Size = size,
+		SizeConstraint = Enum.SizeConstraint.RelativeYY,
+		ZIndex = z or parent.ZIndex,
+		Parent = parent,
+	})
+	table.insert(sunbursts, burst)
+	return burst
+end
+RunService.RenderStepped:Connect(function(dt)
+	for i = #sunbursts, 1, -1 do
+		local burst = sunbursts[i]
+		if not burst.Parent then
+			table.remove(sunbursts, i)
+		elseif burst.Visible then
+			burst.Rotation = (burst.Rotation + 20 * dt) % 360
+		end
+	end
+end)
+
+-- Check-UI 3D button: gradient face, 3px dark bevel along the bottom, pastel inner highlight,
+-- checker overlay and a 3px near-black border. state = a key of UI.ButtonStates.
+function UI.bevelButton(opts)
+	local button = UI.new("TextButton", {
+		Name = opts.name or "Button",
+		Text = "",
+		AutoButtonColor = false,
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		ClipsDescendants = true,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		ZIndex = opts.z or 3,
+	}, { UI.corner(4), UI.border(3, Color3.fromRGB(12, 20, 26)) })
+	UI.new("UIGradient", { Name = "Face", Rotation = 90, Parent = button })
+	UI.new("Frame", {
+		Name = "Bevel",
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, 0),
+		Size = UDim2.new(1, 0, 0, 3),
+		ZIndex = button.ZIndex,
+		Parent = button,
+	})
+	UI.damier(button, Color3.new(0, 0, 0), 18, { 0.92, 0.7 }, button.ZIndex)
+	local inner = UI.new("Frame", {
+		Name = "Inner",
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.5, -1),
+		Size = UDim2.new(1, -4, 1, -6),
+		ZIndex = button.ZIndex,
+		Parent = button,
+	}, { UI.corner(3) })
+	UI.new("UIStroke", { Name = "Highlight", Thickness = 1.2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = inner })
+	UI.setButtonState(button, opts.state or "buy")
+	UI.pressable(button)
+	if opts.parent then
+		button.Parent = opts.parent
+	end
+	return button
+end
+
+function UI.setButtonState(button, state)
+	local colors = UI.ButtonStates[state] or UI.ButtonStates.buy
+	local face = button:FindFirstChild("Face")
+	if face then
+		face.Color = ColorSequence.new(colors[1], colors[2])
+	end
+	local bevel = button:FindFirstChild("Bevel")
+	if bevel then
+		bevel.BackgroundColor3 = colors[3]
+	end
+	local inner = button:FindFirstChild("Inner")
+	local highlight = inner and inner:FindFirstChild("Highlight")
+	if highlight then
+		highlight.Color = colors[4]
+	end
+end
+
+-- Lime buy button with an optional Robux icon and the price ("467").
 function UI.priceButton(text, robux, opts)
 	opts = opts or {}
-	local button = UI.button({
+	local button = UI.bevelButton({
 		name = "Price",
-		color = opts.color or UI.Colors.PriceGreen,
-		border = opts.border or UI.Colors.PriceBorder,
+		state = opts.state or "buy",
 		size = opts.size,
 		position = opts.position,
 		anchor = opts.anchor,
-		dark = true,
 		parent = opts.parent,
 	})
 	local x = 0.06
 	if robux then
-		UI.new("ImageLabel", {
-			Name = "Robux",
-			BackgroundTransparency = 1,
-			Image = "rbxasset://textures/ui/common/robux.png",
-			ImageColor3 = UI.Colors.White,
-			AnchorPoint = Vector2.new(0, 0.5),
-			Position = UDim2.new(0.12, 0, 0.5, 0),
-			Size = UDim2.new(0.62, 0, 0.62, 0),
-			SizeConstraint = Enum.SizeConstraint.RelativeYY,
-			ZIndex = 3,
-			Parent = button,
+		UI.icon(GameConfig.Icons.Robux, {
+			name = "Robux",
+			anchor = Vector2.new(0, 0.5),
+			position = UDim2.new(0.1, 0, 0.5, -1),
+			size = UDim2.new(0.62, 0, 0.62, 0),
+			square = true,
+			z = button.ZIndex + 1,
+			parent = button,
 		})
 		x = 0.3
 	end
 	UI.text(text, {
 		name = "Label",
-		size = UDim2.new(1 - x - 0.06, 0, 0.7, 0),
-		position = UDim2.new(x, 0, 0.15, 0),
+		size = UDim2.new(1 - x - 0.06, 0, 0.68, 0),
+		position = UDim2.new(x, 0, 0.13, 0),
 		stroke = 2.5,
-		z = 3,
+		z = button.ZIndex + 1,
 		parent = button,
 	})
 	return button
 end
 
+-- Check-UI's 3D beveled square close button: burgundy base, crimson-pink face shifted up 4px,
+-- pastel inner line, white X.
 function UI.closeButton(parent)
-	local button = UI.button({
-		name = "Close",
-		color = UI.Colors.CloseRed,
-		border = UI.Colors.CloseBorder,
-		size = UDim2.new(0, 46, 0, 46),
-		anchor = Vector2.new(1, 0.5),
-		position = UDim2.new(1, -8, 0.5, 0),
-		radius = 3,
-		parent = parent,
+	local button = UI.new("TextButton", {
+		Name = "Close",
+		Text = "",
+		AutoButtonColor = false,
+		BackgroundColor3 = Color3.fromRGB(115, 0, 16),
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		Size = UDim2.new(0, 46, 0, 46),
+		ZIndex = 4,
+	}, { UI.border(2.8, Color3.new(0, 0, 0)) })
+	local face = UI.new("Frame", {
+		Name = "Face",
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 1, -4),
+		ZIndex = 5,
+		Parent = button,
 	})
-	UI.text("X", { size = UDim2.new(0.7, 0, 0.7, 0), position = UDim2.new(0.15, 0, 0.15, 0), stroke = 3, z = 3, parent = button })
+	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Color3.fromRGB(255, 125, 175), Color3.fromRGB(255, 20, 40)), Parent = face })
+	local inner = UI.new("Frame", {
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		Size = UDim2.new(1, -3, 1, -3),
+		ZIndex = 6,
+		Parent = face,
+	})
+	UI.new("UIStroke", { Thickness = 1.2, Color = Color3.fromRGB(255, 210, 235), ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = inner })
+	UI.new("Frame", {
+		BackgroundColor3 = Color3.fromRGB(70, 0, 10),
+		BorderSizePixel = 0,
+		Position = UDim2.new(0, 0, 1, -4),
+		Size = UDim2.new(1, 0, 0, 1),
+		ZIndex = 6,
+		Parent = button,
+	})
+	UI.text("X", { size = UDim2.new(0.72, 0, 0.72, 0), position = UDim2.new(0.14, 0, 0.12, 0), stroke = 3, z = 7, parent = face })
+	UI.pressable(button)
+	button.Parent = parent
 	return button
 end
 
--- An emoji or image icon. icon = "rbxassetid://..." for an uploaded image, otherwise an emoji.
-function UI.icon(icon, opts)
-	if string.sub(icon, 1, 13) == "rbxassetid://" then
-		return UI.new("ImageLabel", {
-			Name = "Icon",
-			BackgroundTransparency = 1,
-			Image = icon,
-			ScaleType = Enum.ScaleType.Fit,
-			Size = opts.size,
-			Position = opts.position or UDim2.new(0, 0, 0, 0),
-			AnchorPoint = opts.anchor or Vector2.new(0, 0),
-			ZIndex = opts.z or 2,
-			Parent = opts.parent,
-		})
-	end
+local function emojiLabel(emoji, opts)
 	return UI.new("TextLabel", {
-		Name = "Icon",
+		Name = opts.name or "Icon",
 		BackgroundTransparency = 1,
-		Text = icon,
+		Text = emoji,
 		TextScaled = true,
 		FontFace = UI.Font,
 		TextColor3 = UI.Colors.White,
 		Size = opts.size,
 		Position = opts.position or UDim2.new(0, 0, 0, 0),
 		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		SizeConstraint = opts.square and Enum.SizeConstraint.RelativeYY or Enum.SizeConstraint.RelativeXY,
 		ZIndex = opts.z or 2,
 		Parent = opts.parent,
 	})
+end
+
+--[[ An icon. icon = { image = "rbxassetid://...", emoji = "..." } (GameConfig.Icons), a plain
+	"rbxassetid://..." string, or an emoji string. Images keep their shape (ScaleType Fit, as
+	Check-UI requires); if one fails to load, the emoji takes its place. ]]
+function UI.icon(icon, opts)
+	local image, emoji = nil, nil
+	if type(icon) == "table" then
+		image, emoji = icon.image, icon.emoji
+	elseif type(icon) == "string" and string.sub(icon, 1, 13) == "rbxassetid://" then
+		image = icon
+	else
+		emoji = icon
+	end
+	if not image then
+		return emojiLabel(emoji or "?", opts)
+	end
+	local label = UI.new("ImageLabel", {
+		Name = opts.name or "Icon",
+		BackgroundTransparency = 1,
+		Image = image,
+		ScaleType = Enum.ScaleType.Fit,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		SizeConstraint = opts.square and Enum.SizeConstraint.RelativeYY or Enum.SizeConstraint.RelativeXY,
+		ZIndex = opts.z or 2,
+		Parent = opts.parent,
+	})
+	if emoji then
+		task.spawn(function()
+			local ok = pcall(function()
+				ContentProvider:PreloadAsync({ label }, function(_, status)
+					if status ~= Enum.AssetFetchStatus.Success and label.Parent then
+						local fallback = emojiLabel(emoji, opts)
+						fallback.Parent = label.Parent
+						label:Destroy()
+					end
+				end)
+			end)
+			if not ok then
+				warn("[UI] could not preload icon " .. image)
+			end
+		end)
+	end
+	return label
 end
 
 -- Keeps a 1280x720 layout the same size relative to any screen.

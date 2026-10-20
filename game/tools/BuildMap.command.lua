@@ -124,12 +124,16 @@ local AreasConfig = (function()
 	-- Look: Steal An Egg's bright, studded checkerboard style (2026-10-20 screenshots).
 	-- MapBuilder restyles the ground, paths, walls and plot floors after building:
 	--   * Plastic with Studs surfaces, colours from this table (or the area theme made brighter)
-	--   * plus the checkerboard Texture, once game/assets/checker_studs.png is uploaded to Roblox
-	--     and its id is pasted into CheckerTexture (see game/README.md). Until then: studs only.
+	--   * plus a checkerboard Texture on the faces you see. The default is the Check-UI kit's
+	--     already-uploaded 2x2 checker tile (rbxassetid://385956923, MIT, game/vendor/CheckUI),
+	--     drawn black at CheckerTransparency so it only darkens every other square.
+	--   * To use our own studded tile instead (game/assets/checker_studs.png, studs drawn in), upload
+	--     it and set workspace attribute CheckerTexture to its id (see game/README.md).
 	----------------------------------------------------------------------------------------------
 	AreasConfig.Style = {
 		Enabled = true,
-		CheckerTexture = "",        -- e.g. "rbxassetid://1234567890"; or set workspace attribute CheckerTexture
+		CheckerTexture = "rbxassetid://385956923",
+		CheckerTransparency = 0.85, -- 0 for a see-through image like checker_studs.png
 		TileStuds = 4,              -- one checker square = 4 x 4 studs (the image holds 2 x 2 squares)
 		Saturation = 1.35,          -- area theme colours are made this much more saturated ...
 		Brightness = 1.12,          -- ... and this much brighter
@@ -2607,6 +2611,7 @@ local MapBuilder = (function()
 				texture.StudsPerTileU = tile
 				texture.StudsPerTileV = tile
 				texture.Color3 = Color3.new(0, 0, 0)
+				texture.Transparency = style.CheckerTransparency or 0
 				texture.Parent = part
 				added = added + 1
 			end
@@ -2628,15 +2633,18 @@ local MapBuilder = (function()
 		if not style or style.Enabled == false then
 			return 0, 0
 		end
-		-- The texture id can also come from the place itself, so nobody has to edit this repo:
+		-- A texture id set on the place wins, so nobody has to edit this repo to swap the tile:
 		--   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")   then rebuild the map
-		local fromPlace = game:GetService("Workspace"):GetAttribute("CheckerTexture")
-		if style.CheckerTexture == "" and type(fromPlace) == "string" and fromPlace ~= "" then
+		-- (CheckerTransparency on the place, default 0, goes with it.)
+		local ws = game:GetService("Workspace")
+		local fromPlace = ws:GetAttribute("CheckerTexture")
+		if type(fromPlace) == "string" and fromPlace ~= "" then
 			local copy = {}
 			for k, v in pairs(style) do
 				copy[k] = v
 			end
 			copy.CheckerTexture = fromPlace
+			copy.CheckerTransparency = tonumber(ws:GetAttribute("CheckerTransparency")) or 0
 			style = copy
 		end
 		local parts, textures = 0, 0
@@ -2762,8 +2770,8 @@ local MapBuilder = (function()
 			if ctx.textures > 0 then
 				print(string.format("[MapBuilder] Studded checker look on %d parts (%d textures).", ctx.styledParts, ctx.textures))
 			else
-				print(string.format("[MapBuilder] Studs on %d parts. For the checkerboard, upload game/assets/checker_studs.png "
-					.. "and set AreasConfig.Style.CheckerTexture (see game/README.md).", ctx.styledParts))
+				print(string.format("[MapBuilder] Studs on %d parts (no checker texture: AreasConfig.Style.CheckerTexture is empty).",
+					ctx.styledParts))
 			end
 		end
 		if #removed > 0 then

@@ -17,11 +17,18 @@ updated: 2026-10-20
 - **The map is now bright studded Plastic:** green ground, orange walls and purple-grey paths. The checkerboard texture is drawn (`game/assets/checker_studs.png`); you upload it once.
 - All signs and beast tags now use the same font, in white with black outlines.
 
+- Copied more from your Steal An Egg screenshots:
+  - X-brace wooden pen fences
+  - an **Upgrade Pen** sign with an E prompt at every ranch
+  - pet labels: rarity on top, the name in the mutation's colour, green `$11/s`
+  - `+$11` floating off every beast each second
+- Added the **Check-UI kit** you linked (MIT). It's installed as a skill, and the game uses its icons, which are already uploaded to Roblox, plus its 3D buttons, beveled X, checker overlays and sunbursts. Its checker texture now gives the map its checkerboard, so **nothing needs uploading**. See [[UI Style Guide]].
+
 **Next steps**
 1. On the PC: `git pull`, then have Claude rebuild the map and reinstall the scripts. That's the same prompt as before.
-2. Upload the checkerboard image. The steps are in `game/README.md` under "The studded checkerboard".
+2. Press Play and check the look. If an icon shows as an emoji, that image didn't load. Tell me which one.
 3. Send screenshots of anything that still looks different from Steal An Egg.
-4. Maybe next: X-braced wooden pen fences and "Upgrade Pen" signs like Steal An Egg. Then herds, lasso and the Alpha chase.
+4. Then build herds, lasso and the Alpha chase.
 
 ## 2026-10-20 (Session 2)
 **Done**

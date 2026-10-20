@@ -107,12 +107,16 @@ AreasConfig.Plots = {
 -- Look: Steal An Egg's bright, studded checkerboard style (2026-10-20 screenshots).
 -- MapBuilder restyles the ground, paths, walls and plot floors after building:
 --   * Plastic with Studs surfaces, colours from this table (or the area theme made brighter)
---   * plus the checkerboard Texture, once game/assets/checker_studs.png is uploaded to Roblox
---     and its id is pasted into CheckerTexture (see game/README.md). Until then: studs only.
+--   * plus a checkerboard Texture on the faces you see. The default is the Check-UI kit's
+--     already-uploaded 2x2 checker tile (rbxassetid://385956923, MIT, game/vendor/CheckUI),
+--     drawn black at CheckerTransparency so it only darkens every other square.
+--   * To use our own studded tile instead (game/assets/checker_studs.png, studs drawn in), upload
+--     it and set workspace attribute CheckerTexture to its id (see game/README.md).
 ----------------------------------------------------------------------------------------------
 AreasConfig.Style = {
 	Enabled = true,
-	CheckerTexture = "",        -- e.g. "rbxassetid://1234567890"; or set workspace attribute CheckerTexture
+	CheckerTexture = "rbxassetid://385956923",
+	CheckerTransparency = 0.85, -- 0 for a see-through image like checker_studs.png
 	TileStuds = 4,              -- one checker square = 4 x 4 studs (the image holds 2 x 2 squares)
 	Saturation = 1.35,          -- area theme colours are made this much more saturated ...
 	Brightness = 1.12,          -- ... and this much brighter

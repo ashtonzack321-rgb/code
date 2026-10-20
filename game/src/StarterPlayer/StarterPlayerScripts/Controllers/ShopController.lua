@@ -117,7 +117,9 @@ local function card(parent, order, spec)
 	else
 		gradient.Color = ColorSequence.new(spec.colors[1], spec.colors[2])
 	end
+	UI.damier(frame, Color3.new(1, 1, 1), 22, { 0.88, 0.7 }, frame.ZIndex)
 	UI.shine(frame, 0.82)
+	UI.sunburst(frame, UDim2.new(0, 150, 0, 150), UDim2.new(0, 62, 0, 66), 0.5, frame.ZIndex)
 
 	UI.icon(spec.icon, { size = UDim2.new(0, 104, 0, 104), position = UDim2.new(0, 10, 0, 14), z = 3, parent = frame })
 	UI.text(spec.title, {
@@ -141,17 +143,15 @@ local function card(parent, order, spec)
 
 	local priceX = 8
 	if spec.gift then
-		local gift = UI.button({
+		local gift = UI.bevelButton({
 			name = "Gift",
-			color = UI.Colors.GiftPurple,
-			border = UI.Colors.GiftBorder,
+			state = "gift",
 			size = UDim2.new(0, 64, 0, 44),
 			position = UDim2.new(0, 8, 1, -52),
-			dark = true,
 			z = 3,
 			parent = frame,
 		})
-		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.1, 0), z = 4, parent = gift })
+		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.08, 0), z = 5, parent = gift })
 		gift.Activated:Connect(function()
 			toast("Gifting is coming soon!", "info")
 		end)
@@ -162,22 +162,14 @@ local function card(parent, order, spec)
 		position = UDim2.new(0, priceX, 1, -52),
 		parent = frame,
 	})
-	price.ZIndex = 3
 	return frame, price, description
 end
 
--- Sets a price button's text and colour (green = buy, blue = equip, grey = owned/locked).
+-- Sets a price button's text and Check-UI state: lime "buy", cyan "equip", silver "owned"
+-- (owned, equipped or locked) and red "poor" (not enough cash).
 local function setButton(button, text, kind)
 	button.Label.Text = text
-	local fills = {
-		buy = { UI.Colors.PriceGreen, UI.Colors.PriceBorder },
-		equip = { UI.Colors.SpeedBlue, Color3.fromRGB(10, 70, 110) },
-		owned = { UI.Colors.Grey, Color3.fromRGB(50, 50, 54) },
-		poor = { Color3.fromRGB(230, 70, 60), Color3.fromRGB(110, 10, 10) },
-	}
-	local fill = fills[kind] or fills.buy
-	button.BackgroundColor3 = fill[1]
-	button:FindFirstChildOfClass("UIStroke").Color = fill[2]
+	UI.setButtonState(button, kind)
 end
 
 ----------------------------------------------------------------------------------------------
@@ -187,7 +179,7 @@ local function buildPasses(order)
 	local g = grid(order)
 	for i, pass in ipairs(GameConfig.Passes) do
 		local colors = pass.card == "Rainbow" and "Rainbow" or CARD_COLORS[pass.card] or CARD_COLORS.Gold
-		local _, price = card(g, i, { title = pass.name, icon = pass.icon, description = pass.description,
+		local _, price = card(g, i, { title = pass.name, icon = GameConfig.Icons[pass.icon], description = pass.description,
 			colors = colors, gift = true, robux = true })
 		price.Label.Text = NumberFormat.commas(pass.robux)
 		price.Activated:Connect(function()
@@ -319,7 +311,13 @@ local function build()
 		Parent = window,
 	}, { UI.corner(4), UI.border(3, UI.Colors.HeaderBorder) })
 	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(UI.Colors.HeaderTop, UI.Colors.HeaderBottom), Parent = header })
+	UI.damier(header, Color3.fromRGB(53, 128, 0), 26, { 0.9, 0.55 }, header.ZIndex)
 	UI.shine(header, 0.75)
+	-- Check-UI's 2-tier divider under the header: a dark green line, then a black line
+	UI.new("Frame", { BackgroundColor3 = Color3.fromRGB(37, 96, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, -3), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
+	UI.new("Frame", { BackgroundColor3 = Color3.new(0, 0, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 0, 1, 0), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
 	UI.text("Shop", {
 		name = "Title",
 		align = "Left",
@@ -344,6 +342,7 @@ local function build()
 		Size = UDim2.new(1, 0, 1, -76),
 		Parent = window,
 	}, { UI.corner(4), UI.border(3, UI.Colors.BodyBorder) })
+	UI.damier(body, Color3.new(0, 0, 0), 26, { 0.94, 0.8 }, body.ZIndex)
 
 	list = UI.new("ScrollingFrame", {
 		Name = "List",
