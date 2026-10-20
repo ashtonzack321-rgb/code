@@ -165,10 +165,11 @@ end
 ----------------------------------------------------------------------------------------------
 -- Plot helpers
 ----------------------------------------------------------------------------------------------
+-- The floating owner tag over the base (MAP_SPEC section 13): round headshot + name
 local function ownerSign(plot)
 	local gate = plot:FindFirstChild("Gate")
 	local sign = gate and gate:FindFirstChild("OwnerSign")
-	return sign and sign:FindFirstChild("SignFront")
+	return sign and sign:FindFirstChild("OwnerTag")
 end
 
 local function setOwnerSign(plot, player)
@@ -178,26 +179,14 @@ local function setOwnerSign(plot, player)
 	end
 	local line = gui:FindFirstChild("Line1")
 	local headshot = gui:FindFirstChild("Headshot")
-	if player then
-		if line then
-			line.Text = player.DisplayName .. "'s Ranch"
-			line.Position = UDim2.new(0.2, 0, line.Position.Y.Scale, 0)
-			line.Size = UDim2.new(0.78, 0, line.Size.Y.Scale, 0)
-		end
-		if headshot then
-			local ok, image = pcall(function()
-				return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
-			end)
-			headshot.Image = ok and image or ""
-			headshot.Visible = ok
-		end
-	else
-		if line then
-			line.Text = "FREE RANCH"
-			line.Position = UDim2.new(0.03, 0, line.Position.Y.Scale, 0)
-			line.Size = UDim2.new(0.94, 0, line.Size.Y.Scale, 0)
-		end
-		if headshot then
+	if line then
+		line.Text = player and player.Name or "FREE RANCH"
+	end
+	if headshot then
+		if player then
+			headshot.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=150&h=150"
+			headshot.Visible = true
+		else
 			headshot.Visible = false
 			headshot.Image = ""
 		end
@@ -230,11 +219,10 @@ local function ensurePad(plot, slot)
 	return pad
 end
 
+-- Pads stay invisible (beasts stand on the green pen circle); locked ones show LOCKED.
 local function styleSlot(pad, active)
 	pad:SetAttribute("Active", active)
-	pad.Material = active and Enum.Material.Sand or Enum.Material.SmoothPlastic
-	pad.Color = active and Color3.fromRGB(222, 196, 120) or Color3.fromRGB(120, 120, 120)
-	pad.Transparency = active and 0 or 0.5
+	pad.Transparency = 1
 	local label = pad:FindFirstChild("Label")
 	if active and label then
 		label:Destroy()
@@ -437,7 +425,7 @@ local function assignPlot(player)
 	local plot = plots[index]
 	plot:SetAttribute("OwnerUserId", player.UserId)
 	player:SetAttribute("PlotIndex", index)
-	task.spawn(setOwnerSign, plot, player)
+	setOwnerSign(plot, player)
 	return index
 end
 

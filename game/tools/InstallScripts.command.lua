@@ -1892,10 +1892,11 @@ end
 ----------------------------------------------------------------------------------------------
 -- Plot helpers
 ----------------------------------------------------------------------------------------------
+-- The floating owner tag over the base (MAP_SPEC section 13): round headshot + name
 local function ownerSign(plot)
 	local gate = plot:FindFirstChild("Gate")
 	local sign = gate and gate:FindFirstChild("OwnerSign")
-	return sign and sign:FindFirstChild("SignFront")
+	return sign and sign:FindFirstChild("OwnerTag")
 end
 
 local function setOwnerSign(plot, player)
@@ -1905,26 +1906,14 @@ local function setOwnerSign(plot, player)
 	end
 	local line = gui:FindFirstChild("Line1")
 	local headshot = gui:FindFirstChild("Headshot")
-	if player then
-		if line then
-			line.Text = player.DisplayName .. "'s Ranch"
-			line.Position = UDim2.new(0.2, 0, line.Position.Y.Scale, 0)
-			line.Size = UDim2.new(0.78, 0, line.Size.Y.Scale, 0)
-		end
-		if headshot then
-			local ok, image = pcall(function()
-				return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
-			end)
-			headshot.Image = ok and image or ""
-			headshot.Visible = ok
-		end
-	else
-		if line then
-			line.Text = "FREE RANCH"
-			line.Position = UDim2.new(0.03, 0, line.Position.Y.Scale, 0)
-			line.Size = UDim2.new(0.94, 0, line.Size.Y.Scale, 0)
-		end
-		if headshot then
+	if line then
+		line.Text = player and player.Name or "FREE RANCH"
+	end
+	if headshot then
+		if player then
+			headshot.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=150&h=150"
+			headshot.Visible = true
+		else
 			headshot.Visible = false
 			headshot.Image = ""
 		end
@@ -1957,11 +1946,10 @@ local function ensurePad(plot, slot)
 	return pad
 end
 
+-- Pads stay invisible (beasts stand on the green pen circle); locked ones show LOCKED.
 local function styleSlot(pad, active)
 	pad:SetAttribute("Active", active)
-	pad.Material = active and Enum.Material.Sand or Enum.Material.SmoothPlastic
-	pad.Color = active and Color3.fromRGB(222, 196, 120) or Color3.fromRGB(120, 120, 120)
-	pad.Transparency = active and 0 or 0.5
+	pad.Transparency = 1
 	local label = pad:FindFirstChild("Label")
 	if active and label then
 		label:Destroy()
@@ -2164,7 +2152,7 @@ local function assignPlot(player)
 	local plot = plots[index]
 	plot:SetAttribute("OwnerUserId", player.UserId)
 	player:SetAttribute("PlotIndex", index)
-	task.spawn(setOwnerSign, plot, player)
+	setOwnerSign(plot, player)
 	return index
 end
 
@@ -3472,32 +3460,50 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 	end
 	buildParts(ctx, fence, pivot, fenceParts)
 
-	-- Gate (8 parts). GateLock is off by default: T1, no collision (section 5.5).
+	-- Gate: just the gap in the fence, like Steal An Egg's bases (section 13). GateLock is off by
+	-- default: T1, no collision (section 5.5). OwnerSign is an invisible anchor in the middle of the
+	-- pen; its billboard floats the owner's round headshot and name high above the base.
 	local _, gate = buildModel(ctx, "Gate", plot, pivot, {
-		{ "VCyl", { 16, 2 }, { -9, 9, -39.5 }, "Wood", { 110, 76, 46 }, { name = "GatePostL" } },
-		{ "VCyl", { 16, 2 }, { 9, 9, -39.5 }, "Wood", { 110, 76, 46 }, { name = "GatePostR" } },
-		{ "Ball", { 1.6 }, { -9, 17.8, -39.5 }, "Neon", { 255, 200, 120 }, { name = "LanternL", light = { range = 12 } } },
-		{ "Ball", { 1.6 }, { 9, 17.8, -39.5 }, "Neon", { 255, 200, 120 }, { name = "LanternR", light = { range = 12 } } },
-		{ "Block", { 20, 4, 1 }, { 0, 14, -39.5 }, "WoodPlanks", { 190, 140, 80 }, { name = "OwnerSign", tags = { "OwnerSign" }, gui = {
-			{ face = "Front", lines = { "FREE RANCH" } },
-		} } },
-		{ "Block", { 0.6, 4, 8 }, { -8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorL", nc = true } }, -- swung open into the pen (section 13)
-		{ "Block", { 0.6, 4, 8 }, { 8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorR", nc = true } },
+		{ "Block", { 2, 2, 2 }, { 0, 2, 0 }, nil, nil, { name = "OwnerSign", invisible = true, tags = { "OwnerSign" } } },
 		{ "Block", { 16, 14, 1 }, { 0, 8, -39.5 }, "ForceField", { 255, 60, 60 }, { name = "GateLock", t = 1, nc = true,
 			tags = { "GateLock" }, attrs = { PlotIndex = p.index, Locked = false } } },
 	}, { primary = "OwnerSign" })
-	-- Headshot slot for RanchService (hidden until someone owns the ranch)
+	local ownerTag = Instance.new("BillboardGui")
+	ownerTag.Name = "OwnerTag"
+	ownerTag.Size = UDim2.new(12, 0, 8, 0)
+	ownerTag.StudsOffset = Vector3.new(0, 22, 0)
+	ownerTag.MaxDistance = 400
+	ownerTag.LightInfluence = 0
 	local headshot = Instance.new("ImageLabel")
 	headshot.Name = "Headshot"
-	headshot.BackgroundTransparency = 1
-	headshot.Size = UDim2.new(0.18, 0, 0.9, 0)
-	headshot.Position = UDim2.new(0.01, 0, 0.05, 0)
+	headshot.BackgroundColor3 = Color3.fromRGB(70, 70, 76)
+	headshot.AnchorPoint = Vector2.new(0.5, 0)
+	headshot.Position = UDim2.new(0.5, 0, 0, 0)
+	headshot.Size = UDim2.new(0.7, 0, 0.7, 0)
+	headshot.SizeConstraint = Enum.SizeConstraint.RelativeYY
 	headshot.Image = ""
 	headshot.Visible = false
-	headshot.Parent = gate.OwnerSign:FindFirstChild("SignFront")
+	local round = Instance.new("UICorner")
+	round.CornerRadius = UDim.new(0.5, 0)
+	round.Parent = headshot
+	local ring = Instance.new("UIStroke")
+	ring.Thickness = 3
+	ring.Color = Color3.new(0, 0, 0)
+	ring.Parent = headshot
+	headshot.Parent = ownerTag
+	local ownerName = makeLabel("Line1", "FREE RANCH", "GothamBlack", CREAM, DARK_STROKE,
+		UDim2.new(0, 0, 0.72, 0), UDim2.new(1, 0, 0.26, 0))
+	ownerName.Parent = ownerTag
+	ownerTag.Parent = gate.OwnerSign
 	if ctx.groupsOk then
 		gate.GateLock.CollisionGroup = "GateLock" .. p.index
 	end
+
+	-- Pen floor: Steal An Egg's glossy green circle with a white outline (section 13)
+	buildParts(ctx, plot, pivot, {
+		{ "VCyl", { 0.2, 60 }, { 0, 1.02, 0 }, "Neon", { 255, 255, 255 }, { name = "PenRing", nc = true, decor = true } },
+		{ "VCyl", { 0.3, 57 }, { 0, 1.08, 0 }, "Glass", { 70, 235, 60 }, { name = "PenFloor", nc = true, decor = true, t = 0.1 } },
+	})
 
 	-- Pen: slots 1-10 built; 1-7 active at PenLevel 1 (section 5.4)
 	local pen = newFolder("Pen", plot)
@@ -3505,8 +3511,8 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 		local xz = plotCfg.SlotLayout[s]
 		local active = s <= plotCfg.PenStartSlots
 		local pad = newPart(ctx, { "Block", { 10, 0.4, 10 }, { xz[1], 1.1, xz[2] },
-			active and "Sand" or "SmoothPlastic", active and { 222, 196, 120 } or { 120, 120, 120 },
-			{ name = string.format("Slot%02d", s), nc = true, t = (not active) and 0.5 or nil, tags = { "PenSlot" },
+			"SmoothPlastic", { 255, 255, 255 },
+			{ name = string.format("Slot%02d", s), nc = true, t = 1, tags = { "PenSlot" },
 				attrs = { PlotIndex = p.index, SlotIndex = s, Active = active, Occupied = false },
 				billboard = (not active) and { lines = { "LOCKED" }, w = 6, h = 1.6, up = 2, maxDistance = 80 } or nil } }, pivot, pen)
 		local pivotAttachment = Instance.new("Attachment")
@@ -3524,34 +3530,18 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 		} } },
 	}, { primary = "Board", tags = { "UpgradeSign" }, attrs = { PlotIndex = p.index } })
 
-	-- Barn (ridge runs front to back)
-	buildModel(ctx, "Barn", plot, pivot, {
-		{ "Block", { 32, 12, 12 }, { 0, 7, 33 }, "Wood", { 168, 44, 38 }, { name = "Body" } },
-		{ "Wedge", { 12, 7, 16 }, { -8, 16.5, 33 }, "WoodPlanks", { 96, 64, 52 }, { name = "RoofW", rotY = 90 } },
-		{ "Wedge", { 12, 7, 16 }, { 8, 16.5, 33 }, "WoodPlanks", { 96, 64, 52 }, { name = "RoofE", rotY = -90 } },
-		{ "Block", { 10, 9, 0.4 }, { 0, 5.5, 26.8 }, "Wood", { 236, 228, 214 }, { name = "Door" } },
-		{ "Block", { 4, 3, 0.4 }, { 0, 15.5, 26.8 }, "SmoothPlastic", { 40, 30, 26 }, { name = "Loft" } },
-	}, { primary = "Body" })
-
 	-- Treadmill: on the boardwalk, directly in front of the plot, right of the gate
 	buildModel(ctx, "Treadmill", plot, pivot, {
-		{ "Block", { 18, 1, 10 }, { 18, 0.5, -48 }, "Wood", { 110, 76, 46 }, { name = "Base",
-			billboard = { name = "TierDisplay", lines = { "WAGON WHEEL \u{00B7} TIER 1", "+1 / step" }, w = 12, h = 3.6, up = 6, maxDistance = 100 } } },
-		{ "Block", { 14, 0.2, 7 }, { 18, 1.1, -48 }, "Fabric", { 45, 45, 48 }, { name = "Belt" } },
-		{ "HCylX", { 1, 10 }, { 27.5, 5.5, -48 }, "Wood", { 130, 92, 56 }, { name = "Wheel" } },
-		{ "Ball", { 2 }, { 28.2, 5.5, -48 }, "Foil", { 230, 190, 90 }, { name = "Hub" } },
-		{ "Block", { 14, 0.5, 0.5 }, { 20, 4, -51.75 }, "Metal", { 90, 90, 96 }, { name = "RailL" } },
-		{ "Block", { 14, 0.5, 0.5 }, { 20, 4, -44.25 }, "Metal", { 90, 90, 96 }, { name = "RailR" } },
+		-- Steal An Egg's grey gym treadmill: deck, dark belt, two uprights, side rails and a console
+		{ "Block", { 18, 1, 10 }, { 18, 0.5, -48 }, "SmoothPlastic", { 150, 150, 160 }, { name = "Base",
+			billboard = { name = "TierDisplay", lines = { "WOODEN \u{00B7} TIER 1", "+2 / step" }, w = 12, h = 3.6, up = 9, maxDistance = 100 } } },
+		{ "Block", { 14, 0.2, 7 }, { 18, 1.1, -48 }, "SmoothPlastic", { 40, 40, 44 }, { name = "Belt" } },
+		{ "Block", { 0.8, 6, 0.8 }, { 26, 4, -52.2 }, "SmoothPlastic", { 175, 175, 185 }, { name = "UprightL" } },
+		{ "Block", { 0.8, 6, 0.8 }, { 26, 4, -43.8 }, "SmoothPlastic", { 175, 175, 185 }, { name = "UprightR" } },
+		{ "Block", { 12, 0.5, 0.5 }, { 20.5, 4.5, -52.2 }, "SmoothPlastic", { 175, 175, 185 }, { name = "RailL" } },
+		{ "Block", { 12, 0.5, 0.5 }, { 20.5, 4.5, -43.8 }, "SmoothPlastic", { 175, 175, 185 }, { name = "RailR" } },
+		{ "Block", { 1.2, 3, 9.2 }, { 26.2, 7.6, -48 }, "SmoothPlastic", { 28, 28, 32 }, { name = "Console", rotZ = 20 } },
 	}, { primary = "Base", tags = { "Treadmill" }, attrs = { PlotIndex = p.index, Tier = 1 } })
-
-	-- Decor
-	local decor = newFolder("Decor", plot)
-	buildParts(ctx, decor, pivot, {
-		{ "HCylX", { 5, 4 }, { -24, 3, 29 }, "Grass", { 220, 190, 100 }, { name = "Hay" } },
-		{ "HCylX", { 5, 4 }, { -24, 3, 33.5 }, "Grass", { 220, 190, 100 }, { name = "Hay" } },
-		{ "Block", { 8, 2, 3 }, { 24, 2, 32 }, "WoodPlanks", nil, { name = "Trough" } },
-		{ "Block", { 7.4, 0.2, 2.4 }, { 24, 3.05, 32 }, "SmoothPlastic", { 80, 150, 200 }, { name = "Water", nc = true } },
-	}, { decor = true })
 
 	plot.PrimaryPart = own.PlotBase
 	setAttributes(plot, { PlotIndex = p.index, Row = p.row, OwnerUserId = 0, PenLevel = 1, GateLocked = false })

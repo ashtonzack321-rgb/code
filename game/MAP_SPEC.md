@@ -353,7 +353,7 @@ The template is built once, facing local −Z (its gate is on the −Z side), an
 
 North plots cover X ±32 around their centre and Z 40..120; south plots are mirrored to Z −120..−40. The treadmill and PlotSpawn sit on the boardwalk, which is SafeZone. That makes training AFK safe, just as SAE's treadmill sits in front of the base **[SAE]**.
 
-### 5.3 Plot template, local coordinates (54 parts per plot; 160 since the rail fence and Upgrade Pen sign in section 13)
+### 5.3 Plot template, local coordinates (54 parts per plot; 148 since the Steal An Egg-style base in section 13)
 
 The pivot is at (0, 0, 0) at ground level. Local −Z is the front, facing the street. The footprint is X ±32, Z ±40. The plot platform is raised 1 stud, so its top is at y = 1.
 
@@ -851,16 +851,16 @@ Base Lighting: ClockTime 14.5, Brightness 2.5, Ambient 90,80,70, OutdoorAmbient 
 | Trading Post | 15 |
 | Street lamps and alley barrels | 32 |
 | Zones (4 SafeZone + TownBounds) | 5 |
-| Plots: 160 × 7 (54 here; section 13 swaps the board fence for the rail fence, −9 + 113, and adds the 2-part Upgrade Pen sign) | 1,120 |
-| **Town subtotal** | **1,288** |
+| Plots: 148 × 7 (section 13: rail fence, pen circle, gym treadmill and Upgrade Pen sign; no barn, decor, gate posts or lanterns) | 1,036 |
+| **Town subtotal** | **1,204** |
 | Lane globals (trailhead, walls, Frontier End, waypoints, Stampede markers) | 25 |
 | Area fixed parts: 29 × 10, + 1 snow cap | 291 |
 | Area props: 101 + 120 + 121 + 125 + 114 + 91 + 106 + 122 + 114 + 110 | 1,124 |
 | **Lane subtotal** | **1,440** |
-| **Total static map** | **2,728** |
-| Headroom to 3,000 | about 270 (one or two weekly areas). Raise the target to about 4,000 when more areas arrive. StreamingEnabled keeps far areas unloaded, and anchored single-material parts batch well. |
+| **Total static map** | **2,644** |
+| Headroom to 3,000 | about 350 (two weekly areas). Raise the target to about 4,000 when more areas arrive. StreamingEnabled keeps far areas unloaded, and anchored single-material parts batch well. |
 
-Runtime models (herd beasts, Alphas, pen beasts, traps) are **not** in this budget. Keep each beast model at 30 parts or fewer and each Alpha at 60 or fewer. Lights: 48 PointLights (16 town lamps, 2 gate lanterns, 14 plot lanterns, 6 mine lanterns, 4 braziers, 6 ghost lanterns), all with `Shadows = false`.
+Runtime models (herd beasts, Alphas, pen beasts, traps) are **not** in this budget. Keep each beast model at 30 parts or fewer and each Alpha at 60 or fewer. Lights: 34 PointLights (16 town lamps, 2 gate lanterns, 6 mine lanterns, 4 braziers, 6 ghost lanterns), all with `Shadows = false`.
 
 ---
 
@@ -912,3 +912,8 @@ After building, `MapBuilder.applyStyle` restyles 109 parts using `AreasConfig.St
   That's 113 parts per plot, with names Post*/Rail*/Brace*. The five invisible colliders stay as they were.
 - **Upgrade Pen sign** [UpgradeSign] (2 parts per plot, plot-local): post `Block 0.6×3.4×0.6 @(−17, 2.7, −37)` SmoothPlastic 30,30,36, and board `Block 6×3.6×0.4 @(−17, 5.8, −37)` SmoothPlastic 22,30,54 (navy). The board has a SurfaceGui Front with the lines `Upgrade Pen` / `Level 1 > Level 2` / price. RanchService fills them in and adds the ProximityPrompt (`Upgrade` / `Pen`), which only the owner can use.
 - **Gate doors** (changed for the open rail fence): `GateDoorL/R` are now `Block 0.6×4×8 @(∓8.5, 3, −35)`, swung open into the pen so they don't show through the rails. The **Upgrade Pen sign** moved outside the fence onto the boardwalk at z −41.5 (post `0.6×4.4×0.6 @(−17, 2.2, −41.5)`), so you can read it from the street.
+- **Steal An Egg-style base** (user screenshot, 2026-10-20). The plot now matches Steal An Egg's bases:
+  - **Removed:** the barn (5 parts), the hay and trough decor (4), the gate posts and lanterns (4, so 14 fewer PointLights) and the gate doors (2). The entrance is just the gap in the fence.
+  - **Pen floor:** `PenRing` `VCyl 0.2×60 @(0, 1.02, 0)` Neon white, under `PenFloor` `VCyl 0.3×57 @(0, 1.08, 0)` Glass 70,235,60 T0.1, both nc. Slot pads are invisible (T1); locked ones keep their LOCKED billboard.
+  - **OwnerSign** is now an invisible `2×2×2` anchor at the pen centre. Its BillboardGui `OwnerTag` floats a round headshot and the username 22 studs up.
+  - **Treadmill** is a grey gym treadmill: Base (150,150,160), Belt (40,40,44), UprightL/R `0.8×6×0.8` at x 26, RailL/R `12×0.5×0.5` at y 4.5, and Console `1.2×3×9.2 @(26.2, 7.6, −48)` rotZ 20 (28,28,32).

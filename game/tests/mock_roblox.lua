@@ -350,6 +350,8 @@ local ENUM_ITEMS = {
 	TextYAlignment = { "Top", "Center", "Bottom" },
 	ScaleType = { "Stretch", "Slice", "Tile", "Fit", "Crop" },
 	ZIndexBehavior = { "Global", "Sibling" },
+	SizeConstraint = { "RelativeXY", "RelativeXX", "RelativeYY" },
+	ApplyStrokeMode = { "Contextual", "Border" },
 }
 
 local EnumItemMT = {
@@ -460,7 +462,8 @@ local CLASSES = {
 		LightInfluence = "number", Brightness = "number", ClipsDescendants = "boolean", Adornee = "Instance" } },
 	GuiObject = { super = "GuiBase2d", abstract = true, props = { Size = "UDim2", Position = "UDim2", AnchorPoint = "Vector2",
 		BackgroundTransparency = "number", BackgroundColor3 = "Color3", BorderSizePixel = "number", Visible = "boolean",
-		ZIndex = "number", LayoutOrder = "number", Rotation = "number", ClipsDescendants = "boolean" },
+		ZIndex = "number", LayoutOrder = "number", Rotation = "number", ClipsDescendants = "boolean",
+		SizeConstraint = "Enum:SizeConstraint" },
 		defaults = { Visible = true, BackgroundTransparency = 0 } },
 	TextLabel = { super = "GuiObject", props = { Text = "string", TextColor3 = "Color3", TextScaled = "boolean",
 		TextSize = "number", Font = "Enum:Font", TextStrokeTransparency = "number", TextStrokeColor3 = "Color3",
@@ -470,6 +473,9 @@ local CLASSES = {
 	ImageLabel = { super = "GuiObject", props = { Image = "string", ImageColor3 = "Color3", ImageTransparency = "number",
 		ScaleType = "Enum:ScaleType" } },
 	Frame = { super = "GuiObject", props = {} },
+	UICorner = { super = "Instance", props = { CornerRadius = "UDim" } },
+	UIStroke = { super = "Instance", props = { Thickness = "number", Color = "Color3", Transparency = "number",
+		ApplyStrokeMode = "Enum:ApplyStrokeMode" } },
 	-- Lighting effects
 	Atmosphere = { super = "Instance", props = { Density = "number", Offset = "number", Color = "Color3", Decay = "Color3",
 		Glare = "number", Haze = "number" } },

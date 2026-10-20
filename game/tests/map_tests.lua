@@ -153,7 +153,7 @@ end
 -- add up to 100 (the covered wagon is listed as 7 parts and specified as 6), so 100 is expected.
 local SPEC_AREA_PROPS = { 100, 120, 121, 125, 114, 91, 106, 122, 114, 110 }
 local SPEC_TOWN_PARTS = 168 -- ground 6 + fence 55 + gate 8 + square 47 + trading post 15 + street 32 + zones 5
-local SPEC_PLOT_PARTS = 160 -- 54 in section 5.3, minus 9 board-fence parts, plus the 113-part rail fence and the 2-part Upgrade Pen sign (section 13)
+local SPEC_PLOT_PARTS = 148 -- section 13: Steal An Egg-style base (rail fence, pen circle, gym treadmill, no barn/gate arch)
 local SPEC_LANE_GLOBALS = 25
 local SPEC_AREA_FIXED = 29
 local PART_BUDGET = 3000
@@ -782,7 +782,7 @@ test("every sign uses TextScaled text with an outline (TextStrokeTransparency 0)
 	return n > 0, "no TextLabels"
 end)
 
-test("48 PointLights (spec section 10), all with Shadows off", function()
+test("34 PointLights (spec section 10, minus the 14 plot gate lanterns), all with Shadows off", function()
 	local n = 0
 	for _, d in ipairs(map:GetDescendants()) do
 		if d:IsA("PointLight") then
@@ -792,7 +792,7 @@ test("48 PointLights (spec section 10), all with Shadows off", function()
 			end
 		end
 	end
-	return n == 48, n .. " PointLights"
+	return n == 34, n .. " PointLights"
 end)
 
 test("shapes are valid: Balls uniform, Cylinders with Y == Z, sizes positive", function()
