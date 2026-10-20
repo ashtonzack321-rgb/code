@@ -4,6 +4,17 @@ updated: 2026-10-20
 ---
 # Progress Log
 
+## 2026-10-20 (Session 3)
+**Done**
+- Installed the game in Studio through the MCP: built the map (1,985 parts and 485 models, which match the spec exactly) and installed all 18 scripts.
+- Fixed a bug that would have broken every service in Roblox: a bad paste put `Economy.init` calling itself forever. The tests missed it because they run outside Roblox.
+- Playtest: the server starts cleanly, you get a ranch with your name, the Prairie Chick pays $1/s, and the treadmill gives +2 Speed per step (WalkSpeed goes up).
+
+**Next steps**
+1. Save the place in Studio (Ctrl+S). To test saving, publish it and turn on *Enable Studio Access to API Services*. Until then the Output says DataStores are unavailable.
+2. Play through the rest of the Playtest checklist (shop, Spurs).
+3. Next to build: herds, lasso, tow and the Alpha chase.
+
 ## 2026-10-20 (Session 2)
 **Done**
 - Finished the **map builder** (all 38 map tests pass) and wrote `game/README.md`, which has the install steps, a playtest checklist and dev commands.
