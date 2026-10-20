@@ -27,6 +27,7 @@ A study of three top "steal-a-X" Roblox games: why they blew up, how their UI wo
 ## Concepts (cross-game analysis)
 - [[Steal Genre Formula]]: why these games work
 - [[UI Patterns]]: HUD, shop, base, popups
+- [[Check-UI Clean Roblox]]: reusable Roblox UI design skill and implementation checklist
 - [[Technical Architecture]]: how to build one in Roblox Studio
 - [[Monetization]]: gamepasses, dev products, events
 - [[Marketing and Thumbnails]]: clickable icons, names, trend-riding

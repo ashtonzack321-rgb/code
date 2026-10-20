@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Roblox Research/Concepts/UI Patterns.md",
+                "file": "Roblox Research/Skills/Check-UI Clean Roblox.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "UI Patterns"
+              "title": "Check-UI Clean Roblox"
             }
           }
         ]
@@ -201,6 +201,14 @@
   },
   "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
+    "Roblox Research/roblox.rbxl",
+    "Roblox Research/00 Index.md",
+    "Roblox Research/Concepts/UI Patterns.md",
+    "Pasted image 20261020172519.png",
+    "Roblox Research/Skills/Check-UI Clean Roblox.md",
+    "Roblox Research/Skills",
+    "CLAUDE.md",
+    "Roblox Research/My Game/My Game UI.md",
     "Roblox Research/My Game/Systems and Scripts.md",
     "game/tools/InstallScripts.command.lua.tmp.6884.5dc2ef60a3a6",
     "game/src/ReplicatedStorage/Shared/Economy.lua.tmp.6884.92ae6320e85d",
@@ -211,18 +219,14 @@
     "game/src/StarterPlayer/StarterPlayerScripts/Controllers",
     "game/src/StarterPlayer/StarterPlayerScripts",
     "game/src/StarterPlayer",
-    "game/tools/build_install.js",
     "game/README.md",
     "Roblox Research/My Game/Steal a Beast - Overview.md",
-    "Roblox Research/My Game/My Game UI.md",
     "Roblox Research/My Game/Areas and Beasts.md",
     "Roblox Research/My Game/UI Mockup/UI Mockup.md",
-    "CLAUDE.md",
     "Roblox Research/My Game/Map Layout.md",
     "game/src/ServerScriptService/README.md",
     "game/MAP_SPEC.md",
     "Roblox Research/Progress Log.md",
-    "Roblox Research/00 Index.md",
     "Roblox Research/My Game/Core Loop.md",
     "Roblox Research/Concepts/Build Your Own Checklist.md",
     "Roblox Research/Sources.md",
@@ -230,7 +234,6 @@
     "Roblox Research/My Game/Beasts and Rarity.md",
     "Roblox Research/Attachments/steal-an-egg.webp",
     "Roblox Research/Attachments/break-and-steal-an-egg.webp",
-    "Roblox Research/Attachments/steal-a-brainrot.webp",
-    "Roblox Research/Concepts/UI Patterns.md"
+    "Roblox Research/Attachments/steal-a-brainrot.webp"
   ]
 }
