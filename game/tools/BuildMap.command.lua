@@ -1342,6 +1342,75 @@ local MapBuilder = (function()
 	-- with the pivot CFrame from AreasConfig.Plots.List.
 	----------------------------------------------------------------------------------------------
 
+	----------------------------------------------------------------------------------------------
+	-- Plot fence (section 13): Steal An Egg's wooden rail fence with an X brace in every bay
+	----------------------------------------------------------------------------------------------
+	local FENCE = {
+		bay = 8,                       -- studs between posts
+		bottomY = 2.0, topY = 5.6,     -- rail centre heights (the plot floor is at y 1)
+		rail = { 0.5, 0.4 },           -- rail height, depth
+		brace = { 0.45, 0.3 },         -- brace thickness, depth
+		post = { 1.2, 6, 1.2 },        -- post size (stands on the floor)
+		railColor = { 198, 96, 40 },   -- orange-brown rails and braces
+		postColor = { 88, 56, 40 },    -- dark posts
+	}
+
+	-- Runs in plot-local coordinates: { name, from {x, z}, to {x, z}, skipEndPosts }. The front has
+	-- the gate gap. The side runs skip their end posts, because the front and back runs already put
+	-- a post in each corner.
+	local PLOT_FENCE_RUNS = {
+		{ "FrontW", { -32, -39.5 }, { -8, -39.5 } },
+		{ "FrontE", { 8, -39.5 }, { 32, -39.5 } },
+		{ "Left", { -31.5, -40 }, { -31.5, 40 }, true },
+		{ "Right", { 31.5, -40 }, { 31.5, 40 }, true },
+		{ "Back", { -32, 39.5 }, { 32, 39.5 } },
+	}
+
+	-- atan2 that behaves the same in Luau (math.atan takes one argument) and Lua 5.3
+	local function atan2(y, x)
+		if x > 0 then
+			return math.atan(y / x)
+		elseif x < 0 then
+			return math.atan(y / x) + ((y >= 0) and math.pi or -math.pi)
+		end
+		return (y > 0 and math.pi / 2) or (y < 0 and -math.pi / 2) or 0
+	end
+
+	-- Appends the parts of one straight fence run to `list` (part specs with an explicit cf).
+	local function appendFenceRun(list, run)
+		local name, a, b = run[1], run[2], run[3]
+		local dx, dz = b[1] - a[1], b[2] - a[2]
+		local length = math.sqrt(dx * dx + dz * dz)
+		local yaw = atan2(-dz, dx) -- turns local +X onto the run direction
+		local bays = math.max(1, math.floor(length / FENCE.bay + 0.5))
+		local bayLength = length / bays
+		local function at(t, y)
+			return CFrame.new(a[1] + dx * t, y, a[2] + dz * t) * CFrame.Angles(0, yaw, 0)
+		end
+		-- rails span the whole run
+		for _, y in ipairs({ FENCE.bottomY, FENCE.topY }) do
+			table.insert(list, { "Block", { length, FENCE.rail[1], FENCE.rail[2] }, nil, "Wood", FENCE.railColor,
+				{ name = "Rail" .. name, cf = at(0.5, y), decor = true } })
+		end
+		-- posts at every bay boundary, braces in every bay
+		local h = FENCE.topY - FENCE.bottomY
+		local diagonal = math.sqrt(bayLength * bayLength + h * h)
+		local angle = atan2(h, bayLength)
+		for i = 0, bays do
+			if not (run[4] and (i == 0 or i == bays)) then
+				table.insert(list, { "Block", FENCE.post, nil, "Wood", FENCE.postColor,
+					{ name = "Post" .. name, cf = at(i / bays, 1 + FENCE.post[2] / 2) } })
+			end
+			if i < bays then
+				local mid = at((i + 0.5) / bays, (FENCE.bottomY + FENCE.topY) / 2)
+				for _, sign in ipairs({ 1, -1 }) do
+					table.insert(list, { "Block", { diagonal, FENCE.brace[1], FENCE.brace[2] }, nil, "Wood", FENCE.railColor,
+						{ name = "Brace" .. name, cf = mid * CFrame.Angles(0, 0, sign * angle), decor = true } })
+				end
+			end
+		end
+	end
+
 	local function buildPlot(ctx, cfg, plotsFolder, p)
 		local pivot = CFrame.new(p.x, 0, p.z)
 		if p.rotated then
@@ -1364,25 +1433,23 @@ local MapBuilder = (function()
 		})
 		own.PlotBase.PivotOffset = CFrame.new(0, -0.5, 0) -- model pivot sits on the ground, like the spec's pivot
 
-		-- Fence (Wood 150,100,60, height 1..6), invisible colliders (height 14) and corner posts
+		-- Fence: Steal An Egg's wooden rail fence (posts, two rails, an X brace in every bay; section 13),
+		-- plus the invisible colliders (height 14) that stop players jumping in
 		local fence = newFolder("Fence", plot)
-		local wood = { 150, 100, 60 }
-		buildParts(ctx, fence, pivot, {
-			{ "Block", { 24, 5, 1 }, { -20, 3.5, -39.5 }, "Wood", wood, { name = "FenceFrontW" } },
-			{ "Block", { 24, 5, 1 }, { 20, 3.5, -39.5 }, "Wood", wood, { name = "FenceFrontE" } },
-			{ "Block", { 1, 5, 80 }, { -31.5, 3.5, 0 }, "Wood", wood, { name = "FenceLeft" } },
-			{ "Block", { 1, 5, 80 }, { 31.5, 3.5, 0 }, "Wood", wood, { name = "FenceRight" } },
-			{ "Block", { 64, 5, 1 }, { 0, 3.5, 39.5 }, "Wood", wood, { name = "FenceBack" } },
-			{ "Block", { 24, 14, 1 }, { -20, 8, -39.5 }, nil, nil, { name = "ColliderFrontW", invisible = true, collide = true } },
-			{ "Block", { 24, 14, 1 }, { 20, 8, -39.5 }, nil, nil, { name = "ColliderFrontE", invisible = true, collide = true } },
-			{ "Block", { 1, 14, 80 }, { -31.5, 8, 0 }, nil, nil, { name = "ColliderLeft", invisible = true, collide = true } },
-			{ "Block", { 1, 14, 80 }, { 31.5, 8, 0 }, nil, nil, { name = "ColliderRight", invisible = true, collide = true } },
-			{ "Block", { 64, 14, 1 }, { 0, 8, 39.5 }, nil, nil, { name = "ColliderBack", invisible = true, collide = true } },
-			{ "VCyl", { 7, 2 }, { -31.5, 4.5, -39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-			{ "VCyl", { 7, 2 }, { 31.5, 4.5, -39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-			{ "VCyl", { 7, 2 }, { -31.5, 4.5, 39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-			{ "VCyl", { 7, 2 }, { 31.5, 4.5, 39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-		})
+		local fenceParts = {}
+		for _, run in ipairs(PLOT_FENCE_RUNS) do
+			appendFenceRun(fenceParts, run)
+		end
+		for _, c in ipairs({
+			{ { 24, 14, 1 }, { -20, 8, -39.5 }, "ColliderFrontW" },
+			{ { 24, 14, 1 }, { 20, 8, -39.5 }, "ColliderFrontE" },
+			{ { 1, 14, 80 }, { -31.5, 8, 0 }, "ColliderLeft" },
+			{ { 1, 14, 80 }, { 31.5, 8, 0 }, "ColliderRight" },
+			{ { 64, 14, 1 }, { 0, 8, 39.5 }, "ColliderBack" },
+		}) do
+			table.insert(fenceParts, { "Block", c[1], c[2], nil, nil, { name = c[3], invisible = true, collide = true } })
+		end
+		buildParts(ctx, fence, pivot, fenceParts)
 
 		-- Gate (8 parts). GateLock is off by default: T1, no collision (section 5.5).
 		local _, gate = buildModel(ctx, "Gate", plot, pivot, {
@@ -1426,6 +1493,15 @@ local MapBuilder = (function()
 			pivotAttachment.Position = Vector3.new(0, 0.2, 0) -- top centre of the pad (world y 1.3)
 			pivotAttachment.Parent = pad
 		end
+
+		-- Upgrade Pen sign (section 13): Steal An Egg's dark sign by the pen. RanchService writes the
+		-- level and price on it and adds the "Upgrade" prompt.
+		buildModel(ctx, "UpgradeSign", plot, pivot, {
+			{ "Block", { 0.6, 3.4, 0.6 }, { -17, 2.7, -37 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
+			{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -37 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
+				{ face = "Front", lines = { "Upgrade Pen", "Level 1 > Level 2", "$0" }, pps = 50 },
+			} } },
+		}, { primary = "Board", tags = { "UpgradeSign" }, attrs = { PlotIndex = p.index } })
 
 		-- Barn (ridge runs front to back)
 		buildModel(ctx, "Barn", plot, pivot, {

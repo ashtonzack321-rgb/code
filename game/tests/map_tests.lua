@@ -153,7 +153,7 @@ end
 -- add up to 100 (the covered wagon is listed as 7 parts and specified as 6), so 100 is expected.
 local SPEC_AREA_PROPS = { 100, 120, 121, 125, 114, 91, 106, 122, 114, 110 }
 local SPEC_TOWN_PARTS = 168 -- ground 6 + fence 55 + gate 8 + square 47 + trading post 15 + street 32 + zones 5
-local SPEC_PLOT_PARTS = 54
+local SPEC_PLOT_PARTS = 160 -- 54 in section 5.3, minus 9 board-fence parts, plus the 113-part rail fence and the 2-part Upgrade Pen sign (section 13)
 local SPEC_LANE_GLOBALS = 25
 local SPEC_AREA_FIXED = 29
 local PART_BUDGET = 3000
@@ -306,7 +306,7 @@ test("7 plots tagged Plot (Plot1..Plot7), 4 North + 3 South", function()
 	return north == 4 and south == 3, north .. " north / " .. south .. " south"
 end)
 
-test("each plot has 1 Treadmill and 10 PenSlots (slots 1-7 active), 54 parts", function()
+test("each plot has 1 Treadmill and 10 PenSlots (slots 1-7 active), " .. SPEC_PLOT_PARTS .. " parts", function()
 	for _, plot in ipairs(plots) do
 		local treadmills = tagged("Treadmill", plot)
 		local slots = tagged("PenSlot", plot)

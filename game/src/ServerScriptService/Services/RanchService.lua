@@ -25,6 +25,7 @@ local NumberFormat = require(Shared:WaitForChild("NumberFormat"))
 local Services = script.Parent
 local DataService = require(Services:WaitForChild("DataService"))
 local MapUtil = require(Services:WaitForChild("MapUtil"))
+local Remotes = require(Services:WaitForChild("Remotes"))
 
 local RanchService = {}
 
@@ -57,6 +58,21 @@ local RAINBOW = ColorSequence.new({
 	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(60, 170, 255)),
 	ColorSequenceKeypoint.new(1, Color3.fromRGB(190, 80, 255)),
 })
+
+-- Name colours for mutated beasts (white on top, the coat colour at the bottom)
+local MUTATION_TEXT = {
+	Silver = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(190, 200, 215)),
+	Golden = ColorSequence.new(Color3.fromRGB(255, 244, 130), Color3.fromRGB(255, 186, 10)),
+	Rainbow = RAINBOW,
+}
+
+local function gradientOn(label, sequence, rotation)
+	local gradient = Instance.new("UIGradient")
+	gradient.Color = sequence
+	gradient.Rotation = rotation
+	gradient.Parent = label
+	return gradient
+end
 
 local function tagLabel(parent, name, text, color, y, h)
 	local label = Instance.new("TextLabel")
@@ -119,21 +135,25 @@ function RanchService.makeBeastModel(beast)
 	tag.StudsOffsetWorldSpace = Vector3.new(0, size + 3, 0)
 	tag.MaxDistance = 90
 	tag.LightInfluence = 0
-	-- Steal a Brainrot / Steal An Egg overhead order: big green $/s, then the name, then the rarity
-	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0, 0.3)
-	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0.3, 0.26)
-	local rarityText = string.upper(info.rarity)
+	-- Steal An Egg's pet label (screenshot 2026-10-20): rarity on top ("Common"), then the name
+	-- ("Golden Dog", in the mutation's colour), then the green "$11/s". Our weight line goes last.
+	local rarityLabel = tagLabel(tag, "Rarity", info.rarity, Color3.new(1, 1, 1), 0, 0.26)
+	if rarity.rainbowText then
+		gradientOn(rarityLabel, RAINBOW, 0)
+	else
+		gradientOn(rarityLabel, ColorSequence.new(rgb(rarity.color):Lerp(Color3.new(1, 1, 1), 0.55), rgb(rarity.color)), 90)
+	end
+	local nameText = info.name
 	if beast.mutation ~= "None" then
-		rarityText = string.upper(beast.mutation) .. " " .. rarityText
+		nameText = beast.mutation .. " " .. info.name
 	end
-	local rarityLabel = tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.56, 0.24)
-	if rarity.rainbowText or beast.mutation == "Rainbow" then
-		rarityLabel.TextColor3 = Color3.new(1, 1, 1)
-		local gradient = Instance.new("UIGradient")
-		gradient.Color = RAINBOW
-		gradient.Parent = rarityLabel
+	local nameLabel = tagLabel(tag, "BeastName", nameText, Color3.new(1, 1, 1), 0.26, 0.26)
+	if MUTATION_TEXT[beast.mutation] then
+		gradientOn(nameLabel, MUTATION_TEXT[beast.mutation], beast.mutation == "Rainbow" and 0 or 90)
 	end
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 230, 230), 0.8, 0.18)
+	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
+	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
+	model:SetAttribute("Income", Economy.beastIncome(beast))
 	tag.Parent = body
 
 	model.PrimaryPart = body
@@ -243,6 +263,80 @@ local function updateTreadmillSign(plot, tier)
 	})
 end
 
+-- The Upgrade Pen sign by the gate (MAP_SPEC section 13): level, next level and price.
+local function updateUpgradeSign(plot, data)
+	local model = plot:FindFirstChild("UpgradeSign")
+	local board = model and model:FindFirstChild("Board")
+	local gui = board and board:FindFirstChild("SignFront")
+	if not gui then
+		return
+	end
+	local level = data and data.PenLevel or 1
+	local price = (data and Economy.penUpgradePrice(data)) or (not data and GameConfig.Pen.UpgradePrices[1]) or nil
+	local levelLine, priceLine = gui:FindFirstChild("Line2"), gui:FindFirstChild("Line3")
+	if levelLine then
+		levelLine.TextColor3 = Color3.fromRGB(90, 255, 90)
+		levelLine.Text = price and string.format("Level %d > Level %d", level, level + 1) or string.format("Level %d (MAX)", level)
+	end
+	if priceLine then
+		priceLine.Text = price and NumberFormat.cash(price) or "MAXED"
+		local back = gui:FindFirstChild("PriceBack")
+		if not back then
+			back = Instance.new("Frame")
+			back.Name = "PriceBack"
+			back.BackgroundColor3 = Color3.fromRGB(110, 222, 34)
+			back.BorderSizePixel = 0
+			back.AnchorPoint = Vector2.new(0.5, 0)
+			back.Position = UDim2.new(0.5, 0, priceLine.Position.Y.Scale, 0)
+			back.Size = UDim2.new(0.5, 0, priceLine.Size.Y.Scale, 0)
+			back.ZIndex = 0
+			local corner = Instance.new("UICorner")
+			corner.CornerRadius = UDim.new(0.2, 0)
+			corner.Parent = back
+			local border = Instance.new("UIStroke")
+			border.Thickness = 2
+			border.Color = Color3.fromRGB(30, 70, 12)
+			border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			border.Parent = back
+			back.Parent = gui
+			priceLine.ZIndex = 2
+		end
+		back.BackgroundColor3 = price and Color3.fromRGB(110, 222, 34) or Color3.fromRGB(110, 110, 116)
+	end
+end
+
+-- Adds the "Upgrade Pen" prompt; only the plot's owner can use it.
+local function addUpgradePrompt(plot, index)
+	local model = plot:FindFirstChild("UpgradeSign")
+	local board = model and model:FindFirstChild("Board")
+	if not board or board:FindFirstChild("UpgradePrompt") then
+		return
+	end
+	local prompt = Instance.new("ProximityPrompt")
+	prompt.Name = "UpgradePrompt"
+	prompt.ActionText = "Upgrade"
+	prompt.ObjectText = "Pen"
+	prompt.HoldDuration = 0
+	prompt.MaxActivationDistance = 12
+	prompt.RequiresLineOfSight = false
+	prompt.Parent = board
+	prompt.Triggered:Connect(function(player)
+		if plotOf[player] ~= index then
+			Remotes.notify(player, "That's not your ranch!", "bad")
+			return
+		end
+		local ok, reason = DataService.update(player, function(data)
+			return Economy.buyPenSlot(data)
+		end)
+		local data = DataService.get(player)
+		if ok and data then
+			Remotes.notify(player, string.format("Pen upgraded: %d slots", Economy.penSlots(data)), "good")
+		else
+			Remotes.notify(player, reason or "Can't upgrade", "bad")
+		end
+	end)
+end
+
 local function beastFolder(player)
 	local name = "Plot" .. tostring(plotOf[player])
 	local root = MapUtil.runtimeFolder("PenBeasts")
@@ -274,6 +368,7 @@ local function refreshPlot(player, data)
 			end
 		end
 		plot:SetAttribute("PenLevel", data.PenLevel)
+		updateUpgradeSign(plot, data)
 		state.penSlots = slots
 	end
 
@@ -368,6 +463,7 @@ local function releasePlot(player)
 	end
 	plot:SetAttribute("OwnerUserId", 0)
 	plot:SetAttribute("PenLevel", 1)
+	updateUpgradeSign(plot, nil)
 	updateTreadmillSign(plot, 1)
 	setOwnerSign(plot, nil)
 	owners[index] = nil
@@ -393,6 +489,8 @@ function RanchService.start()
 		local index = plot:GetAttribute("PlotIndex")
 		if index then
 			plots[index] = plot
+			updateUpgradeSign(plot, nil)
+			addUpgradePrompt(plot, index)
 		end
 	end
 

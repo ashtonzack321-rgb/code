@@ -353,7 +353,7 @@ The template is built once, facing local −Z (its gate is on the −Z side), an
 
 North plots cover X ±32 around their centre and Z 40..120; south plots are mirrored to Z −120..−40. The treadmill and PlotSpawn sit on the boardwalk, which is SafeZone. That makes training AFK safe, just as SAE's treadmill sits in front of the base **[SAE]**.
 
-### 5.3 Plot template, local coordinates (54 parts per plot)
+### 5.3 Plot template, local coordinates (54 parts per plot; 160 since the rail fence and Upgrade Pen sign in section 13)
 
 The pivot is at (0, 0, 0) at ground level. Local −Z is the front, facing the street. The footprint is X ±32, Z ±40. The plot platform is raised 1 stud, so its top is at y = 1.
 
@@ -851,14 +851,14 @@ Base Lighting: ClockTime 14.5, Brightness 2.5, Ambient 90,80,70, OutdoorAmbient 
 | Trading Post | 15 |
 | Street lamps and alley barrels | 32 |
 | Zones (4 SafeZone + TownBounds) | 5 |
-| Plots: 54 × 7 | 378 |
-| **Town subtotal** | **546** |
+| Plots: 160 × 7 (54 here; section 13 swaps the board fence for the rail fence, −9 + 113, and adds the 2-part Upgrade Pen sign) | 1,120 |
+| **Town subtotal** | **1,288** |
 | Lane globals (trailhead, walls, Frontier End, waypoints, Stampede markers) | 25 |
 | Area fixed parts: 29 × 10, + 1 snow cap | 291 |
 | Area props: 101 + 120 + 121 + 125 + 114 + 91 + 106 + 122 + 114 + 110 | 1,124 |
 | **Lane subtotal** | **1,440** |
-| **Total static map** | **1,986** |
-| Headroom to 3,000 | about 1,014. That fits the four planned weekly areas at about 170 parts each, plus event props. |
+| **Total static map** | **2,728** |
+| Headroom to 3,000 | about 270 (one or two weekly areas). Raise the target to about 4,000 when more areas arrive. StreamingEnabled keeps far areas unloaded, and anchored single-material parts batch well. |
 
 Runtime models (herd beasts, Alphas, pen beasts, traps) are **not** in this budget. Keep each beast model at 30 parts or fewer and each Alpha at 60 or fewer. Lights: 48 PointLights (16 town lamps, 2 gate lanterns, 14 plot lanterns, 6 mine lanterns, 4 braziers, 6 ghost lanterns), all with `Shadows = false`.
 
@@ -904,3 +904,10 @@ After building, `MapBuilder.applyStyle` restyles 109 parts using `AreasConfig.St
 - **Every restyled part:** Material Plastic and **Studs** surfaces (the top for ground, all six faces for walls). Colours come from `Style.Town`, `Style.AreaOverrides[i]` (area 1 = SAE's Forest: green with orange walls), or the area theme colour with saturation ×1.35 and brightness ×1.12.
 - **Checkerboard:** once `Style.CheckerTexture`, or the workspace attribute `CheckerTexture`, holds an uploaded `game/assets/checker_studs.png`, each restyled face gets a `Texture` (StudsPerTileU/V = 8, Color3 black). That's 269 textures. The image is see-through apart from the dark squares and the stud shading, so the part colour shows through.
 - Fonts on signs are GothamBlack. Text is white with a black outline (`strokeFor` gives a white outline only to very dark text).
+- **Plot fence (replaces the 5 board fences and 4 round corner posts of section 5.3):** Steal An Egg's wooden rail fence. There are five runs (FrontW, FrontE, Left, Right, Back) along the old board lines. Each run has:
+  - posts every 8 studs: `Block 1.2×6×1.2`, Wood 88,56,40, standing on the plot floor. The side runs skip their end posts, because the corners already have one.
+  - two rails across the whole run at y 2.0 and 5.6: `Block len×0.5×0.4`, Wood 198,96,40.
+  - an **X brace in every bay**: two `Block diag×0.45×0.3` pieces tilted ±atan(3.6/8) in the fence plane.
+
+  That's 113 parts per plot, with names Post*/Rail*/Brace*. The five invisible colliders stay as they were.
+- **Upgrade Pen sign** [UpgradeSign] (2 parts per plot, plot-local): post `Block 0.6×3.4×0.6 @(−17, 2.7, −37)` SmoothPlastic 30,30,36, and board `Block 6×3.6×0.4 @(−17, 5.8, −37)` SmoothPlastic 22,30,54 (navy). The board has a SurfaceGui Front with the lines `Upgrade Pen` / `Level 1 > Level 2` / price. RanchService fills them in and adds the ProximityPrompt (`Upgrade` / `Pen`), which only the owner can use.

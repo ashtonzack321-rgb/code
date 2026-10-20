@@ -1741,6 +1741,7 @@ local NumberFormat = require(Shared:WaitForChild("NumberFormat"))
 local Services = script.Parent
 local DataService = require(Services:WaitForChild("DataService"))
 local MapUtil = require(Services:WaitForChild("MapUtil"))
+local Remotes = require(Services:WaitForChild("Remotes"))
 
 local RanchService = {}
 
@@ -1773,6 +1774,21 @@ local RAINBOW = ColorSequence.new({
 	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(60, 170, 255)),
 	ColorSequenceKeypoint.new(1, Color3.fromRGB(190, 80, 255)),
 })
+
+-- Name colours for mutated beasts (white on top, the coat colour at the bottom)
+local MUTATION_TEXT = {
+	Silver = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(190, 200, 215)),
+	Golden = ColorSequence.new(Color3.fromRGB(255, 244, 130), Color3.fromRGB(255, 186, 10)),
+	Rainbow = RAINBOW,
+}
+
+local function gradientOn(label, sequence, rotation)
+	local gradient = Instance.new("UIGradient")
+	gradient.Color = sequence
+	gradient.Rotation = rotation
+	gradient.Parent = label
+	return gradient
+end
 
 local function tagLabel(parent, name, text, color, y, h)
 	local label = Instance.new("TextLabel")
@@ -1835,21 +1851,25 @@ function RanchService.makeBeastModel(beast)
 	tag.StudsOffsetWorldSpace = Vector3.new(0, size + 3, 0)
 	tag.MaxDistance = 90
 	tag.LightInfluence = 0
-	-- Steal a Brainrot / Steal An Egg overhead order: big green $/s, then the name, then the rarity
-	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0, 0.3)
-	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0.3, 0.26)
-	local rarityText = string.upper(info.rarity)
+	-- Steal An Egg's pet label (screenshot 2026-10-20): rarity on top ("Common"), then the name
+	-- ("Golden Dog", in the mutation's colour), then the green "$11/s". Our weight line goes last.
+	local rarityLabel = tagLabel(tag, "Rarity", info.rarity, Color3.new(1, 1, 1), 0, 0.26)
+	if rarity.rainbowText then
+		gradientOn(rarityLabel, RAINBOW, 0)
+	else
+		gradientOn(rarityLabel, ColorSequence.new(rgb(rarity.color):Lerp(Color3.new(1, 1, 1), 0.55), rgb(rarity.color)), 90)
+	end
+	local nameText = info.name
 	if beast.mutation ~= "None" then
-		rarityText = string.upper(beast.mutation) .. " " .. rarityText
+		nameText = beast.mutation .. " " .. info.name
 	end
-	local rarityLabel = tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.56, 0.24)
-	if rarity.rainbowText or beast.mutation == "Rainbow" then
-		rarityLabel.TextColor3 = Color3.new(1, 1, 1)
-		local gradient = Instance.new("UIGradient")
-		gradient.Color = RAINBOW
-		gradient.Parent = rarityLabel
+	local nameLabel = tagLabel(tag, "BeastName", nameText, Color3.new(1, 1, 1), 0.26, 0.26)
+	if MUTATION_TEXT[beast.mutation] then
+		gradientOn(nameLabel, MUTATION_TEXT[beast.mutation], beast.mutation == "Rainbow" and 0 or 90)
 	end
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 230, 230), 0.8, 0.18)
+	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
+	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
+	model:SetAttribute("Income", Economy.beastIncome(beast))
 	tag.Parent = body
 
 	model.PrimaryPart = body
@@ -1959,6 +1979,80 @@ local function updateTreadmillSign(plot, tier)
 	})
 end
 
+-- The Upgrade Pen sign by the gate (MAP_SPEC section 13): level, next level and price.
+local function updateUpgradeSign(plot, data)
+	local model = plot:FindFirstChild("UpgradeSign")
+	local board = model and model:FindFirstChild("Board")
+	local gui = board and board:FindFirstChild("SignFront")
+	if not gui then
+		return
+	end
+	local level = data and data.PenLevel or 1
+	local price = (data and Economy.penUpgradePrice(data)) or (not data and GameConfig.Pen.UpgradePrices[1]) or nil
+	local levelLine, priceLine = gui:FindFirstChild("Line2"), gui:FindFirstChild("Line3")
+	if levelLine then
+		levelLine.TextColor3 = Color3.fromRGB(90, 255, 90)
+		levelLine.Text = price and string.format("Level %d > Level %d", level, level + 1) or string.format("Level %d (MAX)", level)
+	end
+	if priceLine then
+		priceLine.Text = price and NumberFormat.cash(price) or "MAXED"
+		local back = gui:FindFirstChild("PriceBack")
+		if not back then
+			back = Instance.new("Frame")
+			back.Name = "PriceBack"
+			back.BackgroundColor3 = Color3.fromRGB(110, 222, 34)
+			back.BorderSizePixel = 0
+			back.AnchorPoint = Vector2.new(0.5, 0)
+			back.Position = UDim2.new(0.5, 0, priceLine.Position.Y.Scale, 0)
+			back.Size = UDim2.new(0.5, 0, priceLine.Size.Y.Scale, 0)
+			back.ZIndex = 0
+			local corner = Instance.new("UICorner")
+			corner.CornerRadius = UDim.new(0.2, 0)
+			corner.Parent = back
+			local border = Instance.new("UIStroke")
+			border.Thickness = 2
+			border.Color = Color3.fromRGB(30, 70, 12)
+			border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			border.Parent = back
+			back.Parent = gui
+			priceLine.ZIndex = 2
+		end
+		back.BackgroundColor3 = price and Color3.fromRGB(110, 222, 34) or Color3.fromRGB(110, 110, 116)
+	end
+end
+
+-- Adds the "Upgrade Pen" prompt; only the plot's owner can use it.
+local function addUpgradePrompt(plot, index)
+	local model = plot:FindFirstChild("UpgradeSign")
+	local board = model and model:FindFirstChild("Board")
+	if not board or board:FindFirstChild("UpgradePrompt") then
+		return
+	end
+	local prompt = Instance.new("ProximityPrompt")
+	prompt.Name = "UpgradePrompt"
+	prompt.ActionText = "Upgrade"
+	prompt.ObjectText = "Pen"
+	prompt.HoldDuration = 0
+	prompt.MaxActivationDistance = 12
+	prompt.RequiresLineOfSight = false
+	prompt.Parent = board
+	prompt.Triggered:Connect(function(player)
+		if plotOf[player] ~= index then
+			Remotes.notify(player, "That's not your ranch!", "bad")
+			return
+		end
+		local ok, reason = DataService.update(player, function(data)
+			return Economy.buyPenSlot(data)
+		end)
+		local data = DataService.get(player)
+		if ok and data then
+			Remotes.notify(player, string.format("Pen upgraded: %d slots", Economy.penSlots(data)), "good")
+		else
+			Remotes.notify(player, reason or "Can't upgrade", "bad")
+		end
+	end)
+end
+
 local function beastFolder(player)
 	local name = "Plot" .. tostring(plotOf[player])
 	local root = MapUtil.runtimeFolder("PenBeasts")
@@ -1990,6 +2084,7 @@ local function refreshPlot(player, data)
 			end
 		end
 		plot:SetAttribute("PenLevel", data.PenLevel)
+		updateUpgradeSign(plot, data)
 		state.penSlots = slots
 	end
 
@@ -2084,6 +2179,7 @@ local function releasePlot(player)
 	end
 	plot:SetAttribute("OwnerUserId", 0)
 	plot:SetAttribute("PenLevel", 1)
+	updateUpgradeSign(plot, nil)
 	updateTreadmillSign(plot, 1)
 	setOwnerSign(plot, nil)
 	owners[index] = nil
@@ -2109,6 +2205,8 @@ function RanchService.start()
 		local index = plot:GetAttribute("PlotIndex")
 		if index then
 			plots[index] = plot
+			updateUpgradeSign(plot, nil)
+			addUpgradePrompt(plot, index)
 		end
 	end
 
@@ -3253,6 +3351,75 @@ end
 -- with the pivot CFrame from AreasConfig.Plots.List.
 ----------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------
+-- Plot fence (section 13): Steal An Egg's wooden rail fence with an X brace in every bay
+----------------------------------------------------------------------------------------------
+local FENCE = {
+	bay = 8,                       -- studs between posts
+	bottomY = 2.0, topY = 5.6,     -- rail centre heights (the plot floor is at y 1)
+	rail = { 0.5, 0.4 },           -- rail height, depth
+	brace = { 0.45, 0.3 },         -- brace thickness, depth
+	post = { 1.2, 6, 1.2 },        -- post size (stands on the floor)
+	railColor = { 198, 96, 40 },   -- orange-brown rails and braces
+	postColor = { 88, 56, 40 },    -- dark posts
+}
+
+-- Runs in plot-local coordinates: { name, from {x, z}, to {x, z}, skipEndPosts }. The front has
+-- the gate gap. The side runs skip their end posts, because the front and back runs already put
+-- a post in each corner.
+local PLOT_FENCE_RUNS = {
+	{ "FrontW", { -32, -39.5 }, { -8, -39.5 } },
+	{ "FrontE", { 8, -39.5 }, { 32, -39.5 } },
+	{ "Left", { -31.5, -40 }, { -31.5, 40 }, true },
+	{ "Right", { 31.5, -40 }, { 31.5, 40 }, true },
+	{ "Back", { -32, 39.5 }, { 32, 39.5 } },
+}
+
+-- atan2 that behaves the same in Luau (math.atan takes one argument) and Lua 5.3
+local function atan2(y, x)
+	if x > 0 then
+		return math.atan(y / x)
+	elseif x < 0 then
+		return math.atan(y / x) + ((y >= 0) and math.pi or -math.pi)
+	end
+	return (y > 0 and math.pi / 2) or (y < 0 and -math.pi / 2) or 0
+end
+
+-- Appends the parts of one straight fence run to `list` (part specs with an explicit cf).
+local function appendFenceRun(list, run)
+	local name, a, b = run[1], run[2], run[3]
+	local dx, dz = b[1] - a[1], b[2] - a[2]
+	local length = math.sqrt(dx * dx + dz * dz)
+	local yaw = atan2(-dz, dx) -- turns local +X onto the run direction
+	local bays = math.max(1, math.floor(length / FENCE.bay + 0.5))
+	local bayLength = length / bays
+	local function at(t, y)
+		return CFrame.new(a[1] + dx * t, y, a[2] + dz * t) * CFrame.Angles(0, yaw, 0)
+	end
+	-- rails span the whole run
+	for _, y in ipairs({ FENCE.bottomY, FENCE.topY }) do
+		table.insert(list, { "Block", { length, FENCE.rail[1], FENCE.rail[2] }, nil, "Wood", FENCE.railColor,
+			{ name = "Rail" .. name, cf = at(0.5, y), decor = true } })
+	end
+	-- posts at every bay boundary, braces in every bay
+	local h = FENCE.topY - FENCE.bottomY
+	local diagonal = math.sqrt(bayLength * bayLength + h * h)
+	local angle = atan2(h, bayLength)
+	for i = 0, bays do
+		if not (run[4] and (i == 0 or i == bays)) then
+			table.insert(list, { "Block", FENCE.post, nil, "Wood", FENCE.postColor,
+				{ name = "Post" .. name, cf = at(i / bays, 1 + FENCE.post[2] / 2) } })
+		end
+		if i < bays then
+			local mid = at((i + 0.5) / bays, (FENCE.bottomY + FENCE.topY) / 2)
+			for _, sign in ipairs({ 1, -1 }) do
+				table.insert(list, { "Block", { diagonal, FENCE.brace[1], FENCE.brace[2] }, nil, "Wood", FENCE.railColor,
+					{ name = "Brace" .. name, cf = mid * CFrame.Angles(0, 0, sign * angle), decor = true } })
+			end
+		end
+	end
+end
+
 local function buildPlot(ctx, cfg, plotsFolder, p)
 	local pivot = CFrame.new(p.x, 0, p.z)
 	if p.rotated then
@@ -3275,25 +3442,23 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 	})
 	own.PlotBase.PivotOffset = CFrame.new(0, -0.5, 0) -- model pivot sits on the ground, like the spec's pivot
 
-	-- Fence (Wood 150,100,60, height 1..6), invisible colliders (height 14) and corner posts
+	-- Fence: Steal An Egg's wooden rail fence (posts, two rails, an X brace in every bay; section 13),
+	-- plus the invisible colliders (height 14) that stop players jumping in
 	local fence = newFolder("Fence", plot)
-	local wood = { 150, 100, 60 }
-	buildParts(ctx, fence, pivot, {
-		{ "Block", { 24, 5, 1 }, { -20, 3.5, -39.5 }, "Wood", wood, { name = "FenceFrontW" } },
-		{ "Block", { 24, 5, 1 }, { 20, 3.5, -39.5 }, "Wood", wood, { name = "FenceFrontE" } },
-		{ "Block", { 1, 5, 80 }, { -31.5, 3.5, 0 }, "Wood", wood, { name = "FenceLeft" } },
-		{ "Block", { 1, 5, 80 }, { 31.5, 3.5, 0 }, "Wood", wood, { name = "FenceRight" } },
-		{ "Block", { 64, 5, 1 }, { 0, 3.5, 39.5 }, "Wood", wood, { name = "FenceBack" } },
-		{ "Block", { 24, 14, 1 }, { -20, 8, -39.5 }, nil, nil, { name = "ColliderFrontW", invisible = true, collide = true } },
-		{ "Block", { 24, 14, 1 }, { 20, 8, -39.5 }, nil, nil, { name = "ColliderFrontE", invisible = true, collide = true } },
-		{ "Block", { 1, 14, 80 }, { -31.5, 8, 0 }, nil, nil, { name = "ColliderLeft", invisible = true, collide = true } },
-		{ "Block", { 1, 14, 80 }, { 31.5, 8, 0 }, nil, nil, { name = "ColliderRight", invisible = true, collide = true } },
-		{ "Block", { 64, 14, 1 }, { 0, 8, 39.5 }, nil, nil, { name = "ColliderBack", invisible = true, collide = true } },
-		{ "VCyl", { 7, 2 }, { -31.5, 4.5, -39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-		{ "VCyl", { 7, 2 }, { 31.5, 4.5, -39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-		{ "VCyl", { 7, 2 }, { -31.5, 4.5, 39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-		{ "VCyl", { 7, 2 }, { 31.5, 4.5, 39.5 }, "Wood", { 110, 76, 46 }, { name = "CornerPost" } },
-	})
+	local fenceParts = {}
+	for _, run in ipairs(PLOT_FENCE_RUNS) do
+		appendFenceRun(fenceParts, run)
+	end
+	for _, c in ipairs({
+		{ { 24, 14, 1 }, { -20, 8, -39.5 }, "ColliderFrontW" },
+		{ { 24, 14, 1 }, { 20, 8, -39.5 }, "ColliderFrontE" },
+		{ { 1, 14, 80 }, { -31.5, 8, 0 }, "ColliderLeft" },
+		{ { 1, 14, 80 }, { 31.5, 8, 0 }, "ColliderRight" },
+		{ { 64, 14, 1 }, { 0, 8, 39.5 }, "ColliderBack" },
+	}) do
+		table.insert(fenceParts, { "Block", c[1], c[2], nil, nil, { name = c[3], invisible = true, collide = true } })
+	end
+	buildParts(ctx, fence, pivot, fenceParts)
 
 	-- Gate (8 parts). GateLock is off by default: T1, no collision (section 5.5).
 	local _, gate = buildModel(ctx, "Gate", plot, pivot, {
@@ -3337,6 +3502,15 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 		pivotAttachment.Position = Vector3.new(0, 0.2, 0) -- top centre of the pad (world y 1.3)
 		pivotAttachment.Parent = pad
 	end
+
+	-- Upgrade Pen sign (section 13): Steal An Egg's dark sign by the pen. RanchService writes the
+	-- level and price on it and adds the "Upgrade" prompt.
+	buildModel(ctx, "UpgradeSign", plot, pivot, {
+		{ "Block", { 0.6, 3.4, 0.6 }, { -17, 2.7, -37 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
+		{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -37 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
+			{ face = "Front", lines = { "Upgrade Pen", "Level 1 > Level 2", "$0" }, pps = 50 },
+		} } },
+	}, { primary = "Board", tags = { "UpgradeSign" }, attrs = { PlotIndex = p.index } })
 
 	-- Barn (ridge runs front to back)
 	buildModel(ctx, "Barn", plot, pivot, {
@@ -4900,6 +5074,84 @@ end
 return HUDController
 ]=])
 
+install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "IncomePops" }, "ModuleScript", [=[
+--[[
+	IncomePops: Steal An Egg's "+$11" that floats up off every beast in YOUR pen each time
+	the pen pays (GameConfig.Pen.IncomeTickSeconds). The amount is the beast model's "Income"
+	attribute, set by RanchService.
+]]
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local GameConfig = require(Shared:WaitForChild("GameConfig"))
+local NumberFormat = require(Shared:WaitForChild("NumberFormat"))
+
+local UI = require(script.Parent:WaitForChild("UI"))
+
+local IncomePops = {}
+
+local player = Players.LocalPlayer
+local RISE = TweenInfo.new(0.9, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+local function pop(model)
+	local body = model.PrimaryPart or model:FindFirstChild("Body")
+	local income = model:GetAttribute("Income")
+	if not body or not income or income <= 0 then
+		return
+	end
+	local height = body.Size.Y
+	local gui = Instance.new("BillboardGui")
+	gui.Name = "IncomePop"
+	gui.Size = UDim2.new(5, 0, 1.4, 0)
+	gui.StudsOffsetWorldSpace = Vector3.new((math.random() - 0.5) * 1.5, height * 0.4, 0)
+	gui.MaxDistance = 70
+	gui.LightInfluence = 0
+	gui.Adornee = body
+	local label = Instance.new("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Size = UDim2.new(1, 0, 1, 0)
+	label.FontFace = UI.Font
+	label.TextScaled = true
+	label.Text = "+" .. NumberFormat.cashLong(income)
+	label.TextColor3 = UI.Colors.CashGreen
+	label.TextStrokeColor3 = Color3.new(0, 0, 0)
+	label.TextStrokeTransparency = 0
+	label.Parent = gui
+	gui.Parent = body
+	local start = gui.StudsOffsetWorldSpace
+	TweenService:Create(gui, RISE, { StudsOffsetWorldSpace = start + Vector3.new(0, 3, 0) }):Play()
+	local fade = TweenService:Create(label, RISE, { TextTransparency = 1, TextStrokeTransparency = 1 })
+	fade:Play()
+	fade.Completed:Connect(function()
+		gui:Destroy()
+	end)
+end
+
+function IncomePops.start()
+	task.spawn(function()
+		while true do
+			task.wait(GameConfig.Pen.IncomeTickSeconds)
+			local index = player:GetAttribute("PlotIndex")
+			local runtime = workspace:FindFirstChild("Runtime")
+			local pens = runtime and runtime:FindFirstChild("PenBeasts")
+			local mine = index and pens and pens:FindFirstChild("Plot" .. index)
+			if mine then
+				for _, model in ipairs(mine:GetChildren()) do
+					if model:IsA("Model") then
+						pop(model)
+					end
+				end
+			end
+		end
+	end)
+end
+
+return IncomePops
+]=])
+
 install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "ShopController" }, "ModuleScript", [=[
 --[[
 	ShopController: the Shop window, built like Steal An Egg's:
@@ -5723,10 +5975,12 @@ local Controllers = script.Parent:WaitForChild("Controllers")
 
 local HUDController = require(Controllers:WaitForChild("HUDController"))
 local ShopController = require(Controllers:WaitForChild("ShopController"))
+local IncomePops = require(Controllers:WaitForChild("IncomePops"))
 
 HUDController.start()
 ShopController.start(HUDController)
+IncomePops.start()
 ]=])
 
 if recording then ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit) end
-print(string.format("[InstallScripts] %d scripts installed (%d new instances, %d updated). Now save the place (Ctrl+S).", 19, created, updated))
+print(string.format("[InstallScripts] %d scripts installed (%d new instances, %d updated). Now save the place (Ctrl+S).", 20, created, updated))
