@@ -151,8 +151,9 @@ function RanchService.makeBeastModel(beast)
 	if MUTATION_TEXT[beast.mutation] then
 		gradientOn(nameLabel, MUTATION_TEXT[beast.mutation], beast.mutation == "Rainbow" and 0 or 90)
 	end
-	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
+	local income = Economy.beastIncome(beast)
+	tagLabel(tag, "Income", (income < 1000 and NumberFormat.cash(income) or NumberFormat.cashLong(income)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
+	tagLabel(tag, "Kg", NumberFormat.short(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
 	model:SetAttribute("Income", Economy.beastIncome(beast))
 	tag.Parent = body
 

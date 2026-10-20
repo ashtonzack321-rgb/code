@@ -911,3 +911,4 @@ After building, `MapBuilder.applyStyle` restyles 109 parts using `AreasConfig.St
 
   That's 113 parts per plot, with names Post*/Rail*/Brace*. The five invisible colliders stay as they were.
 - **Upgrade Pen sign** [UpgradeSign] (2 parts per plot, plot-local): post `Block 0.6×3.4×0.6 @(−17, 2.7, −37)` SmoothPlastic 30,30,36, and board `Block 6×3.6×0.4 @(−17, 5.8, −37)` SmoothPlastic 22,30,54 (navy). The board has a SurfaceGui Front with the lines `Upgrade Pen` / `Level 1 > Level 2` / price. RanchService fills them in and adds the ProximityPrompt (`Upgrade` / `Pen`), which only the owner can use.
+- **Gate doors** (changed for the open rail fence): `GateDoorL/R` are now `Block 0.6×4×8 @(∓8.5, 3, −35)`, swung open into the pen so they don't show through the rails. The **Upgrade Pen sign** moved outside the fence onto the boardwalk at z −41.5 (post `0.6×4.4×0.6 @(−17, 2.2, −41.5)`), so you can read it from the street.

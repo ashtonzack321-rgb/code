@@ -358,17 +358,18 @@ end
 function ShopController.open(section)
 	window.Visible = true
 	updateCards()
+	-- Check-UI pop-in: centred scale from 0.85 with Back easing
+	local pop = window:FindFirstChild("WindowScale") or UI.new("UIScale", { Name = "WindowScale", Parent = window })
+	pop.Scale = 0.85
 	local title = sections[section or "Gamepass"]
 	if title then
 		task.defer(function()
-			local scale = uiScale and uiScale.Scale or 1
+			-- Absolute positions include both the screen scale and the pop-in scale
+			local scale = (uiScale and uiScale.Scale or 1) * pop.Scale
 			local y = (title.AbsolutePosition.Y - list.AbsolutePosition.Y) / scale + list.CanvasPosition.Y
 			list.CanvasPosition = Vector2.new(0, math.max(0, y - 6))
 		end)
 	end
-	-- Check-UI pop-in: centred scale from 0.85 with Back easing
-	local pop = window:FindFirstChild("WindowScale") or UI.new("UIScale", { Name = "WindowScale", Parent = window })
-	pop.Scale = 0.85
 	TweenService:Create(pop, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
 end
 

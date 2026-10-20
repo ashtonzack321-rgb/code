@@ -1878,8 +1878,9 @@ function RanchService.makeBeastModel(beast)
 	if MUTATION_TEXT[beast.mutation] then
 		gradientOn(nameLabel, MUTATION_TEXT[beast.mutation], beast.mutation == "Rainbow" and 0 or 90)
 	end
-	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
+	local income = Economy.beastIncome(beast)
+	tagLabel(tag, "Income", (income < 1000 and NumberFormat.cash(income) or NumberFormat.cashLong(income)) .. "/s", Color3.fromRGB(24, 255, 24), 0.52, 0.3)
+	tagLabel(tag, "Kg", NumberFormat.short(beast.kg) .. " kg", Color3.fromRGB(235, 235, 235), 0.83, 0.17)
 	model:SetAttribute("Income", Economy.beastIncome(beast))
 	tag.Parent = body
 
@@ -3480,8 +3481,8 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 		{ "Block", { 20, 4, 1 }, { 0, 14, -39.5 }, "WoodPlanks", { 190, 140, 80 }, { name = "OwnerSign", tags = { "OwnerSign" }, gui = {
 			{ face = "Front", lines = { "FREE RANCH" } },
 		} } },
-		{ "Block", { 8, 4, 0.6 }, { -12.5, 3, -38.6 }, "Wood", { 120, 84, 52 }, { name = "GateDoorL", nc = true } },
-		{ "Block", { 8, 4, 0.6 }, { 12.5, 3, -38.6 }, "Wood", { 120, 84, 52 }, { name = "GateDoorR", nc = true } },
+		{ "Block", { 0.6, 4, 8 }, { -8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorL", nc = true } }, -- swung open into the pen (section 13)
+		{ "Block", { 0.6, 4, 8 }, { 8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorR", nc = true } },
 		{ "Block", { 16, 14, 1 }, { 0, 8, -39.5 }, "ForceField", { 255, 60, 60 }, { name = "GateLock", t = 1, nc = true,
 			tags = { "GateLock" }, attrs = { PlotIndex = p.index, Locked = false } } },
 	}, { primary = "OwnerSign" })
@@ -3517,8 +3518,8 @@ local function buildPlot(ctx, cfg, plotsFolder, p)
 	-- Upgrade Pen sign (section 13): Steal An Egg's dark sign by the pen. RanchService writes the
 	-- level and price on it and adds the "Upgrade" prompt.
 	buildModel(ctx, "UpgradeSign", plot, pivot, {
-		{ "Block", { 0.6, 3.4, 0.6 }, { -17, 2.7, -37 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
-		{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -37 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
+		{ "Block", { 0.6, 4.4, 0.6 }, { -17, 2.2, -41.5 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
+		{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -41.5 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
 			{ face = "Front", lines = { "Upgrade Pen", "Level 1 > Level 2", "$0" }, pps = 50 },
 		} } },
 	}, { primary = "Board", tags = { "UpgradeSign" }, attrs = { PlotIndex = p.index } })
@@ -4626,7 +4627,7 @@ local function studify(part, rgb, faces, style, allSides)
 			texture.Face = Enum.NormalId[face]
 			texture.StudsPerTileU = tile
 			texture.StudsPerTileV = tile
-			texture.Color3 = Color3.new(0, 0, 0)
+			texture.Color3 = color(style.CheckerColor or { 0, 0, 0 })
 			texture.Transparency = style.CheckerTransparency or 0
 			texture.Parent = part
 			added = added + 1
@@ -4661,6 +4662,7 @@ function MapBuilder.applyStyle(map, config)
 		end
 		copy.CheckerTexture = fromPlace
 		copy.CheckerTransparency = tonumber(ws:GetAttribute("CheckerTransparency")) or 0
+		copy.CheckerColor = { 255, 255, 255 } -- our own tile carries its colours (white stud highlights)
 		style = copy
 	end
 	local parts, textures = 0, 0
@@ -4857,9 +4859,11 @@ local function railButton(parent, order, name, icon, tint)
 	UI.icon(icon, { size = UDim2.new(0, 66, 0, 66), position = UDim2.new(0.5, 0, 0, 0), anchor = Vector2.new(0.5, 0), parent = button })
 	local label = UI.text(name, {
 		name = "Label",
-		size = UDim2.new(1, 0, 0, 30),
-		position = UDim2.new(0, 0, 0, 58),
-		stroke = 3,
+		anchor = Vector2.new(0.5, 0),
+		size = UDim2.new(0, 120, 0, 26),
+		position = UDim2.new(0.5, 0, 0, 58),
+		maxSize = 21,
+		stroke = 2.8,
 		z = 3,
 		parent = button,
 	})
@@ -4880,14 +4884,14 @@ local function build()
 		Size = UDim2.new(0, 360, 0, 52),
 		Parent = gui,
 	})
-	UI.icon(GameConfig.Icons.Money, { size = UDim2.new(0, 52, 0, 52), parent = cash })
+	UI.icon(GameConfig.Icons.Money, { size = UDim2.new(0, 76, 0, 52), parent = cash })
 	cashLabel = UI.text("$0", {
 		name = "Amount",
 		italic = true,
 		color = UI.Colors.CashGreen,
 		align = "Left",
-		size = UDim2.new(1, -62, 1, 0),
-		position = UDim2.new(0, 62, 0, 0),
+		size = UDim2.new(1, -86, 1, 0),
+		position = UDim2.new(0, 86, 0, 0),
 		stroke = 4,
 		parent = cash,
 	})
@@ -4948,7 +4952,8 @@ local function build()
 		Position = UDim2.new(0.5, 0, 0, 70),
 		Size = UDim2.new(0, 700, 0, 160),
 		Parent = gui,
-	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 2), HorizontalAlignment = Enum.HorizontalAlignment.Center }) })
+	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 2), HorizontalAlignment = Enum.HorizontalAlignment.Center,
+		SortOrder = Enum.SortOrder.LayoutOrder }) })
 
 	popHolder = UI.new("Frame", {
 		Name = "Pops",
@@ -4990,11 +4995,15 @@ local TOAST_COLORS = {
 	info = Color3.fromRGB(255, 255, 255),
 }
 
+local toastCount = 0
+
 function HUDController.toast(text, kind)
 	if not text or text == "" then
 		return
 	end
+	toastCount = toastCount + 1
 	local label = UI.text(text, { size = UDim2.new(1, 0, 0, 36), color = TOAST_COLORS[kind] or TOAST_COLORS.info, stroke = 3, parent = toastHolder })
+	label.LayoutOrder = toastCount
 	task.delay(2.2, function()
 		local fade = TweenInfo.new(0.3)
 		TweenService:Create(label, fade, { TextTransparency = 1 }):Play()
@@ -5005,7 +5014,13 @@ function HUDController.toast(text, kind)
 end
 
 -- Big yellow area name at the bottom centre, like Steal An Egg's "HALLOWEEN EGG".
+local bannerTweens = {}
+
 function HUDController.banner(text)
+	for _, tween in ipairs(bannerTweens) do
+		tween:Cancel()
+	end
+	bannerTweens = {}
 	banner.Text = string.upper(text)
 	banner.Visible = true
 	banner.TextTransparency = 0
@@ -5017,8 +5032,13 @@ function HUDController.banner(text)
 			return
 		end
 		local fade = TweenInfo.new(0.4)
-		TweenService:Create(banner, fade, { TextTransparency = 1 }):Play()
-		TweenService:Create(banner.Outline, fade, { Transparency = 1 }):Play()
+		bannerTweens = {
+			TweenService:Create(banner, fade, { TextTransparency = 1 }),
+			TweenService:Create(banner.Outline, fade, { Transparency = 1 }),
+		}
+		for _, tween in ipairs(bannerTweens) do
+			tween:Play()
+		end
 	end)
 end
 
@@ -5528,17 +5548,18 @@ end
 function ShopController.open(section)
 	window.Visible = true
 	updateCards()
+	-- Check-UI pop-in: centred scale from 0.85 with Back easing
+	local pop = window:FindFirstChild("WindowScale") or UI.new("UIScale", { Name = "WindowScale", Parent = window })
+	pop.Scale = 0.85
 	local title = sections[section or "Gamepass"]
 	if title then
 		task.defer(function()
-			local scale = uiScale and uiScale.Scale or 1
+			-- Absolute positions include both the screen scale and the pop-in scale
+			local scale = (uiScale and uiScale.Scale or 1) * pop.Scale
 			local y = (title.AbsolutePosition.Y - list.AbsolutePosition.Y) / scale + list.CanvasPosition.Y
 			list.CanvasPosition = Vector2.new(0, math.max(0, y - 6))
 		end)
 	end
-	-- Check-UI pop-in: centred scale from 0.85 with Back easing
-	local pop = window:FindFirstChild("WindowScale") or UI.new("UIScale", { Name = "WindowScale", Parent = window })
-	pop.Scale = 0.85
 	TweenService:Create(pop, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
 end
 

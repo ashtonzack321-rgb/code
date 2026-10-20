@@ -1464,8 +1464,8 @@ local MapBuilder = (function()
 			{ "Block", { 20, 4, 1 }, { 0, 14, -39.5 }, "WoodPlanks", { 190, 140, 80 }, { name = "OwnerSign", tags = { "OwnerSign" }, gui = {
 				{ face = "Front", lines = { "FREE RANCH" } },
 			} } },
-			{ "Block", { 8, 4, 0.6 }, { -12.5, 3, -38.6 }, "Wood", { 120, 84, 52 }, { name = "GateDoorL", nc = true } },
-			{ "Block", { 8, 4, 0.6 }, { 12.5, 3, -38.6 }, "Wood", { 120, 84, 52 }, { name = "GateDoorR", nc = true } },
+			{ "Block", { 0.6, 4, 8 }, { -8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorL", nc = true } }, -- swung open into the pen (section 13)
+			{ "Block", { 0.6, 4, 8 }, { 8.5, 3, -35 }, "Wood", { 120, 84, 52 }, { name = "GateDoorR", nc = true } },
 			{ "Block", { 16, 14, 1 }, { 0, 8, -39.5 }, "ForceField", { 255, 60, 60 }, { name = "GateLock", t = 1, nc = true,
 				tags = { "GateLock" }, attrs = { PlotIndex = p.index, Locked = false } } },
 		}, { primary = "OwnerSign" })
@@ -1501,8 +1501,8 @@ local MapBuilder = (function()
 		-- Upgrade Pen sign (section 13): Steal An Egg's dark sign by the pen. RanchService writes the
 		-- level and price on it and adds the "Upgrade" prompt.
 		buildModel(ctx, "UpgradeSign", plot, pivot, {
-			{ "Block", { 0.6, 3.4, 0.6 }, { -17, 2.7, -37 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
-			{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -37 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
+			{ "Block", { 0.6, 4.4, 0.6 }, { -17, 2.2, -41.5 }, "SmoothPlastic", { 30, 30, 36 }, { name = "Post" } },
+			{ "Block", { 6, 3.6, 0.4 }, { -17, 5.8, -41.5 }, "SmoothPlastic", { 22, 30, 54 }, { name = "Board", gui = {
 				{ face = "Front", lines = { "Upgrade Pen", "Level 1 > Level 2", "$0" }, pps = 50 },
 			} } },
 		}, { primary = "Board", tags = { "UpgradeSign" }, attrs = { PlotIndex = p.index } })
@@ -2610,7 +2610,7 @@ local MapBuilder = (function()
 				texture.Face = Enum.NormalId[face]
 				texture.StudsPerTileU = tile
 				texture.StudsPerTileV = tile
-				texture.Color3 = Color3.new(0, 0, 0)
+				texture.Color3 = color(style.CheckerColor or { 0, 0, 0 })
 				texture.Transparency = style.CheckerTransparency or 0
 				texture.Parent = part
 				added = added + 1
@@ -2645,6 +2645,7 @@ local MapBuilder = (function()
 			end
 			copy.CheckerTexture = fromPlace
 			copy.CheckerTransparency = tonumber(ws:GetAttribute("CheckerTransparency")) or 0
+			copy.CheckerColor = { 255, 255, 255 } -- our own tile carries its colours (white stud highlights)
 			style = copy
 		end
 		local parts, textures = 0, 0

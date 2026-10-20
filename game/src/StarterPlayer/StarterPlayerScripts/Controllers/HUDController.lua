@@ -50,9 +50,11 @@ local function railButton(parent, order, name, icon, tint)
 	UI.icon(icon, { size = UDim2.new(0, 66, 0, 66), position = UDim2.new(0.5, 0, 0, 0), anchor = Vector2.new(0.5, 0), parent = button })
 	local label = UI.text(name, {
 		name = "Label",
-		size = UDim2.new(1, 0, 0, 30),
-		position = UDim2.new(0, 0, 0, 58),
-		stroke = 3,
+		anchor = Vector2.new(0.5, 0),
+		size = UDim2.new(0, 120, 0, 26),
+		position = UDim2.new(0.5, 0, 0, 58),
+		maxSize = 21,
+		stroke = 2.8,
 		z = 3,
 		parent = button,
 	})
@@ -73,14 +75,14 @@ local function build()
 		Size = UDim2.new(0, 360, 0, 52),
 		Parent = gui,
 	})
-	UI.icon(GameConfig.Icons.Money, { size = UDim2.new(0, 52, 0, 52), parent = cash })
+	UI.icon(GameConfig.Icons.Money, { size = UDim2.new(0, 76, 0, 52), parent = cash })
 	cashLabel = UI.text("$0", {
 		name = "Amount",
 		italic = true,
 		color = UI.Colors.CashGreen,
 		align = "Left",
-		size = UDim2.new(1, -62, 1, 0),
-		position = UDim2.new(0, 62, 0, 0),
+		size = UDim2.new(1, -86, 1, 0),
+		position = UDim2.new(0, 86, 0, 0),
 		stroke = 4,
 		parent = cash,
 	})
@@ -141,7 +143,8 @@ local function build()
 		Position = UDim2.new(0.5, 0, 0, 70),
 		Size = UDim2.new(0, 700, 0, 160),
 		Parent = gui,
-	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 2), HorizontalAlignment = Enum.HorizontalAlignment.Center }) })
+	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 2), HorizontalAlignment = Enum.HorizontalAlignment.Center,
+		SortOrder = Enum.SortOrder.LayoutOrder }) })
 
 	popHolder = UI.new("Frame", {
 		Name = "Pops",
@@ -183,11 +186,15 @@ local TOAST_COLORS = {
 	info = Color3.fromRGB(255, 255, 255),
 }
 
+local toastCount = 0
+
 function HUDController.toast(text, kind)
 	if not text or text == "" then
 		return
 	end
+	toastCount = toastCount + 1
 	local label = UI.text(text, { size = UDim2.new(1, 0, 0, 36), color = TOAST_COLORS[kind] or TOAST_COLORS.info, stroke = 3, parent = toastHolder })
+	label.LayoutOrder = toastCount
 	task.delay(2.2, function()
 		local fade = TweenInfo.new(0.3)
 		TweenService:Create(label, fade, { TextTransparency = 1 }):Play()
@@ -198,7 +205,13 @@ function HUDController.toast(text, kind)
 end
 
 -- Big yellow area name at the bottom centre, like Steal An Egg's "HALLOWEEN EGG".
+local bannerTweens = {}
+
 function HUDController.banner(text)
+	for _, tween in ipairs(bannerTweens) do
+		tween:Cancel()
+	end
+	bannerTweens = {}
 	banner.Text = string.upper(text)
 	banner.Visible = true
 	banner.TextTransparency = 0
@@ -210,8 +223,13 @@ function HUDController.banner(text)
 			return
 		end
 		local fade = TweenInfo.new(0.4)
-		TweenService:Create(banner, fade, { TextTransparency = 1 }):Play()
-		TweenService:Create(banner.Outline, fade, { Transparency = 1 }):Play()
+		bannerTweens = {
+			TweenService:Create(banner, fade, { TextTransparency = 1 }),
+			TweenService:Create(banner.Outline, fade, { Transparency = 1 }),
+		}
+		for _, tween in ipairs(bannerTweens) do
+			tween:Play()
+		end
 	end)
 end
 
