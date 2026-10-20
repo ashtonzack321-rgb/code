@@ -2,11 +2,10 @@
   "name": "steal-a-beast-game",
   "version": "0.1.0",
   "private": true,
-  "description": "Steal a Beast: Roblox map builder (Rojo project) plus a Lua test harness",
+  "description": "Steal a Beast: Roblox game (Rojo project), map builder, script installer and a Lua test harness",
   "scripts": {
-    "build": "node tools/build_command_bar.js",
-    "test": "node tools/build_command_bar.js && node tests/run_tests.js",
-    "preview": "node tests/render_preview.js"
+    "build": "node tools/build_command_bar.js && node tools/build_install.js",
+    "test": "npm run build && node tests/run_tests.js"
   },
   "devDependencies": {
     "fengari": "^0.1.4",
