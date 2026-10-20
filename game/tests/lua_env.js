@@ -18,6 +18,8 @@ const PATHS = {
   command: path.join(ROOT, 'tools', 'BuildMap.command.lua'),
   config: path.join(ROOT, 'src', 'ReplicatedStorage', 'Shared', 'AreasConfig.lua'),
   builder: path.join(ROOT, 'src', 'ServerStorage', 'MapBuilder', 'init.lua'),
+  shared: path.join(ROOT, 'src', 'ReplicatedStorage', 'Shared'),
+  economyTests: path.join(ROOT, 'tests', 'economy_tests.lua'),
 };
 
 class LuaEnv {
@@ -83,4 +85,16 @@ function createMapEnv() {
   return env;
 }
 
-module.exports = { LuaEnv, createMapEnv, PATHS };
+// A plain Lua state (no Roblox mock) with the shared gameplay modules loaded as globals.
+function createEconomyEnv() {
+  const env = new LuaEnv();
+  const modules = { AREAS_CONFIG: 'AreasConfig', GAME_CONFIG: 'GameConfig', ECONOMY: 'Economy', NUMBER_FORMAT: 'NumberFormat' };
+  for (const [globalName, file] of Object.entries(modules)) {
+    const rel = `src/ReplicatedStorage/Shared/${file}.lua`;
+    env.defineChunk(`LOAD_${globalName}`, fs.readFileSync(path.join(PATHS.shared, `${file}.lua`), 'utf8'), rel);
+    env.run(`${globalName} = LOAD_${globalName}()`, `load-${file}`);
+  }
+  return env;
+}
+
+module.exports = { LuaEnv, createMapEnv, createEconomyEnv, PATHS };

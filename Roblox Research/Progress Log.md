@@ -1,8 +1,32 @@
 ---
 tags: [progress, log]
-updated: 2026-10-18
+updated: 2026-10-20
 ---
 # Progress Log
+
+## 2026-10-20 (Session 2)
+**Done**
+- Finished the **map builder** (all 38 map tests pass) and wrote `game/README.md`, which has the install steps, a playtest checklist and dev commands.
+- Built **step 1–2 of the game** (see [[Systems and Scripts]]): a playable idle tycoon with treadmill training.
+  - **Saving:** DataStore with a session lock, autosave and a save on leave.
+  - **Ranch:** you get a random plot with your name and headshot, spawn at it, and see your pen beasts with name tags; the pen pays $/s. You start with $100 and a tamed Prairie Chick.
+  - **Treadmill:** stand on your belt (AFK works) for +Speed. Speed makes you walk faster (the MAP_SPEC curve).
+  - **General Store:** 11 treadmill tiers (Wooden +2 … Astral +3K/step), 10 Spurs (1.5x … 20x) and pen slots up to 19. It opens from the SHOP button or the yellow ring in Town.
+  - **HUD:** cash and $/s, Speed and the next area, `+SPEED` popups and toasts.
+- New one-paste installer `game/tools/InstallScripts.command.lua` puts every script into Studio (no Rojo needed).
+- 81 automated tests pass, and every file compiles with the real Luau compiler.
+
+**Next steps**
+1. On the PC: run the Roblox MCP command from `game/README.md` once with `--scope user`. Your first try saved it only for the `C:\WINDOWS\System32` folder.
+2. `git pull`, open Studio, run `claude` in the `code` folder and say:
+   > Read game/README.md, then build the map and install the scripts in my open Studio place.
+3. Press Play and follow the **Playtest checklist** in `game/README.md`. Note anything that's broken or feels off.
+4. Next to build: **herds, lasso, tow and Alpha chase** (step 3, the core fun).
+
+**To decide** (still open)
+- The leftover v1 gamepasses (Auto-Tug, Extra Guard Slot, Fast Horse); see Session 1 below.
+- Economy numbers are first guesses (`game/src/ReplicatedStorage/Shared/GameConfig.lua`). Treadmill and Spur prices copy Steal An Egg; pen prices and the starter beast are ours.
+
 
 ## 2026-10-18 (Session 1)
 **Done**

@@ -1,6 +1,6 @@
 ---
 tags: [my-game, gdd, scripting]
-updated: 2026-10-18
+updated: 2026-10-20
 ---
 # Systems and Scripts (Roblox Studio plan, v2)
 
@@ -44,8 +44,10 @@ StarterPlayerScripts/Controllers/
 - **Taming timers** use `os.time()`, so they keep running offline. Apply an offline rate on join.
 
 ## Build order
-1. Town, ranch plot, pen slots, income tick (a playable idle tycoon)
-2. Treadmill and Speed, then area 1–3 lanes with signs
+Status as of 2026-10-20: steps 1–2 are built in `game/` (see `game/README.md`), and the map already has all 10 areas.
+
+1. ✅ Town, ranch plot, pen slots, income tick (a playable idle tycoon)
+2. ✅ Treadmill and Speed, then area 1–3 lanes with signs
 3. Herds, lasso, tow and Alpha chase (the core fun, so test it hardest)
 4. Whip, traps, knock-loose and loose-beast lasso
 5. Taming, tamed reveal, branding and rustling plus the gate lock

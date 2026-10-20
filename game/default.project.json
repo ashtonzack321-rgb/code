@@ -17,6 +17,13 @@
       "MapBuilder": {
         "$path": "src/ServerStorage/MapBuilder"
       }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "src/StarterPlayer/StarterPlayerScripts"
+      }
     }
   }
 }
