@@ -65,7 +65,7 @@ The user pointed us to **Check-UI** (https://github.com/TemporaryLooker22/Check-
 - **Its already-uploaded icons** (1,022 of them). We picked 13: blue sneaker (Speed), green cash stack (Money), red shopping bag (Featured), blue book (Index), white gift, red shoe (treadmills), gold star (Spurs), green house (pen), gold clock (x2 Taming), gold cash (x2 Money), VIP, lightning (Fast Horse) and the white Robux icon. They're listed in `GameConfig.Icons`, each with an emoji fallback.
 - **Its components:** the 3D beveled buttons (lime buy, silver owned, red can't-afford, cyan equip, purple gift), the 3D beveled red **X**, checker "damier" overlays that fade in toward the bottom, the 2-tier line under the header, and rotating **sunbursts** behind card icons.
 - **Its checker tile** `rbxassetid://385956923` (2 squares per tile) as the map's checkerboard texture, so nothing needs uploading.
-- **Where it disagrees with Steal An Egg, Steal An Egg wins.** We keep Steal An Egg's green shop header, its dark grey body and its italic green cash, not Check-UI's magenta shop or slate-blue canvas.
+- **The user chose Check-UI's look for menus** ("make the ui look the same as this", with the picture below). The Shop is now Check-UI's Shop exactly: a 600×415 slate window, magenta header, `~Gamepass~` cards and lime product cards. The HUD keeps Steal An Egg's layout.
 
 ![[checkui-shop.png]]
 ![[checkui-menus.png]]

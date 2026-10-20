@@ -5169,12 +5169,16 @@ return IncomePops
 
 install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "ShopController" }, "ModuleScript", [=[
 --[[
-	ShopController: the Shop window, built like Steal An Egg's:
-	  * green header with a glass shine, "Shop" in white on the left, red square X on the right
-	  * dark grey body that scrolls through sections: "-- FEATURED --", "-- PASSES --",
-	    "-- SPEED --" (treadmills and Spurs) and "-- MONEY --" (pen slots)
-	  * two cards per row: gradient background, title, icon, a description with green
-	    highlights, a purple gift button and a lime-green price button
+	ShopController: the Shop window, built exactly like the Check-UI kit's Shop menu
+	(.claude/skills/check-ui-clean-roblox, examples/ShopMenuExample.luau; the user's reference
+	picture is "Pasted image 20261020172519.png" in the vault):
+	  * 600 x 415 solid slate-blue window (#3B5866) with a 3.5 px dark outline
+	  * 60 px magenta-to-crimson header: pastel top line, fading damier, 2-tier divider,
+	    "Shop" title on the left and the 3D beveled [X]
+	  * "~Gamepass~" section: 276 x 155 cards (purple, cyan ...) with a sunburst, a fading damier,
+	    the icon on the left, the description on the right and a lime Robux buy button
+	  * "~Treadmills~", "~Spurs~" and "~Ranch~" sections: 180 x 175 lime product cards, three per
+	    row, with the name on top, the icon in the middle and the price button at the bottom
 	Opens from the left rail (Featured / Speed / Money jump to their section) or by stepping on
 	the glowing ShopPad in Town. Buttons only ask the server (Remotes.Shop); cards update from
 	player attributes.
@@ -5189,7 +5193,6 @@ local TweenService = game:GetService("TweenService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local GameConfig = require(Shared:WaitForChild("GameConfig"))
-local Economy = require(Shared:WaitForChild("Economy"))
 local NumberFormat = require(Shared:WaitForChild("NumberFormat"))
 local ShopRemote = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Shop")
 
@@ -5199,27 +5202,21 @@ local ShopController = {}
 
 local player = Players.LocalPlayer
 local gui, window, list, uiScale
-local sections = {}   -- [name] = header label
-local cards = {}      -- { update = function() }
+local sections = {}   -- [name] = section title label
+local cards = {}      -- update functions, called with the player's cash
 local busy = false
 local toast = function() end
 
-local CARD_W, CARD_H = 340, 168
-
--- Card backgrounds (top colour, bottom colour), matching the screenshot's rainbow and gold cards
-local CARD_COLORS = {
-	Gold = { Color3.fromRGB(255, 246, 140), Color3.fromRGB(255, 196, 20) },
-	Purple = { Color3.fromRGB(226, 160, 255), Color3.fromRGB(150, 60, 230) },
-	Blue = { Color3.fromRGB(150, 230, 255), Color3.fromRGB(30, 150, 255) },
-	Green = { Color3.fromRGB(190, 255, 140), Color3.fromRGB(70, 200, 40) },
-	Grey = { Color3.fromRGB(190, 190, 196), Color3.fromRGB(120, 120, 128) },
+-- Check-UI card themes: gradient top/bottom, inner highlight, damier colour
+local THEMES = {
+	Purple = { Color3.fromRGB(235, 60, 255), Color3.fromRGB(150, 0, 245), Color3.fromRGB(235, 160, 255), Color3.fromRGB(90, 0, 165) },
+	Cyan = { Color3.fromRGB(30, 235, 255), Color3.fromRGB(0, 120, 255), Color3.fromRGB(165, 240, 255), Color3.fromRGB(0, 65, 180) },
+	Gold = { Color3.fromRGB(255, 220, 40), Color3.fromRGB(255, 140, 0), Color3.fromRGB(255, 240, 170), Color3.fromRGB(176, 96, 0) },
+	Pink = { Color3.fromRGB(255, 60, 170), Color3.fromRGB(210, 0, 90), Color3.fromRGB(255, 176, 208), Color3.fromRGB(150, 0, 60) },
+	Lime = { Color3.fromRGB(235, 255, 50), Color3.fromRGB(110, 215, 0), Color3.fromRGB(245, 255, 180), Color3.fromRGB(70, 170, 0) },
 }
-
-local function rarityGradient(rarityId)
-	local rarity = Economy.Rarities[rarityId]
-	local c = rarity and UI.rgb(rarity.color) or Color3.fromRGB(150, 150, 150)
-	return { c:Lerp(Color3.new(1, 1, 1), 0.45), c }
-end
+-- Pass card colours (GameConfig.Passes[].card) mapped onto the Check-UI themes
+local PASS_THEMES = { Rainbow = "Purple", Gold = "Gold", Purple = "Pink", Blue = "Cyan" }
 
 local function ask(action, arg)
 	if busy then
@@ -5234,23 +5231,26 @@ local function ask(action, arg)
 	end)
 end
 
+local function owns(spurId)
+	return string.find("," .. (player:GetAttribute("OwnedSpurs") or "") .. ",", "," .. spurId .. ",", 1, true) ~= nil
+end
+
 ----------------------------------------------------------------------------------------------
--- Building blocks
+-- Building blocks (numbers from Check-UI's ShopMenuExample)
 ----------------------------------------------------------------------------------------------
-local function sectionHeader(order, text, tint)
-	local label = UI.text("-- " .. text .. " --", {
+local function sectionTitle(order, text)
+	local label = UI.text("~" .. text .. "~", {
 		name = "Section_" .. text,
-		size = UDim2.new(1, 0, 0, 50),
-		stroke = 3,
+		size = UDim2.new(1, 0, 0, 24),
+		stroke = 2.6,
 		parent = list,
 	})
 	label.LayoutOrder = order
-	UI.tint(label, tint)
 	sections[text] = label
 	return label
 end
 
-local function grid(order)
+local function grid(order, cellW, cellH)
 	return UI.new("Frame", {
 		Name = "Grid",
 		BackgroundTransparency = 1,
@@ -5260,83 +5260,91 @@ local function grid(order)
 		Parent = list,
 	}, {
 		UI.new("UIGridLayout", {
-			CellSize = UDim2.new(0, CARD_W, 0, CARD_H),
-			CellPadding = UDim2.new(0, 16, 0, 14),
+			CellSize = UDim2.new(0, cellW, 0, cellH),
+			CellPadding = UDim2.new(0, 16, 0, 12),
 			HorizontalAlignment = Enum.HorizontalAlignment.Center,
 			SortOrder = Enum.SortOrder.LayoutOrder,
 		}),
 	})
 end
 
---[[ A shop card. spec = { title, icon, description (may use <green>), colors = {top, bottom} or
-	"Rainbow", gift = bool }. Returns the card and its price button. ]]
-local function card(parent, order, spec)
+-- The card body every Check-UI card shares: white frame + gradient, black 2.8 px outline,
+-- pastel inner line, fading damier and a sunburst.
+local function cardBase(parent, order, name, theme, burstSize, burstPos, damierTile, damierFade, damierRotation)
 	local frame = UI.new("Frame", {
-		Name = spec.title,
+		Name = name,
 		LayoutOrder = order,
 		BackgroundColor3 = Color3.new(1, 1, 1),
 		BorderSizePixel = 0,
 		ClipsDescendants = true,
+		ZIndex = 22,
 		Parent = parent,
-	}, { UI.corner(4), UI.border(3, UI.Colors.CardBorder) })
-	local gradient = UI.new("UIGradient", { Rotation = 90, Parent = frame })
-	if spec.colors == "Rainbow" then
-		gradient.Color = UI.Rainbow
-		gradient.Rotation = 0
-		gradient.Transparency = NumberSequence.new(0.1)
-	else
-		gradient.Color = ColorSequence.new(spec.colors[1], spec.colors[2])
-	end
-	UI.damier(frame, Color3.new(1, 1, 1), 22, { 0.88, 0.7 }, frame.ZIndex)
-	UI.shine(frame, 0.82)
-	UI.sunburst(frame, UDim2.new(0, 150, 0, 150), UDim2.new(0, 62, 0, 66), 0.5, frame.ZIndex)
-
-	UI.icon(spec.icon, { size = UDim2.new(0, 104, 0, 104), position = UDim2.new(0, 10, 0, 14), z = 3, parent = frame })
-	UI.text(spec.title, {
-		name = "Title",
-		size = UDim2.new(0, 214, 0, 32),
-		position = UDim2.new(0, 118, 0, 8),
-		stroke = 3,
-		z = 3,
-		parent = frame,
-	})
-	local description = UI.text(UI.highlight(spec.description or ""), {
-		name = "Description",
-		rich = true,
-		size = UDim2.new(0, 214, 0, 66),
-		position = UDim2.new(0, 118, 0, 42),
-		stroke = 2.5,
-		z = 3,
-		parent = frame,
-	})
-	description.TextWrapped = true
-
-	local priceX = 8
-	if spec.gift then
-		local gift = UI.bevelButton({
-			name = "Gift",
-			state = "gift",
-			size = UDim2.new(0, 64, 0, 44),
-			position = UDim2.new(0, 8, 1, -52),
-			z = 3,
-			parent = frame,
-		})
-		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.08, 0), z = 5, parent = gift })
-		gift.Activated:Connect(function()
-			toast("Gifting is coming soon!", "info")
-		end)
-		priceX = 80
-	end
-	local price = UI.priceButton("", spec.robux, {
-		size = UDim2.new(1, -(priceX + 8), 0, 44),
-		position = UDim2.new(0, priceX, 1, -52),
-		parent = frame,
-	})
-	return frame, price, description
+	}, { UI.corner(4), UI.border(2.8, Color3.new(0, 0, 0)) })
+	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(theme[1], theme[2]), Parent = frame })
+	local inner = UI.new("Frame", {
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		Size = UDim2.new(1, -6, 1, -6),
+		ZIndex = 27,
+		Parent = frame,
+	}, { UI.corner(3) })
+	UI.new("UIStroke", { Thickness = 1.4, Color = theme[3], ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = inner })
+	UI.damier(frame, theme[4], damierTile, damierFade, 23, 0.35, damierRotation)
+	UI.sunburst(frame, UDim2.new(0, burstSize, 0, burstSize), burstPos, 0.12, 24)
+	return frame
 end
 
--- Sets a price button's text and Check-UI state: lime "buy", cyan "equip", silver "owned"
--- (owned, equipped or locked) and red "poor" (not enough cash).
+-- ~Gamepass~ card (276 x 155): title on top, icon left, description right, Robux buy button
+local function passCard(parent, order, pass)
+	local theme = THEMES[PASS_THEMES[pass.card] or "Purple"]
+	local frame = cardBase(parent, order, pass.name, theme, 220, UDim2.new(0, 68, 0.5, 12), 22,
+		{ { 0, 1 }, { 0.35, 0.6 }, { 1, 0.05 } }, 65)
+	UI.text(pass.name, { name = "Title", anchor = Vector2.new(0.5, 0), position = UDim2.new(0.5, 0, 0, 8),
+		size = UDim2.new(1, -16, 0, 26), stroke = 2.8, z = 26, parent = frame })
+	UI.icon(GameConfig.Icons[pass.icon], { anchor = Vector2.new(0, 0.5), position = UDim2.new(0, 8, 0.5, 12),
+		size = UDim2.new(0, 120, 0, 95), z = 25, parent = frame })
+	local description = UI.text(UI.highlight(pass.description), { name = "Description", rich = true,
+		anchor = Vector2.new(0.5, 0.5), position = UDim2.new(0.72, 0, 0.46, 0), size = UDim2.new(0, 130, 0, 46),
+		stroke = 2.4, z = 26, parent = frame })
+	description.TextWrapped = true
+	local price = UI.priceButton(NumberFormat.commas(pass.robux), true, {
+		size = UDim2.new(0, 114, 0, 38),
+		position = UDim2.new(0.72, 0, 0.78, 0),
+		anchor = Vector2.new(0.5, 0.5),
+		parent = frame,
+	})
+	price.ZIndex = 26
+	price.Activated:Connect(function()
+		if pass.gamePassId and pass.gamePassId > 0 then
+			MarketplaceService:PromptGamePassPurchase(player, pass.gamePassId)
+		else
+			toast(pass.name .. " is coming soon!", "info")
+		end
+	end)
+end
+
+-- Product card (180 x 175): name on top, small line under it, icon in the middle, price button
+local function productCard(parent, order, title, subtitle, icon)
+	local frame = cardBase(parent, order, title, THEMES.Lime, 190, UDim2.new(0.5, 0, 0.5, 0), 18,
+		{ { 0, 1 }, { 0.35, 0.65 }, { 1, 0.05 } }, 90)
+	UI.text(title, { name = "Title", anchor = Vector2.new(0.5, 0), position = UDim2.new(0.5, 0, 0, 8),
+		size = UDim2.new(1, -10, 0, 24), stroke = 2.8, z = 26, parent = frame })
+	local sub = UI.text(UI.highlight(subtitle), { name = "Subtitle", rich = true, anchor = Vector2.new(0.5, 0),
+		position = UDim2.new(0.5, 0, 0, 33), size = UDim2.new(1, -14, 0, 18), stroke = 2.2, z = 26, parent = frame })
+	UI.icon(icon, { anchor = Vector2.new(0.5, 0.5), position = UDim2.new(0.5, 0, 0.5, 4),
+		size = UDim2.new(0, 110, 0, 72), z = 25, parent = frame })
+	local price = UI.priceButton("", false, {
+		size = UDim2.new(1, -24, 0, 36),
+		position = UDim2.new(0.5, 0, 1, -24),
+		anchor = Vector2.new(0.5, 0.5),
+		parent = frame,
+	})
+	price.ZIndex = 26
+	return price, sub
+end
+
+-- Price button text + Check-UI state: lime "buy", cyan "equip", silver "owned", red "poor"
 local function setButton(button, text, kind)
 	button.Label.Text = text
 	UI.setButtonState(button, kind)
@@ -5346,31 +5354,17 @@ end
 -- Sections
 ----------------------------------------------------------------------------------------------
 local function buildPasses(order)
-	local g = grid(order)
+	local g = grid(order, 276, 155)
 	for i, pass in ipairs(GameConfig.Passes) do
-		local colors = pass.card == "Rainbow" and "Rainbow" or CARD_COLORS[pass.card] or CARD_COLORS.Gold
-		local _, price = card(g, i, { title = pass.name, icon = GameConfig.Icons[pass.icon], description = pass.description,
-			colors = colors, gift = true, robux = true })
-		price.Label.Text = NumberFormat.commas(pass.robux)
-		price.Activated:Connect(function()
-			if pass.gamePassId and pass.gamePassId > 0 then
-				MarketplaceService:PromptGamePassPurchase(player, pass.gamePassId)
-			else
-				toast(pass.name .. " is coming soon!", "info")
-			end
-		end)
+		passCard(g, i, pass)
 	end
 end
 
-local function buildSpeed(order)
-	local g = grid(order)
+local function buildTreadmills(order)
+	local g = grid(order, 180, 175)
 	for i, t in ipairs(GameConfig.Treadmill.Tiers) do
-		local _, price, description = card(g, i, {
-			title = t.name .. " Treadmill",
-			icon = GameConfig.Icons.Treadmill,
-			description = "<green>+" .. NumberFormat.short(t.speedPerStep) .. "</green> Speed every step!",
-			colors = rarityGradient(t.rarity),
-		})
+		local price = productCard(g, i, t.name, "<green>+" .. NumberFormat.short(t.speedPerStep) .. "</green> Speed / step",
+			GameConfig.Icons.Treadmill)
 		price.Activated:Connect(function()
 			ask("BuyTreadmill", t.tier)
 		end)
@@ -5385,32 +5379,28 @@ local function buildSpeed(order)
 			else
 				setButton(price, "Locked", "owned")
 			end
-			description.Text = UI.highlight("<green>+" .. NumberFormat.short(t.speedPerStep) .. "</green> Speed every step!")
 		end)
 	end
-	local base = #GameConfig.Treadmill.Tiers
+end
+
+local function buildSpurs(order)
+	local g = grid(order, 180, 175)
 	for i, spur in ipairs(GameConfig.Spurs) do
-		local _, price = card(g, base + i, {
-			title = spur.name,
-			icon = GameConfig.Icons.Spurs,
-			description = "Treadmill Speed <green>x" .. tostring(spur.multiplier) .. "</green>!",
-			colors = rarityGradient(spur.rarity),
-		})
+		local price = productCard(g, i, spur.name, "Treadmill <green>x" .. tostring(spur.multiplier) .. "</green>",
+			GameConfig.Icons.Spurs)
 		price.Activated:Connect(function()
-			local owned = string.find("," .. (player:GetAttribute("OwnedSpurs") or "") .. ",", "," .. spur.id .. ",", 1, true)
 			if player:GetAttribute("EquippedSpur") == spur.id then
 				ask("EquipSpur", "")
-			elseif owned then
+			elseif owns(spur.id) then
 				ask("EquipSpur", spur.id)
 			else
 				ask("BuySpur", spur.id)
 			end
 		end)
 		table.insert(cards, function(cash)
-			local owned = string.find("," .. (player:GetAttribute("OwnedSpurs") or "") .. ",", "," .. spur.id .. ",", 1, true)
 			if player:GetAttribute("EquippedSpur") == spur.id then
 				setButton(price, "Equipped", "owned")
-			elseif owned then
+			elseif owns(spur.id) then
 				setButton(price, "Equip", "equip")
 			else
 				setButton(price, NumberFormat.cash(spur.price), cash >= spur.price and "buy" or "poor")
@@ -5419,14 +5409,9 @@ local function buildSpeed(order)
 	end
 end
 
-local function buildMoney(order)
-	local g = grid(order)
-	local _, price, description = card(g, 1, {
-		title = "Pen Slot",
-		icon = GameConfig.Icons.Pen,
-		description = "Room for <green>+1</green> beast!",
-		colors = CARD_COLORS.Green,
-	})
+local function buildRanch(order)
+	local g = grid(order, 180, 175)
+	local price, sub = productCard(g, 1, "Pen Slot", "Room for <green>+1</green> beast", GameConfig.Icons.Pen)
 	price.Activated:Connect(function()
 		ask("BuyPenSlot")
 	end)
@@ -5436,10 +5421,10 @@ local function buildMoney(order)
 		local cost = GameConfig.Pen.UpgradePrices[level]
 		if slots >= GameConfig.Pen.MaxSlots or not cost then
 			setButton(price, "Maxed", "owned")
-			description.Text = UI.highlight("Your pen is <green>full size</green>!")
+			sub.Text = UI.highlight("<green>" .. slots .. "</green> slots (max)")
 		else
 			setButton(price, NumberFormat.cash(cost), cash >= cost and "buy" or "poor")
-			description.Text = UI.highlight("Room for <green>+1</green> beast! (" .. slots .. " \u{2192} " .. (slots + 1) .. ")")
+			sub.Text = UI.highlight(slots .. " \u{2192} <green>" .. (slots + 1) .. "</green> slots")
 		end
 	end)
 end
@@ -5459,102 +5444,102 @@ end
 ----------------------------------------------------------------------------------------------
 local function build()
 	gui = UI.screen("Shop", 5)
-	uiScale = UI.autoScale(gui)
+	uiScale = UI.autoScale(gui, 1050, 620, 0.52, 1.18) -- Check-UI's responsive baseline
 
 	window = UI.new("Frame", {
-		Name = "Window",
-		BackgroundTransparency = 1,
+		Name = "ShopFrame",
+		BackgroundColor3 = Color3.fromRGB(59, 88, 102),
+		BorderSizePixel = 0,
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.new(0.5, 0, 0.5, 10),
-		Size = UDim2.new(0, 780, 0, 580),
+		Position = UDim2.new(0.5, 0, 0.5, 0),
+		Size = UDim2.new(0, 600, 0, 415),
+		ClipsDescendants = true,
 		Visible = false,
+		ZIndex = 20,
 		Parent = gui,
-	})
+	}, { UI.corner(4), UI.border(3.5, Color3.fromRGB(24, 30, 34)) })
 
-	-- Header: green glass bar
+	-- Header: magenta -> crimson, pastel top line, fading damier, 2-tier divider
 	local header = UI.new("Frame", {
 		Name = "Header",
 		BackgroundColor3 = Color3.new(1, 1, 1),
 		BorderSizePixel = 0,
-		Size = UDim2.new(1, 0, 0, 72),
-		ZIndex = 2,
+		Size = UDim2.new(1, 0, 0, 60),
+		ZIndex = 21,
 		Parent = window,
-	}, { UI.corner(4), UI.border(3, UI.Colors.HeaderBorder) })
-	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(UI.Colors.HeaderTop, UI.Colors.HeaderBottom), Parent = header })
-	UI.damier(header, Color3.fromRGB(53, 128, 0), 26, { 0.9, 0.55 }, header.ZIndex)
-	UI.shine(header, 0.75)
-	-- Check-UI's 2-tier divider under the header: a dark green line, then a black line
-	UI.new("Frame", { BackgroundColor3 = Color3.fromRGB(37, 96, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
-		Position = UDim2.new(0, 0, 1, -3), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
-	UI.new("Frame", { BackgroundColor3 = Color3.new(0, 0, 0), BorderSizePixel = 0, AnchorPoint = Vector2.new(0, 1),
-		Position = UDim2.new(0, 0, 1, 0), Size = UDim2.new(1, 0, 0, 3), ZIndex = 3, Parent = header })
+	}, { UI.corner(4) })
+	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Color3.fromRGB(255, 20, 150), Color3.fromRGB(225, 0, 25)), Parent = header })
+	UI.new("Frame", { Name = "TopHighlight", BackgroundColor3 = Color3.fromRGB(255, 200, 225), BackgroundTransparency = 0.3,
+		BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 2), ZIndex = 22, Parent = header })
+	UI.damier(header, Color3.fromRGB(150, 0, 20), 26, nil, 22, 0.35)
+	UI.new("Frame", { Name = "DivDark", BackgroundColor3 = Color3.fromRGB(125, 0, 18), BorderSizePixel = 0,
+		Position = UDim2.new(0, 0, 1, -6), Size = UDim2.new(1, 0, 0, 3), ZIndex = 23, Parent = header })
+	UI.new("Frame", { Name = "DivBlack", BackgroundColor3 = Color3.new(0, 0, 0), BorderSizePixel = 0,
+		Position = UDim2.new(0, 0, 1, -3), Size = UDim2.new(1, 0, 0, 3), ZIndex = 23, Parent = header })
 	UI.text("Shop", {
 		name = "Title",
 		align = "Left",
-		size = UDim2.new(0, 300, 0, 54),
-		position = UDim2.new(0, 18, 0, 9),
-		stroke = 4,
-		z = 3,
+		anchor = Vector2.new(0, 0.5),
+		position = UDim2.new(0, 18, 0.5, -2),
+		size = UDim2.new(0, 180, 0, 44),
+		stroke = 3.2,
+		z = 24,
 		parent = header,
 	})
 	local close = UI.closeButton(header)
-	close.ZIndex = 4
+	close.Size = UDim2.new(0, 38, 0, 38)
+	close.AnchorPoint = Vector2.new(0.5, 0.5)
+	close.Position = UDim2.new(1, -34, 0.5, -2)
+	close.ZIndex = 25
 	close.Activated:Connect(function()
 		ShopController.close()
 	end)
 
-	-- Body: dark grey, scrolling
-	local body = UI.new("Frame", {
-		Name = "Body",
-		BackgroundColor3 = UI.Colors.Body,
-		BorderSizePixel = 0,
-		Position = UDim2.new(0, 0, 0, 76),
-		Size = UDim2.new(1, 0, 1, -76),
-		Parent = window,
-	}, { UI.corner(4), UI.border(3, UI.Colors.BodyBorder) })
-	UI.damier(body, Color3.new(0, 0, 0), 26, { 0.94, 0.8 }, body.ZIndex)
-
 	list = UI.new("ScrollingFrame", {
-		Name = "List",
+		Name = "ContentScroll",
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
-		Position = UDim2.new(0, 6, 0, 6),
-		Size = UDim2.new(1, -12, 1, -12),
+		Position = UDim2.new(0, 0, 0, 60),
+		Size = UDim2.new(1, 0, 1, -60),
 		CanvasSize = UDim2.new(0, 0, 0, 0),
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
-		ScrollBarThickness = 6,
-		ScrollBarImageColor3 = Color3.fromRGB(200, 200, 205),
-		Parent = body,
+		ScrollBarThickness = 7,
+		ScrollBarImageColor3 = Color3.fromRGB(210, 225, 235),
+		ScrollBarImageTransparency = 0.3,
+		ZIndex = 21,
+		Parent = window,
 	}, {
-		UI.new("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder,
+		UI.new("UIListLayout", { Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder,
 			HorizontalAlignment = Enum.HorizontalAlignment.Center }),
-		UI.new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 16) }),
+		UI.new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 14) }),
 	})
 
-	sectionHeader(1, "FEATURED", UI.Tints.Gold)
-	sectionHeader(2, "PASSES", UI.Tints.Gold)
-	buildPasses(3)
-	sectionHeader(4, "SPEED", UI.Tints.Cyan)
-	buildSpeed(5)
-	sectionHeader(6, "MONEY", UI.Tints.Green)
-	buildMoney(7)
+	sectionTitle(1, "Gamepass")
+	buildPasses(2)
+	sectionTitle(3, "Treadmills")
+	buildTreadmills(4)
+	sectionTitle(5, "Spurs")
+	buildSpurs(6)
+	sectionTitle(7, "Ranch")
+	buildRanch(8)
 end
 
--- section: "FEATURED" (top), "SPEED" or "MONEY"
+-- section: "Gamepass" (top), "Treadmills", "Spurs" or "Ranch"
 function ShopController.open(section)
 	window.Visible = true
 	updateCards()
-	local header = sections[section or "FEATURED"]
-	if header then
+	local title = sections[section or "Gamepass"]
+	if title then
 		task.defer(function()
 			local scale = uiScale and uiScale.Scale or 1
-			local y = (header.AbsolutePosition.Y - list.AbsolutePosition.Y) / scale + list.CanvasPosition.Y
+			local y = (title.AbsolutePosition.Y - list.AbsolutePosition.Y) / scale + list.CanvasPosition.Y
 			list.CanvasPosition = Vector2.new(0, math.max(0, y - 6))
 		end)
 	end
-	local scale = window:FindFirstChildOfClass("UIScale") or UI.new("UIScale", { Parent = window })
-	scale.Scale = 0.85
-	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
+	-- Check-UI pop-in: centred scale from 0.85 with Back easing
+	local pop = window:FindFirstChild("WindowScale") or UI.new("UIScale", { Name = "WindowScale", Parent = window })
+	pop.Scale = 0.85
+	TweenService:Create(pop, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
 end
 
 function ShopController.close()
@@ -5589,10 +5574,25 @@ local function watchPads()
 			end
 		end
 		if on and not wasOn then
-			ShopController.open("FEATURED")
+			ShopController.open("Gamepass")
 		end
 		wasOn = on
 	end)
+end
+
+-- Which prices the player can afford, as a string (it only changes when a button would)
+local function affordKey(cash)
+	local bits = {}
+	for _, t in ipairs(GameConfig.Treadmill.Tiers) do
+		table.insert(bits, cash >= t.price and "1" or "0")
+	end
+	for _, spur in ipairs(GameConfig.Spurs) do
+		table.insert(bits, cash >= spur.price and "1" or "0")
+	end
+	for _, price in ipairs(GameConfig.Pen.UpgradePrices) do
+		table.insert(bits, cash >= price and "1" or "0")
+	end
+	return table.concat(bits)
 end
 
 function ShopController.start(hud)
@@ -5600,20 +5600,13 @@ function ShopController.start(hud)
 	if hud then
 		toast = hud.toast
 		local rail = hud.railButtons or {}
-		if rail.Featured then
-			rail.Featured.Activated:Connect(function()
-				ShopController.toggle("FEATURED")
-			end)
-		end
-		if rail.Speed then
-			rail.Speed.Activated:Connect(function()
-				ShopController.open("SPEED")
-			end)
-		end
-		if rail.Money then
-			rail.Money.Activated:Connect(function()
-				ShopController.open("MONEY")
-			end)
+		local jumps = { Featured = "Gamepass", Speed = "Treadmills", Money = "Ranch" }
+		for name, section in pairs(jumps) do
+			if rail[name] then
+				rail[name].Activated:Connect(function()
+					ShopController.open(section)
+				end)
+			end
 		end
 		if rail.Index then
 			rail.Index.Activated:Connect(function()
@@ -5621,9 +5614,17 @@ function ShopController.start(hud)
 			end)
 		end
 	end
-	for _, name in ipairs({ "Cash", "TreadmillTier", "OwnedSpurs", "EquippedSpur", "PenLevel", "PenSlots" }) do
+	for _, name in ipairs({ "TreadmillTier", "OwnedSpurs", "EquippedSpur", "PenLevel", "PenSlots" }) do
 		player:GetAttributeChangedSignal(name):Connect(updateCards)
 	end
+	local lastKey = nil
+	player:GetAttributeChangedSignal("Cash"):Connect(function()
+		local key = affordKey(player:GetAttribute("Cash") or 0)
+		if key ~= lastKey then
+			lastKey = key
+			updateCards()
+		end
+	end)
 	watchPads()
 end
 
@@ -5836,35 +5837,44 @@ function UI.pressable(button)
 	end)
 end
 
--- Check-UI button states: { top, bottom, bevel, highlight }
+-- Check-UI button states: { top, bottom, bevel, highlight, damier }
 UI.ButtonStates = {
-	buy = { Color3.fromRGB(180, 255, 25), Color3.fromRGB(105, 225, 0), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130) },
-	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255) },
-	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200) },
-	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255) },
-	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255) },
+	buy = { Color3.fromRGB(235, 255, 30), Color3.fromRGB(20, 215, 10), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130), Color3.fromRGB(0, 110, 0) },
+	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255), Color3.fromRGB(96, 104, 112) },
+	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200), Color3.fromRGB(144, 0, 24) },
+	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255), Color3.fromRGB(0, 75, 150) },
+	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255), Color3.fromRGB(96, 0, 144) },
 }
 
 -- Checkerboard overlay (Check-UI "damier"): the uploaded 2x2 checker tile, tinted, fading in
--- toward the bottom. tile = pixels per tile, fade = { topTransparency, bottomTransparency }.
-function UI.damier(parent, color, tile, fade, z)
+-- toward the bottom. tile = pixels per tile. fade = { top, bottom } transparencies, or a list of
+-- { position, transparency } keypoints (Check-UI's 4-point fade is the default).
+UI.DAMIER_FADE = { { 0, 1 }, { 0.3, 0.82 }, { 0.65, 0.35 }, { 1, 0.1 } }
+function UI.damier(parent, color, tile, fade, z, imageTransparency, rotation)
 	local layer = UI.new("ImageLabel", {
 		Name = "Damier",
 		BackgroundTransparency = 1,
 		Image = GameConfig.UIAssets.Checker,
 		ImageColor3 = color or Color3.new(0, 0, 0),
+		ImageTransparency = imageTransparency or 0,
 		ScaleType = Enum.ScaleType.Tile,
 		TileSize = UDim2.new(0, tile or 18, 0, tile or 18),
 		Size = UDim2.new(1, 0, 1, 0),
 		ZIndex = z or parent.ZIndex,
 		Parent = parent,
 	})
-	fade = fade or { 0.91, 0.62 }
-	UI.new("UIGradient", {
-		Rotation = 90,
-		Transparency = NumberSequence.new(fade[1], fade[2]),
-		Parent = layer,
-	})
+	fade = fade or UI.DAMIER_FADE
+	local sequence
+	if type(fade[1]) == "table" then
+		local points = {}
+		for _, kp in ipairs(fade) do
+			table.insert(points, NumberSequenceKeypoint.new(kp[1], kp[2]))
+		end
+		sequence = NumberSequence.new(points)
+	else
+		sequence = NumberSequence.new(fade[1], fade[2])
+	end
+	UI.new("UIGradient", { Rotation = rotation or 90, Transparency = sequence, Parent = layer })
 	return layer
 end
 
@@ -5911,7 +5921,7 @@ function UI.bevelButton(opts)
 		Position = opts.position or UDim2.new(0, 0, 0, 0),
 		AnchorPoint = opts.anchor or Vector2.new(0, 0),
 		ZIndex = opts.z or 3,
-	}, { UI.corner(4), UI.border(3, Color3.fromRGB(12, 20, 26)) })
+	}, { UI.corner(4), UI.border(2.4, Color3.new(0, 0, 0)) })
 	UI.new("UIGradient", { Name = "Face", Rotation = 90, Parent = button })
 	UI.new("Frame", {
 		Name = "Bevel",
@@ -5922,7 +5932,7 @@ function UI.bevelButton(opts)
 		ZIndex = button.ZIndex,
 		Parent = button,
 	})
-	UI.damier(button, Color3.new(0, 0, 0), 18, { 0.92, 0.7 }, button.ZIndex)
+	UI.damier(button, Color3.new(0, 0, 0), 12, nil, button.ZIndex)
 	local inner = UI.new("Frame", {
 		Name = "Inner",
 		BackgroundTransparency = 1,
@@ -5955,6 +5965,10 @@ function UI.setButtonState(button, state)
 	local highlight = inner and inner:FindFirstChild("Highlight")
 	if highlight then
 		highlight.Color = colors[4]
+	end
+	local damier = button:FindFirstChild("Damier")
+	if damier then
+		damier.ImageColor3 = colors[5]
 	end
 end
 
@@ -6102,13 +6116,14 @@ function UI.icon(icon, opts)
 	return label
 end
 
--- Keeps a 1280x720 layout the same size relative to any screen.
-function UI.autoScale(screenGui)
+-- Keeps a layout the same size relative to any screen. Default baseline 1280x720; the Check-UI
+-- windows use theirs (1050x620, clamped 0.52-1.18).
+function UI.autoScale(screenGui, baseX, baseY, minScale, maxScale)
 	local scale = UI.new("UIScale", { Parent = screenGui })
 	local camera = workspace.CurrentCamera
 	local function update()
 		local viewport = camera and camera.ViewportSize or Vector2.new(1280, 720)
-		scale.Scale = math.clamp(math.min(viewport.X / 1280, viewport.Y / 720), 0.55, 1.6)
+		scale.Scale = math.clamp(math.min(viewport.X / (baseX or 1280), viewport.Y / (baseY or 720)), minScale or 0.55, maxScale or 1.6)
 	end
 	update()
 	if camera then

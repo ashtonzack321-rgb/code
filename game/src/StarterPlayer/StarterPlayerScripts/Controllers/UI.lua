@@ -203,35 +203,44 @@ function UI.pressable(button)
 	end)
 end
 
--- Check-UI button states: { top, bottom, bevel, highlight }
+-- Check-UI button states: { top, bottom, bevel, highlight, damier }
 UI.ButtonStates = {
-	buy = { Color3.fromRGB(180, 255, 25), Color3.fromRGB(105, 225, 0), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130) },
-	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255) },
-	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200) },
-	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255) },
-	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255) },
+	buy = { Color3.fromRGB(235, 255, 30), Color3.fromRGB(20, 215, 10), Color3.fromRGB(15, 120, 15), Color3.fromRGB(235, 255, 130), Color3.fromRGB(0, 110, 0) },
+	owned = { Color3.fromRGB(216, 222, 228), Color3.fromRGB(148, 160, 176), Color3.fromRGB(72, 82, 96), Color3.fromRGB(255, 255, 255), Color3.fromRGB(96, 104, 112) },
+	poor = { Color3.fromRGB(255, 32, 80), Color3.fromRGB(208, 0, 32), Color3.fromRGB(112, 0, 16), Color3.fromRGB(255, 176, 200), Color3.fromRGB(144, 0, 24) },
+	equip = { Color3.fromRGB(0, 205, 255), Color3.fromRGB(0, 130, 245), Color3.fromRGB(0, 50, 110), Color3.fromRGB(180, 240, 255), Color3.fromRGB(0, 75, 150) },
+	gift = { Color3.fromRGB(196, 80, 255), Color3.fromRGB(140, 30, 220), Color3.fromRGB(70, 10, 110), Color3.fromRGB(230, 180, 255), Color3.fromRGB(96, 0, 144) },
 }
 
 -- Checkerboard overlay (Check-UI "damier"): the uploaded 2x2 checker tile, tinted, fading in
--- toward the bottom. tile = pixels per tile, fade = { topTransparency, bottomTransparency }.
-function UI.damier(parent, color, tile, fade, z)
+-- toward the bottom. tile = pixels per tile. fade = { top, bottom } transparencies, or a list of
+-- { position, transparency } keypoints (Check-UI's 4-point fade is the default).
+UI.DAMIER_FADE = { { 0, 1 }, { 0.3, 0.82 }, { 0.65, 0.35 }, { 1, 0.1 } }
+function UI.damier(parent, color, tile, fade, z, imageTransparency, rotation)
 	local layer = UI.new("ImageLabel", {
 		Name = "Damier",
 		BackgroundTransparency = 1,
 		Image = GameConfig.UIAssets.Checker,
 		ImageColor3 = color or Color3.new(0, 0, 0),
+		ImageTransparency = imageTransparency or 0,
 		ScaleType = Enum.ScaleType.Tile,
 		TileSize = UDim2.new(0, tile or 18, 0, tile or 18),
 		Size = UDim2.new(1, 0, 1, 0),
 		ZIndex = z or parent.ZIndex,
 		Parent = parent,
 	})
-	fade = fade or { 0.91, 0.62 }
-	UI.new("UIGradient", {
-		Rotation = 90,
-		Transparency = NumberSequence.new(fade[1], fade[2]),
-		Parent = layer,
-	})
+	fade = fade or UI.DAMIER_FADE
+	local sequence
+	if type(fade[1]) == "table" then
+		local points = {}
+		for _, kp in ipairs(fade) do
+			table.insert(points, NumberSequenceKeypoint.new(kp[1], kp[2]))
+		end
+		sequence = NumberSequence.new(points)
+	else
+		sequence = NumberSequence.new(fade[1], fade[2])
+	end
+	UI.new("UIGradient", { Rotation = rotation or 90, Transparency = sequence, Parent = layer })
 	return layer
 end
 
@@ -278,7 +287,7 @@ function UI.bevelButton(opts)
 		Position = opts.position or UDim2.new(0, 0, 0, 0),
 		AnchorPoint = opts.anchor or Vector2.new(0, 0),
 		ZIndex = opts.z or 3,
-	}, { UI.corner(4), UI.border(3, Color3.fromRGB(12, 20, 26)) })
+	}, { UI.corner(4), UI.border(2.4, Color3.new(0, 0, 0)) })
 	UI.new("UIGradient", { Name = "Face", Rotation = 90, Parent = button })
 	UI.new("Frame", {
 		Name = "Bevel",
@@ -289,7 +298,7 @@ function UI.bevelButton(opts)
 		ZIndex = button.ZIndex,
 		Parent = button,
 	})
-	UI.damier(button, Color3.new(0, 0, 0), 18, { 0.92, 0.7 }, button.ZIndex)
+	UI.damier(button, Color3.new(0, 0, 0), 12, nil, button.ZIndex)
 	local inner = UI.new("Frame", {
 		Name = "Inner",
 		BackgroundTransparency = 1,
@@ -322,6 +331,10 @@ function UI.setButtonState(button, state)
 	local highlight = inner and inner:FindFirstChild("Highlight")
 	if highlight then
 		highlight.Color = colors[4]
+	end
+	local damier = button:FindFirstChild("Damier")
+	if damier then
+		damier.ImageColor3 = colors[5]
 	end
 end
 
@@ -469,13 +482,14 @@ function UI.icon(icon, opts)
 	return label
 end
 
--- Keeps a 1280x720 layout the same size relative to any screen.
-function UI.autoScale(screenGui)
+-- Keeps a layout the same size relative to any screen. Default baseline 1280x720; the Check-UI
+-- windows use theirs (1050x620, clamped 0.52-1.18).
+function UI.autoScale(screenGui, baseX, baseY, minScale, maxScale)
 	local scale = UI.new("UIScale", { Parent = screenGui })
 	local camera = workspace.CurrentCamera
 	local function update()
 		local viewport = camera and camera.ViewportSize or Vector2.new(1280, 720)
-		scale.Scale = math.clamp(math.min(viewport.X / 1280, viewport.Y / 720), 0.55, 1.6)
+		scale.Scale = math.clamp(math.min(viewport.X / (baseX or 1280), viewport.Y / (baseY or 720)), minScale or 0.55, maxScale or 1.6)
 	end
 	update()
 	if camera then
