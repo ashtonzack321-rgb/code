@@ -61,3 +61,4 @@ A bacon-hair cowboy towing a giant glowing **Inferno Mammoth** while a red-eyed 
 **[Open the Steal a Beast UI mockup](https://claude.ai/artifact/4ziAJWGDzwJTSY8KVuADkz)**. It has screens for the area map, Town HUD, lassoing a beast, the chase home, the ranch, the tamed reveal, the shop, the Index and the thumbnail. Press Play on a screen to click through it.
 
 Related: [[Core Loop]] · [[Systems and Scripts]]
+![[Pasted image 20261020172519.png]]make the ui look the same as this
