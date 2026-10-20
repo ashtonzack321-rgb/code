@@ -103,6 +103,37 @@ AreasConfig.Plots = {
 ----------------------------------------------------------------------------------------------
 -- Lane (MAP_SPEC section 6.1)
 ----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+-- Look: Steal An Egg's bright, studded checkerboard style (2026-10-20 screenshots).
+-- MapBuilder restyles the ground, paths, walls and plot floors after building:
+--   * Plastic with Studs surfaces, colours from this table (or the area theme made brighter)
+--   * plus the checkerboard Texture, once game/assets/checker_studs.png is uploaded to Roblox
+--     and its id is pasted into CheckerTexture (see game/README.md). Until then: studs only.
+----------------------------------------------------------------------------------------------
+AreasConfig.Style = {
+	Enabled = true,
+	CheckerTexture = "",        -- e.g. "rbxassetid://1234567890"; or set workspace attribute CheckerTexture
+	TileStuds = 4,              -- one checker square = 4 x 4 studs (the image holds 2 x 2 squares)
+	Saturation = 1.35,          -- area theme colours are made this much more saturated ...
+	Brightness = 1.12,          -- ... and this much brighter
+	Town = {
+		grass = { 118, 214, 38 },   -- Square and ranch yards (Steal An Egg's bright green)
+		plot = { 104, 198, 30 },    -- plot floors, a shade darker than the yards
+		path = { 128, 118, 140 },   -- Main Street, boardwalks, trailhead (the purple-grey path)
+		wall = { 205, 120, 55 },    -- the Town palisade (the orange checker wall)
+	},
+	-- Per-area colours that replace the brightened theme (area 1 copies Steal An Egg's Forest)
+	AreaOverrides = {
+		[1] = {
+			trail = { 128, 118, 140 },
+			shoulder = { 118, 214, 38 },
+			wall = { 205, 120, 55 },
+			crest = { 118, 214, 38 },
+			toe = { 190, 108, 48 },
+		},
+	},
+}
+
 AreasConfig.Lane = {
 	TrailheadStartX = 400,
 	TrailheadEndX = 432,     -- Area 1 starts here
@@ -125,7 +156,7 @@ AreasConfig.Areas = {
 		startX = 432, endX = 592, length = 160,
 		herdX = 528, herdSide = 1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 18, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "OlStompy", name = "Ol' Stompy", species = "Bull" },
 		indexWeapon = nil,
 		theme = {
@@ -137,7 +168,7 @@ AreasConfig.Areas = {
 			archPost  = { material = "Wood",       color = { 122, 84, 50 } },
 			archCap   = { material = "Wood",       color = { 122, 84, 50 } },
 			archBoard = { material = "WoodPlanks", color = { 176, 128, 78 } },
-			signText  = { 60, 36, 20 },
+			signText  = nil,
 			herdZone  = { material = "Grass",      color = { 176, 196, 104 } },
 			alphaBed  = { material = "Grass",      color = { 220, 190, 100 } },
 		},
@@ -163,7 +194,7 @@ AreasConfig.Areas = {
 		startX = 592, endX = 784, length = 192,
 		herdX = 707, herdSide = -1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 32, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "RattlesnakeKing", name = "Rattlesnake King", species = "Rattlesnake" },
 		indexWeapon = "Cactus Club",
 		theme = {
@@ -201,7 +232,7 @@ AreasConfig.Areas = {
 		startX = 784, endX = 1008, length = 224,
 		herdX = 918, herdSide = 1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 36, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "BigDigger", name = "Big Digger", species = "Giant Mole" },
 		indexWeapon = "Miner's Pickaxe",
 		theme = {
@@ -239,7 +270,7 @@ AreasConfig.Areas = {
 		startX = 1008, endX = 1264, length = 256,
 		herdX = 1162, herdSide = -1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 28, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "CrocKing", name = "Croc King", species = "Crocodile" },
 		indexWeapon = "Gator Tail Whip",
 		theme = {
@@ -277,7 +308,7 @@ AreasConfig.Areas = {
 		startX = 1264, endX = 1552, length = 288,
 		herdX = 1437, herdSide = 1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 40, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "YetiMoose", name = "Yeti Moose", species = "Moose" },
 		indexWeapon = "Ice Whip",
 		theme = {
@@ -315,7 +346,7 @@ AreasConfig.Areas = {
 		startX = 1552, endX = 1872, length = 320,
 		herdX = 1744, herdSide = -1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 44, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "MagmaOx", name = "Magma Ox", species = "Ox" },
 		indexWeapon = "Lava Bat",
 		theme = {
@@ -353,7 +384,7 @@ AreasConfig.Areas = {
 		startX = 1872, endX = 2224, length = 352,
 		herdX = 2083, herdSide = 1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 40, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "StormGriffin", name = "Storm Griffin", species = "Griffin" },
 		indexWeapon = "Thunder Whip",
 		theme = {
@@ -391,7 +422,7 @@ AreasConfig.Areas = {
 		startX = 2224, endX = 2608, length = 384,
 		herdX = 2454, herdSide = -1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 44, alphaBedDiameter = 22,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "RodeoRex", name = "Rodeo Rex", species = "T-Rex" },
 		indexWeapon = "Dino Bone Club",
 		theme = {
@@ -430,7 +461,7 @@ AreasConfig.Areas = {
 		startX = 2608, endX = 3024, length = 416,
 		herdX = 2858, herdSide = 1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 36, alphaBedDiameter = 16,
-		font = "Creepster",
+		font = "GothamBlack",
 		alpha = { id = "PhantomSteed", name = "Phantom Steed", species = "Horse" },
 		indexWeapon = "Ghost Lasso",
 		theme = {
@@ -468,7 +499,7 @@ AreasConfig.Areas = {
 		startX = 3024, endX = 3600, length = 576,
 		herdX = 3456, herdSide = -1, herdSpacing = 16, herdFraction = 0.75,
 		cliffHeight = 48, alphaBedDiameter = 22,
-		font = "Michroma",
+		font = "GothamBlack",
 		alpha = { id = "CosmicKrakenCow", name = "Cosmic Kraken-Cow", species = "Kraken-Cow" },
 		indexWeapon = "Cosmic Whip",
 		theme = {

@@ -75,13 +75,16 @@ class LuaEnv {
   }
 }
 
-// A Lua state with the mock loaded, CONFIG = AreasConfig and BUILD_MAP = the command-bar chunk.
+// A Lua state with the mock loaded, CONFIG = AreasConfig, MAP_BUILDER = the source module and
+// BUILD_MAP = the command-bar chunk.
 function createMapEnv() {
   const env = new LuaEnv();
   env.runFile(PATHS.mock);
   env.defineChunk('LOAD_CONFIG', fs.readFileSync(PATHS.config, 'utf8'), 'src/ReplicatedStorage/Shared/AreasConfig.lua');
   env.run('CONFIG = LOAD_CONFIG()', 'load-config');
   env.defineChunk('BUILD_MAP', fs.readFileSync(PATHS.command, 'utf8'), 'tools/BuildMap.command.lua');
+  env.defineChunk('LOAD_MAP_BUILDER', fs.readFileSync(PATHS.builder, 'utf8'), 'src/ServerStorage/MapBuilder/init.lua');
+  env.run('MAP_BUILDER = LOAD_MAP_BUILDER()', 'load-map-builder');
   return env;
 }
 

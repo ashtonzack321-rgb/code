@@ -3,7 +3,8 @@
 	game/MAP_SPEC.md and AreasConfig. Run by tests/run_tests.js under fengari (Lua 5.3)
 	with tests/mock_roblox.lua loaded.
 
-	Expects these globals: CONFIG (the AreasConfig table), BUILD_MAP (the command-bar chunk,
+	Expects these globals: CONFIG (the AreasConfig table), MAP_BUILDER (the source MapBuilder module),
+	BUILD_MAP (the command-bar chunk,
 	not yet run) and MOCK. Prints one PASS/FAIL line per check and returns "passed failed parts".
 ]]
 
@@ -850,6 +851,93 @@ test("Lighting has one Atmosphere, one BloomEffect and the AreaColorCorrection",
 end)
 
 ----------------------------------------------------------------------------------------------
+-- Steal An Egg look (AreasConfig.Style)
+----------------------------------------------------------------------------------------------
+local function styledParts(m)
+	local list = {}
+	local function add(part)
+		if part then
+			table.insert(list, part)
+		end
+	end
+	local g = m.Town.Ground
+	for _, n in ipairs({ "SquareGround", "RanchGroundN", "RanchGroundS", "MainStreet", "BoardwalkN", "BoardwalkS" }) do
+		add(g:FindFirstChild(n))
+	end
+	for _, n in ipairs({ "Palisade_N", "Palisade_S", "Palisade_W", "Palisade_EN", "Palisade_ES" }) do
+		add(m.Town.Fence:FindFirstChild(n))
+	end
+	for _, plot in ipairs(m.Plots:GetChildren()) do
+		add(plot:FindFirstChild("PlotBase"))
+	end
+	add(m.Lane:FindFirstChild("Trailhead"))
+	for _, area in ipairs(m.Lane.Areas:GetChildren()) do
+		for _, n in ipairs({ "TrailStrip", "ShoulderN", "ShoulderS" }) do
+			add(area.Ground:FindFirstChild(n))
+		end
+		for _, n in ipairs({ "WallN", "WallS", "CrestN", "CrestS", "ToeN", "ToeS" }) do
+			add(area.Cliffs:FindFirstChild(n))
+		end
+	end
+	return list
+end
+
+local function countTextures(root)
+	local n = 0
+	for _, d in ipairs(root:GetDescendants()) do
+		if d:IsA("Texture") then
+			n = n + 1
+		end
+	end
+	return n
+end
+
+test("Steal An Egg look: 109 ground, path, wall and plot-floor parts are Plastic with studs on top", function()
+	local list = styledParts(map)
+	if #list ~= 109 then
+		return false, #list .. " styled parts"
+	end
+	for _, part in ipairs(list) do
+		if part.Material ~= Enum.Material.Plastic or part.TopSurface ~= Enum.SurfaceType.Studs then
+			return false, part:GetFullName()
+		end
+	end
+	return buildReport.styledParts == 109, "report says " .. tostring(buildReport.styledParts)
+end)
+
+test("Steal An Egg look: walls are studded on every side, area 1 uses the Forest colours, Town uses the palette", function()
+	local a1 = map.Lane.Areas:FindFirstChild("Area01_DustyPrairie")
+	local wall = a1.Cliffs.WallN
+	for _, s in ipairs({ "FrontSurface", "BackSurface", "LeftSurface", "RightSurface" }) do
+		if wall[s] ~= Enum.SurfaceType.Studs then
+			return false, s
+		end
+	end
+	local o = CONFIG.Style.AreaOverrides[1]
+	local t = CONFIG.Style.Town
+	return wall.Color == Color3.fromRGB(o.wall[1], o.wall[2], o.wall[3])
+		and a1.Ground.ShoulderN.Color == Color3.fromRGB(o.shoulder[1], o.shoulder[2], o.shoulder[3])
+		and map.Town.Ground.SquareGround.Color == Color3.fromRGB(t.grass[1], t.grass[2], t.grass[3])
+		and map.Town.Fence.Palisade_N.Color == Color3.fromRGB(t.wall[1], t.wall[2], t.wall[3]), "colours"
+end)
+
+test("Steal An Egg look: other areas get their theme colour made brighter and more saturated", function()
+	local a2 = map.Lane.Areas:FindFirstChild("Area02_CactusCanyon")
+	local theme = CONFIG.Areas[2].theme.wall.color
+	local want = MAP_BUILDER.vivid(theme, CONFIG.Style)
+	local c = a2.Cliffs.WallN.Color
+	-- brighter = the strongest channel goes up; more saturated = the channels spread further apart
+	local brighter = math.max(want[1], want[2], want[3]) >= math.max(theme[1], theme[2], theme[3])
+		and (math.max(want[1], want[2], want[3]) - math.min(want[1], want[2], want[3]))
+			> (math.max(theme[1], theme[2], theme[3]) - math.min(theme[1], theme[2], theme[3]))
+	return c == Color3.fromRGB(want[1], want[2], want[3]) and brighter, table.concat(want, ",")
+end)
+
+test("no checker Textures until CheckerTexture is set", function()
+	return countTextures(map) == 0 and buildReport.textures == 0
+end)
+
+----------------------------------------------------------------------------------------------
 -- Second build: idempotency and determinism
 ----------------------------------------------------------------------------------------------
 local firstTags = tagCounts()
@@ -903,6 +991,36 @@ test("Lighting effects are reused, not duplicated", function()
 		if child.Name == "AreaColorCorrection" then cc = cc + 1 end
 	end
 	return atm == 1 and bloom == 1 and cc == 1, atm .. "/" .. bloom .. "/" .. cc
+end)
+
+----------------------------------------------------------------------------------------------
+-- Checker texture build (the source MapBuilder module with CheckerTexture set)
+----------------------------------------------------------------------------------------------
+print("Building with a checker texture id (third run, source MapBuilder module)...")
+local styled = {}
+for k, v in pairs(CONFIG.Style) do
+	styled[k] = v
+end
+styled.CheckerTexture = "rbxassetid://1"
+local savedStyle = CONFIG.Style
+CONFIG.Style = styled
+local texReport = MAP_BUILDER.build(CONFIG)
+CONFIG.Style = savedStyle
+local texMap = workspace:FindFirstChild("Map")
+
+test("with CheckerTexture set: 269 tiling textures (top of ground, 5 faces of each wall), 8 studs per tile", function()
+	local n, wrong = 0, nil
+	for _, d in ipairs(texMap:GetDescendants()) do
+		if d:IsA("Texture") then
+			n = n + 1
+			if d.Texture ~= "rbxassetid://1" or d.StudsPerTileU ~= 8 or d.StudsPerTileV ~= 8 then
+				wrong = d:GetFullName()
+			end
+		end
+	end
+	local top = texMap.Town.Ground.SquareGround:FindFirstChild("CheckerTop")
+	return n == 269 and texReport.textures == 269 and wrong == nil and top ~= nil and top.Face == Enum.NormalId.Top,
+		n .. " textures " .. tostring(wrong)
 end)
 
 print(string.format("Map summary: %d parts, %d models, %d plots, %d areas.", partsTotal, buildReport.models, #plots, #areas))

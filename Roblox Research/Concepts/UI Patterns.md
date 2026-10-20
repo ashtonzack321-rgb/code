@@ -18,7 +18,7 @@ The genre's UI aims for **mobile-first, readable at a glance and loud**. Over 70
 └───────────────────────────────────────────┘
 ```
 - **Left sidebar:** a vertical stack of square icon buttons (Shop, Rebirth, Index, Gamepasses, Daily gift), each with a red notification dot.
-- **Top centre:** currency in a cartoon font (Fredoka One or Luckiest Guy) with a thick black stroke.
+- **Top centre or top left:** currency in a heavy font with a thick black stroke. Steal An Egg uses **Montserrat Black Italic** in bright green (see [[UI Style Guide]]); the old claim here of "Fredoka One or Luckiest Guy" was not supported by any source.
 - **Bottom:** context buttons (Lock base, Hatch, Sell) sized for thumbs.
 
 ## World UI (BillboardGui)
@@ -38,4 +38,4 @@ The genre's UI aims for **mobile-first, readable at a glance and loud**. Over 70
 - Use the rarity colour ladder consistently: grey, green, blue, purple, gold, red, rainbow.
 - Use UIScale or UIAspectRatioConstraint so the same layout works on phone and PC.
 
-Related: [[Technical Architecture]] · [[Monetization]]
+Related: [[UI Style Guide]] (Steal An Egg's exact fonts and colours) · [[Technical Architecture]] · [[Monetization]]

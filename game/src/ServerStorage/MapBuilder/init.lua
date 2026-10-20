@@ -34,8 +34,9 @@ MapBuilder.Version = 1
 local rad = math.rad
 local EMPTY = {}
 local GREY = { 163, 162, 165 }
-local CREAM = { 255, 240, 214 }
-local DARK_STROKE = { 40, 24, 14 }
+-- Steal An Egg style: white sign text with a black outline
+local CREAM = { 255, 255, 255 }
+local DARK_STROKE = { 0, 0, 0 }
 local DEFAULT_BAND = { 26, 56 }
 -- Scatter tries per prop with the spec's spacing rule (section 6.5). If all fail, the prop gets
 -- the same number of tries again with a relaxed spacing rule, so crowded areas (Area 1 is only
@@ -67,7 +68,7 @@ end
 
 -- Light text gets a dark outline and dark text gets a light one.
 local function strokeFor(c)
-	if luminance(c) > 0.45 then
+	if luminance(c) > 0.12 then
 		return DARK_STROKE
 	end
 	return CREAM
@@ -166,7 +167,7 @@ local function addSign(part, g)
 	local stroke = g.stroke or strokeFor(textColor)
 	for i, text in ipairs(g.lines) do
 		local row = rows[i]
-		local label = makeLabel("Line" .. i, text, g.font or "LuckiestGuy", textColor, stroke,
+		local label = makeLabel("Line" .. i, text, g.font or "GothamBlack", textColor, stroke,
 			UDim2.new(0.03, 0, row[1], 0), UDim2.new(0.94, 0, row[2], 0))
 		label.Parent = gui
 	end
@@ -186,7 +187,7 @@ local function addBillboard(part, b)
 	local textColor = b.color or CREAM
 	local n = #b.lines
 	for i, text in ipairs(b.lines) do
-		local label = makeLabel("Line" .. i, text, b.font or "LuckiestGuy", textColor, strokeFor(textColor),
+		local label = makeLabel("Line" .. i, text, b.font or "GothamBlack", textColor, strokeFor(textColor),
 			UDim2.new(0, 0, (i - 1) / n, 0), UDim2.new(1, 0, 1 / n, 0))
 		label.Parent = gui
 	end
@@ -1605,7 +1606,7 @@ local function buildArea(ctx, cfg, areasFolder, a)
 	local sigma = a.herdSide
 	local s = a.herdSpacing
 	local th = a.theme
-	local font = a.font or "LuckiestGuy"
+	local font = a.font or "GothamBlack"
 	local signText = th.signText or CREAM
 	local halfWidth = cfg.Town.LaneHalfWidth
 
@@ -1742,7 +1743,7 @@ local function buildLane(ctx, cfg, map)
 		{ "VCyl", { 26, 4 }, { endX - 20, 13, 30 }, "Glass", { 120, 90, 220 }, { name = "PostN" } },
 		{ "VCyl", { 26, 4 }, { endX - 20, 13, -30 }, "Glass", { 120, 90, 220 }, { name = "PostS" } },
 		{ "Block", { 1.5, 10, 68 }, { endX - 20, 31, 0 }, "SmoothPlastic", { 24, 18, 40 }, { name = "Board", gui = {
-			{ face = "Left", lines = endLines, font = "LuckiestGuy", color = { 255, 200, 235 } },
+			{ face = "Left", lines = endLines, font = "GothamBlack", color = { 255, 200, 235 } },
 		} } },
 	}, { primary = "Ground", tags = { "FrontierEnd" } })
 
@@ -1860,6 +1861,161 @@ function MapBuilder.clear()
 	end
 end
 
+----------------------------------------------------------------------------------------------
+-- Steal An Egg look (AreasConfig.Style): bright Plastic ground and walls with Studs surfaces
+-- and, once the texture is uploaded, a two-tone checkerboard Texture on the faces you see.
+----------------------------------------------------------------------------------------------
+local SIDE_FACES = { "Front", "Back", "Left", "Right" }
+local ALL_SURFACES = { "TopSurface", "BottomSurface", "FrontSurface", "BackSurface", "LeftSurface", "RightSurface" }
+
+local function rgbToHsv(c)
+	local r, g, b = c[1] / 255, c[2] / 255, c[3] / 255
+	local maxc, minc = math.max(r, g, b), math.min(r, g, b)
+	local d = maxc - minc
+	local h = 0
+	if d > 0 then
+		if maxc == r then
+			h = ((g - b) / d) % 6
+		elseif maxc == g then
+			h = (b - r) / d + 2
+		else
+			h = (r - g) / d + 4
+		end
+		h = h / 6
+	end
+	local sat = (maxc > 0) and d / maxc or 0
+	return h, sat, maxc
+end
+
+local function hsvToRgb(h, sat, v)
+	local i = math.floor(h * 6)
+	local f = h * 6 - i
+	local p, q, t = v * (1 - sat), v * (1 - f * sat), v * (1 - (1 - f) * sat)
+	local k = i % 6
+	local r, g, b
+	if k == 0 then r, g, b = v, t, p
+	elseif k == 1 then r, g, b = q, v, p
+	elseif k == 2 then r, g, b = p, v, t
+	elseif k == 3 then r, g, b = p, q, v
+	elseif k == 4 then r, g, b = t, p, v
+	else r, g, b = v, p, q end
+	return { math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5) }
+end
+
+-- A theme colour made brighter and more saturated (cartoon look)
+function MapBuilder.vivid(c, style)
+	local h, sat, v = rgbToHsv(c)
+	return hsvToRgb(h, math.min(1, sat * style.Saturation), math.min(1, v * style.Brightness))
+end
+
+-- faces = list of NormalId names that get the checker texture
+local function studify(part, rgb, faces, style, allSides)
+	if not part then
+		return 0
+	end
+	part.Material = Enum.Material.Plastic
+	part.Color = color(rgb)
+	if allSides then
+		for _, surface in ipairs(ALL_SURFACES) do
+			part[surface] = Enum.SurfaceType.Studs
+		end
+	else
+		part.TopSurface = Enum.SurfaceType.Studs
+	end
+	local added = 0
+	if style.CheckerTexture ~= "" then
+		local tile = 2 * style.TileStuds
+		for _, face in ipairs(faces) do
+			local texture = Instance.new("Texture")
+			texture.Name = "Checker" .. face
+			texture.Texture = style.CheckerTexture
+			texture.Face = Enum.NormalId[face]
+			texture.StudsPerTileU = tile
+			texture.StudsPerTileV = tile
+			texture.Color3 = Color3.new(0, 0, 0)
+			texture.Parent = part
+			added = added + 1
+		end
+	end
+	return added
+end
+
+local function child(parent, ...)
+	local node = parent
+	for _, name in ipairs({ ... }) do
+		node = node and node:FindFirstChild(name)
+	end
+	return node
+end
+
+-- Returns the number of parts restyled and textures added.
+function MapBuilder.applyStyle(map, config)
+	local style = config.Style
+	if not style or style.Enabled == false then
+		return 0, 0
+	end
+	-- The texture id can also come from the place itself, so nobody has to edit this repo:
+	--   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")   then rebuild the map
+	local fromPlace = game:GetService("Workspace"):GetAttribute("CheckerTexture")
+	if style.CheckerTexture == "" and type(fromPlace) == "string" and fromPlace ~= "" then
+		local copy = {}
+		for k, v in pairs(style) do
+			copy[k] = v
+		end
+		copy.CheckerTexture = fromPlace
+		style = copy
+	end
+	local parts, textures = 0, 0
+	local function apply(part, rgb, faces, allSides)
+		if part then
+			parts = parts + 1
+			textures = textures + studify(part, rgb, faces, style, allSides)
+		end
+	end
+	local TOP = { "Top" }
+	local WALL = { "Top", "Front", "Back", "Left", "Right" }
+
+	local town = map:FindFirstChild("Town")
+	local ground = child(town, "Ground")
+	apply(child(ground, "SquareGround"), style.Town.grass, TOP)
+	apply(child(ground, "RanchGroundN"), style.Town.grass, TOP)
+	apply(child(ground, "RanchGroundS"), style.Town.grass, TOP)
+	apply(child(ground, "MainStreet"), style.Town.path, TOP)
+	apply(child(ground, "BoardwalkN"), style.Town.path, TOP)
+	apply(child(ground, "BoardwalkS"), style.Town.path, TOP)
+	local fence = child(town, "Fence")
+	for _, name in ipairs({ "Palisade_N", "Palisade_S", "Palisade_W", "Palisade_EN", "Palisade_ES" }) do
+		apply(child(fence, name), style.Town.wall, WALL, true)
+	end
+
+	for _, plot in ipairs(child(map, "Plots") and map.Plots:GetChildren() or {}) do
+		apply(plot:FindFirstChild("PlotBase"), style.Town.plot, TOP)
+	end
+
+	local lane = map:FindFirstChild("Lane")
+	apply(child(lane, "Trailhead"), style.Town.path, TOP)
+	for _, a in ipairs(config.Areas) do
+		local area = child(lane, "Areas", string.format("Area%02d_%s", a.index, a.id))
+		if area then
+			local override = (style.AreaOverrides and style.AreaOverrides[a.index]) or {}
+			local function pick(key)
+				return override[key] or MapBuilder.vivid(a.theme[key].color, style)
+			end
+			apply(child(area, "Ground", "TrailStrip"), pick("trail"), TOP)
+			apply(child(area, "Ground", "ShoulderN"), pick("shoulder"), TOP)
+			apply(child(area, "Ground", "ShoulderS"), pick("shoulder"), TOP)
+			apply(child(area, "Cliffs", "WallN"), pick("wall"), WALL, true)
+			apply(child(area, "Cliffs", "WallS"), pick("wall"), WALL, true)
+			apply(child(area, "Cliffs", "CrestN"), pick("crest"), WALL, true)
+			apply(child(area, "Cliffs", "CrestS"), pick("crest"), WALL, true)
+			-- the wedge toes keep their slope, so they only get studs and colour
+			apply(child(area, "Cliffs", "ToeN"), pick("toe"), {}, true)
+			apply(child(area, "Cliffs", "ToeS"), pick("toe"), {}, true)
+		end
+	end
+	return parts, textures
+end
+
 --[[
 	MapBuilder.build(config, options) -> report
 	config  = the AreasConfig table (loaded from ReplicatedStorage.Shared if omitted)
@@ -1903,6 +2059,7 @@ function MapBuilder.build(config, options)
 		buildPlot(ctx, config, plotsFolder, p)
 	end
 	buildLane(ctx, config, map)
+	ctx.styledParts, ctx.textures = MapBuilder.applyStyle(map, config)
 	map.Parent = ws
 
 	if options.lighting ~= false then
@@ -1921,10 +2078,20 @@ function MapBuilder.build(config, options)
 		skippedNames = ctx.skippedNames,
 		collisionGroups = ctx.groupsOk,
 		removed = removed,
+		styledParts = ctx.styledParts,
+		textures = ctx.textures,
 		seconds = os.clock() - started,
 	}
 	print(string.format("[MapBuilder] Built workspace.Map: %d parts, %d models, %d plots, %d areas in %.2f s.",
 		report.parts, report.models, report.plots, report.areas, report.seconds))
+	if config.Style and config.Style.Enabled ~= false then
+		if ctx.textures > 0 then
+			print(string.format("[MapBuilder] Studded checker look on %d parts (%d textures).", ctx.styledParts, ctx.textures))
+		else
+			print(string.format("[MapBuilder] Studs on %d parts. For the checkerboard, upload game/assets/checker_studs.png "
+				.. "and set AreasConfig.Style.CheckerTexture (see game/README.md).", ctx.styledParts))
+		end
+	end
 	if #removed > 0 then
 		print("[MapBuilder] Removed the template " .. table.concat(removed, " and ") .. " from Workspace.")
 	end

@@ -151,6 +151,37 @@ AreasConfig.Plots = {
 ----------------------------------------------------------------------------------------------
 -- Lane (MAP_SPEC section 6.1)
 ----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+-- Look: Steal An Egg's bright, studded checkerboard style (2026-10-20 screenshots).
+-- MapBuilder restyles the ground, paths, walls and plot floors after building:
+--   * Plastic with Studs surfaces, colours from this table (or the area theme made brighter)
+--   * plus the checkerboard Texture, once game/assets/checker_studs.png is uploaded to Roblox
+--     and its id is pasted into CheckerTexture (see game/README.md). Until then: studs only.
+----------------------------------------------------------------------------------------------
+AreasConfig.Style = {
+	Enabled = true,
+	CheckerTexture = "",        -- e.g. "rbxassetid://1234567890"; or set workspace attribute CheckerTexture
+	TileStuds = 4,              -- one checker square = 4 x 4 studs (the image holds 2 x 2 squares)
+	Saturation = 1.35,          -- area theme colours are made this much more saturated ...
+	Brightness = 1.12,          -- ... and this much brighter
+	Town = {
+		grass = { 118, 214, 38 },   -- Square and ranch yards (Steal An Egg's bright green)
+		plot = { 104, 198, 30 },    -- plot floors, a shade darker than the yards
+		path = { 128, 118, 140 },   -- Main Street, boardwalks, trailhead (the purple-grey path)
+		wall = { 205, 120, 55 },    -- the Town palisade (the orange checker wall)
+	},
+	-- Per-area colours that replace the brightened theme (area 1 copies Steal An Egg's Forest)
+	AreaOverrides = {
+		[1] = {
+			trail = { 128, 118, 140 },
+			shoulder = { 118, 214, 38 },
+			wall = { 205, 120, 55 },
+			crest = { 118, 214, 38 },
+			toe = { 190, 108, 48 },
+		},
+	},
+}
+
 AreasConfig.Lane = {
 	TrailheadStartX = 400,
 	TrailheadEndX = 432,     -- Area 1 starts here
@@ -173,7 +204,7 @@ AreasConfig.Areas = {
 		startX = 432, endX = 592, length = 160,
 		herdX = 528, herdSide = 1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 18, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "OlStompy", name = "Ol' Stompy", species = "Bull" },
 		indexWeapon = nil,
 		theme = {
@@ -185,7 +216,7 @@ AreasConfig.Areas = {
 			archPost  = { material = "Wood",       color = { 122, 84, 50 } },
 			archCap   = { material = "Wood",       color = { 122, 84, 50 } },
 			archBoard = { material = "WoodPlanks", color = { 176, 128, 78 } },
-			signText  = { 60, 36, 20 },
+			signText  = nil,
 			herdZone  = { material = "Grass",      color = { 176, 196, 104 } },
 			alphaBed  = { material = "Grass",      color = { 220, 190, 100 } },
 		},
@@ -211,7 +242,7 @@ AreasConfig.Areas = {
 		startX = 592, endX = 784, length = 192,
 		herdX = 707, herdSide = -1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 32, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "RattlesnakeKing", name = "Rattlesnake King", species = "Rattlesnake" },
 		indexWeapon = "Cactus Club",
 		theme = {
@@ -249,7 +280,7 @@ AreasConfig.Areas = {
 		startX = 784, endX = 1008, length = 224,
 		herdX = 918, herdSide = 1, herdSpacing = 10, herdFraction = 0.6,
 		cliffHeight = 36, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "BigDigger", name = "Big Digger", species = "Giant Mole" },
 		indexWeapon = "Miner's Pickaxe",
 		theme = {
@@ -287,7 +318,7 @@ AreasConfig.Areas = {
 		startX = 1008, endX = 1264, length = 256,
 		herdX = 1162, herdSide = -1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 28, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "CrocKing", name = "Croc King", species = "Crocodile" },
 		indexWeapon = "Gator Tail Whip",
 		theme = {
@@ -325,7 +356,7 @@ AreasConfig.Areas = {
 		startX = 1264, endX = 1552, length = 288,
 		herdX = 1437, herdSide = 1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 40, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "YetiMoose", name = "Yeti Moose", species = "Moose" },
 		indexWeapon = "Ice Whip",
 		theme = {
@@ -363,7 +394,7 @@ AreasConfig.Areas = {
 		startX = 1552, endX = 1872, length = 320,
 		herdX = 1744, herdSide = -1, herdSpacing = 12, herdFraction = 0.6,
 		cliffHeight = 44, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "MagmaOx", name = "Magma Ox", species = "Ox" },
 		indexWeapon = "Lava Bat",
 		theme = {
@@ -401,7 +432,7 @@ AreasConfig.Areas = {
 		startX = 1872, endX = 2224, length = 352,
 		herdX = 2083, herdSide = 1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 40, alphaBedDiameter = 16,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "StormGriffin", name = "Storm Griffin", species = "Griffin" },
 		indexWeapon = "Thunder Whip",
 		theme = {
@@ -439,7 +470,7 @@ AreasConfig.Areas = {
 		startX = 2224, endX = 2608, length = 384,
 		herdX = 2454, herdSide = -1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 44, alphaBedDiameter = 22,
-		font = "LuckiestGuy",
+		font = "GothamBlack",
 		alpha = { id = "RodeoRex", name = "Rodeo Rex", species = "T-Rex" },
 		indexWeapon = "Dino Bone Club",
 		theme = {
@@ -478,7 +509,7 @@ AreasConfig.Areas = {
 		startX = 2608, endX = 3024, length = 416,
 		herdX = 2858, herdSide = 1, herdSpacing = 14, herdFraction = 0.6,
 		cliffHeight = 36, alphaBedDiameter = 16,
-		font = "Creepster",
+		font = "GothamBlack",
 		alpha = { id = "PhantomSteed", name = "Phantom Steed", species = "Horse" },
 		indexWeapon = "Ghost Lasso",
 		theme = {
@@ -516,7 +547,7 @@ AreasConfig.Areas = {
 		startX = 3024, endX = 3600, length = 576,
 		herdX = 3456, herdSide = -1, herdSpacing = 16, herdFraction = 0.75,
 		cliffHeight = 48, alphaBedDiameter = 22,
-		font = "Michroma",
+		font = "GothamBlack",
 		alpha = { id = "CosmicKrakenCow", name = "Cosmic Kraken-Cow", species = "Kraken-Cow" },
 		indexWeapon = "Cosmic Whip",
 		theme = {
@@ -1068,6 +1099,35 @@ GameConfig.Mutations = {
 GameConfig.KgExponent = 0.617
 
 ----------------------------------------------------------------------------------------------
+-- Gamepasses shown in the shop (Monetization and Launch.md). gamePassId stays 0 until the pass
+-- is created on the Creator Dashboard; the shop then says "Coming soon!" instead of prompting.
+-- In descriptions, <green>...</green> marks the green highlight (as in "Eggs Grow x2 faster!").
+----------------------------------------------------------------------------------------------
+GameConfig.Passes = {
+	{ id = "TwoXTaming", name = "x2 Taming", description = "Beasts Tame <green>x2</green> faster!", robux = 467,
+		gamePassId = 0, icon = "\u{23F1}\u{FE0F}", card = "Rainbow" },
+	{ id = "TwoXMoney", name = "x2 Money", description = "Get <green>x2</green> Money!", robux = 399,
+		gamePassId = 0, icon = "\u{1F4B0}", card = "Gold" },
+	{ id = "VipRanch", name = "VIP Ranch", description = "<green>+2</green> pen slots and a gold gate!", robux = 299,
+		gamePassId = 0, icon = "\u{1F451}", card = "Purple" },
+	{ id = "FastHorse", name = "Fast Horse", description = "Run <green>+25%</green> faster!", robux = 199,
+		gamePassId = 0, icon = "\u{1F40E}", card = "Blue" },
+}
+
+-- HUD and shop icons. Emoji work with no uploads; replace any of them with an uploaded image
+-- ("rbxassetid://123") to get Steal An Egg-style drawn icons.
+GameConfig.Icons = {
+	Featured = "\u{1F3F7}\u{FE0F}",
+	Speed = "\u{1F45F}",
+	Money = "\u{1F4B5}",
+	Index = "\u{1F4D6}",
+	Gift = "\u{1F381}",
+	Treadmill = "\u{1F3C3}",
+	Spurs = "\u{2B50}",
+	Pen = "\u{1F3E0}",
+}
+
+----------------------------------------------------------------------------------------------
 -- Saving
 ----------------------------------------------------------------------------------------------
 GameConfig.Data = {
@@ -1131,6 +1191,30 @@ function NumberFormat.commas(n)
 	return (out:gsub("^(%-?),", "%1"))
 end
 
+-- Steal An Egg's counter style: whole numbers with commas ("$43,931"). Once the number
+-- reaches 1,000,000 it switches to a suffix but keeps commas: 89,121,000,000 -> "89,121M".
+function NumberFormat.commasShort(n)
+	if n ~= n then
+		return "0"
+	end
+	if n < 0 then
+		return "-" .. NumberFormat.commasShort(-n)
+	end
+	local index = 0
+	while n >= 1000000 and index < #SUFFIXES do
+		n = n / 1000
+		index = index + 1
+	end
+	if index > 0 then
+		n = n * (1 + 1e-12) -- 89121 * 1000^8 / 1000^8 can come back as 89120.9999...
+	end
+	return NumberFormat.commas(n) .. (SUFFIXES[index] or "")
+end
+
+function NumberFormat.cashLong(n)
+	return "$" .. NumberFormat.commasShort(n)
+end
+
 -- 75 -> "1:15"
 function NumberFormat.clock(seconds)
 	seconds = math.max(0, math.floor(seconds))
@@ -1152,7 +1236,7 @@ install({ "ServerScriptService", "Main" }, "Script", [=[
 
 local Services = script.Parent:WaitForChild("Services")
 
-local ORDER = { "RanchService", "SpeedService", "ShopService", "StatsService", "DevService", "DataService" }
+local ORDER = { "RanchService", "SpeedService", "ShopService", "StatsService", "NameTagService", "DevService", "DataService" }
 
 for _, name in ipairs(ORDER) do
 	local ok, err = pcall(function()
@@ -1550,6 +1634,85 @@ end
 return MapUtil
 ]=])
 
+install({ "ServerScriptService", "Services", "NameTagService" }, "ModuleScript", [=[
+--[[
+	NameTagService: Steal An Egg's player tag, a round headshot with the username under it,
+	floating over every player's head. It replaces Roblox's default name display.
+]]
+
+local Players = game:GetService("Players")
+
+local NameTagService = {}
+
+local FONT = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Heavy, Enum.FontStyle.Normal)
+
+local function addTag(player, character)
+	local head = character:WaitForChild("Head", 10)
+	local humanoid = character:WaitForChild("Humanoid", 10)
+	if not head or not humanoid then
+		return
+	end
+	humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+
+	local tag = Instance.new("BillboardGui")
+	tag.Name = "NameTag"
+	tag.Size = UDim2.new(5, 0, 3.4, 0)
+	tag.StudsOffset = Vector3.new(0, 3.6, 0)
+	tag.MaxDistance = 120
+	tag.LightInfluence = 0
+	tag.Adornee = head
+
+	local photo = Instance.new("ImageLabel")
+	photo.Name = "Headshot"
+	photo.BackgroundColor3 = Color3.fromRGB(70, 70, 76)
+	photo.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=150&h=150"
+	photo.AnchorPoint = Vector2.new(0.5, 0)
+	photo.Position = UDim2.new(0.5, 0, 0, 0)
+	photo.Size = UDim2.new(0.66, 0, 0.66, 0)
+	photo.SizeConstraint = Enum.SizeConstraint.RelativeYY
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0.5, 0)
+	corner.Parent = photo
+	local ring = Instance.new("UIStroke")
+	ring.Thickness = 2
+	ring.Color = Color3.new(0, 0, 0)
+	ring.Parent = photo
+	photo.Parent = tag
+
+	local name = Instance.new("TextLabel")
+	name.Name = "Username"
+	name.BackgroundTransparency = 1
+	name.Position = UDim2.new(0, 0, 0.68, 0)
+	name.Size = UDim2.new(1, 0, 0.3, 0)
+	name.FontFace = FONT
+	name.Text = player.Name
+	name.TextScaled = true
+	name.TextColor3 = Color3.new(1, 1, 1)
+	name.TextStrokeColor3 = Color3.new(0, 0, 0)
+	name.TextStrokeTransparency = 0
+	name.Parent = tag
+
+	tag.Parent = head
+end
+
+function NameTagService.start()
+	local function watch(player)
+		player.CharacterAdded:Connect(function(character)
+			addTag(player, character)
+		end)
+		if player.Character then
+			task.spawn(addTag, player, player.Character)
+		end
+	end
+	Players.PlayerAdded:Connect(watch)
+	for _, player in ipairs(Players:GetPlayers()) do
+		watch(player)
+	end
+end
+
+return NameTagService
+]=])
+
 install({ "ServerScriptService", "Services", "RanchService" }, "ModuleScript", [=[
 --[[
 	RanchService: the 7 ranch plots (MAP_SPEC section 5) and the idle income.
@@ -1599,17 +1762,29 @@ end
 ----------------------------------------------------------------------------------------------
 -- Beast placeholder model
 ----------------------------------------------------------------------------------------------
+-- Montserrat Black (Roblox's Gotham family), the font Steal An Egg uses everywhere
+local TAG_FONT = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Heavy, Enum.FontStyle.Normal)
+
+local RAINBOW = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 60, 60)),
+	ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 160, 30)),
+	ColorSequenceKeypoint.new(0.4, Color3.fromRGB(255, 240, 60)),
+	ColorSequenceKeypoint.new(0.6, Color3.fromRGB(80, 230, 90)),
+	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(60, 170, 255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(190, 80, 255)),
+})
+
 local function tagLabel(parent, name, text, color, y, h)
 	local label = Instance.new("TextLabel")
 	label.Name = name
 	label.BackgroundTransparency = 1
 	label.Size = UDim2.new(1, 0, h, 0)
 	label.Position = UDim2.new(0, 0, y, 0)
-	label.Font = Enum.Font.LuckiestGuy
+	label.FontFace = TAG_FONT
 	label.TextScaled = true
 	label.Text = text
 	label.TextColor3 = color
-	label.TextStrokeColor3 = Color3.fromRGB(26, 15, 5)
+	label.TextStrokeColor3 = Color3.new(0, 0, 0)
 	label.TextStrokeTransparency = 0
 	label.Parent = parent
 	return label
@@ -1660,14 +1835,21 @@ function RanchService.makeBeastModel(beast)
 	tag.StudsOffsetWorldSpace = Vector3.new(0, size + 3, 0)
 	tag.MaxDistance = 90
 	tag.LightInfluence = 0
-	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0, 0.3)
+	-- Steal a Brainrot / Steal An Egg overhead order: big green $/s, then the name, then the rarity
+	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0, 0.3)
+	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0.3, 0.26)
 	local rarityText = string.upper(info.rarity)
 	if beast.mutation ~= "None" then
 		rarityText = string.upper(beast.mutation) .. " " .. rarityText
 	end
-	tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.3, 0.24)
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 220, 200), 0.54, 0.2)
-	tagLabel(tag, "Income", NumberFormat.cash(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(110, 255, 120), 0.74, 0.26)
+	local rarityLabel = tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.56, 0.24)
+	if rarity.rainbowText or beast.mutation == "Rainbow" then
+		rarityLabel.TextColor3 = Color3.new(1, 1, 1)
+		local gradient = Instance.new("UIGradient")
+		gradient.Color = RAINBOW
+		gradient.Parent = rarityLabel
+	end
+	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 230, 230), 0.8, 0.18)
 	tag.Parent = body
 
 	model.PrimaryPart = body
@@ -1758,7 +1940,7 @@ local function styleSlot(pad, active)
 		gui.StudsOffset = Vector3.new(0, 2, 0)
 		gui.MaxDistance = 80
 		gui.LightInfluence = 0
-		tagLabel(gui, "Line1", "LOCKED", Color3.fromRGB(255, 244, 220), 0, 1)
+		tagLabel(gui, "Line1", "LOCKED", Color3.fromRGB(255, 255, 255), 0, 1)
 		gui.Parent = pad
 	end
 end
@@ -2361,8 +2543,9 @@ MapBuilder.Version = 1
 local rad = math.rad
 local EMPTY = {}
 local GREY = { 163, 162, 165 }
-local CREAM = { 255, 240, 214 }
-local DARK_STROKE = { 40, 24, 14 }
+-- Steal An Egg style: white sign text with a black outline
+local CREAM = { 255, 255, 255 }
+local DARK_STROKE = { 0, 0, 0 }
 local DEFAULT_BAND = { 26, 56 }
 -- Scatter tries per prop with the spec's spacing rule (section 6.5). If all fail, the prop gets
 -- the same number of tries again with a relaxed spacing rule, so crowded areas (Area 1 is only
@@ -2394,7 +2577,7 @@ end
 
 -- Light text gets a dark outline and dark text gets a light one.
 local function strokeFor(c)
-	if luminance(c) > 0.45 then
+	if luminance(c) > 0.12 then
 		return DARK_STROKE
 	end
 	return CREAM
@@ -2493,7 +2676,7 @@ local function addSign(part, g)
 	local stroke = g.stroke or strokeFor(textColor)
 	for i, text in ipairs(g.lines) do
 		local row = rows[i]
-		local label = makeLabel("Line" .. i, text, g.font or "LuckiestGuy", textColor, stroke,
+		local label = makeLabel("Line" .. i, text, g.font or "GothamBlack", textColor, stroke,
 			UDim2.new(0.03, 0, row[1], 0), UDim2.new(0.94, 0, row[2], 0))
 		label.Parent = gui
 	end
@@ -2513,7 +2696,7 @@ local function addBillboard(part, b)
 	local textColor = b.color or CREAM
 	local n = #b.lines
 	for i, text in ipairs(b.lines) do
-		local label = makeLabel("Line" .. i, text, b.font or "LuckiestGuy", textColor, strokeFor(textColor),
+		local label = makeLabel("Line" .. i, text, b.font or "GothamBlack", textColor, strokeFor(textColor),
 			UDim2.new(0, 0, (i - 1) / n, 0), UDim2.new(1, 0, 1 / n, 0))
 		label.Parent = gui
 	end
@@ -3932,7 +4115,7 @@ local function buildArea(ctx, cfg, areasFolder, a)
 	local sigma = a.herdSide
 	local s = a.herdSpacing
 	local th = a.theme
-	local font = a.font or "LuckiestGuy"
+	local font = a.font or "GothamBlack"
 	local signText = th.signText or CREAM
 	local halfWidth = cfg.Town.LaneHalfWidth
 
@@ -4069,7 +4252,7 @@ local function buildLane(ctx, cfg, map)
 		{ "VCyl", { 26, 4 }, { endX - 20, 13, 30 }, "Glass", { 120, 90, 220 }, { name = "PostN" } },
 		{ "VCyl", { 26, 4 }, { endX - 20, 13, -30 }, "Glass", { 120, 90, 220 }, { name = "PostS" } },
 		{ "Block", { 1.5, 10, 68 }, { endX - 20, 31, 0 }, "SmoothPlastic", { 24, 18, 40 }, { name = "Board", gui = {
-			{ face = "Left", lines = endLines, font = "LuckiestGuy", color = { 255, 200, 235 } },
+			{ face = "Left", lines = endLines, font = "GothamBlack", color = { 255, 200, 235 } },
 		} } },
 	}, { primary = "Ground", tags = { "FrontierEnd" } })
 
@@ -4187,6 +4370,161 @@ function MapBuilder.clear()
 	end
 end
 
+----------------------------------------------------------------------------------------------
+-- Steal An Egg look (AreasConfig.Style): bright Plastic ground and walls with Studs surfaces
+-- and, once the texture is uploaded, a two-tone checkerboard Texture on the faces you see.
+----------------------------------------------------------------------------------------------
+local SIDE_FACES = { "Front", "Back", "Left", "Right" }
+local ALL_SURFACES = { "TopSurface", "BottomSurface", "FrontSurface", "BackSurface", "LeftSurface", "RightSurface" }
+
+local function rgbToHsv(c)
+	local r, g, b = c[1] / 255, c[2] / 255, c[3] / 255
+	local maxc, minc = math.max(r, g, b), math.min(r, g, b)
+	local d = maxc - minc
+	local h = 0
+	if d > 0 then
+		if maxc == r then
+			h = ((g - b) / d) % 6
+		elseif maxc == g then
+			h = (b - r) / d + 2
+		else
+			h = (r - g) / d + 4
+		end
+		h = h / 6
+	end
+	local sat = (maxc > 0) and d / maxc or 0
+	return h, sat, maxc
+end
+
+local function hsvToRgb(h, sat, v)
+	local i = math.floor(h * 6)
+	local f = h * 6 - i
+	local p, q, t = v * (1 - sat), v * (1 - f * sat), v * (1 - (1 - f) * sat)
+	local k = i % 6
+	local r, g, b
+	if k == 0 then r, g, b = v, t, p
+	elseif k == 1 then r, g, b = q, v, p
+	elseif k == 2 then r, g, b = p, v, t
+	elseif k == 3 then r, g, b = p, q, v
+	elseif k == 4 then r, g, b = t, p, v
+	else r, g, b = v, p, q end
+	return { math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5) }
+end
+
+-- A theme colour made brighter and more saturated (cartoon look)
+function MapBuilder.vivid(c, style)
+	local h, sat, v = rgbToHsv(c)
+	return hsvToRgb(h, math.min(1, sat * style.Saturation), math.min(1, v * style.Brightness))
+end
+
+-- faces = list of NormalId names that get the checker texture
+local function studify(part, rgb, faces, style, allSides)
+	if not part then
+		return 0
+	end
+	part.Material = Enum.Material.Plastic
+	part.Color = color(rgb)
+	if allSides then
+		for _, surface in ipairs(ALL_SURFACES) do
+			part[surface] = Enum.SurfaceType.Studs
+		end
+	else
+		part.TopSurface = Enum.SurfaceType.Studs
+	end
+	local added = 0
+	if style.CheckerTexture ~= "" then
+		local tile = 2 * style.TileStuds
+		for _, face in ipairs(faces) do
+			local texture = Instance.new("Texture")
+			texture.Name = "Checker" .. face
+			texture.Texture = style.CheckerTexture
+			texture.Face = Enum.NormalId[face]
+			texture.StudsPerTileU = tile
+			texture.StudsPerTileV = tile
+			texture.Color3 = Color3.new(0, 0, 0)
+			texture.Parent = part
+			added = added + 1
+		end
+	end
+	return added
+end
+
+local function child(parent, ...)
+	local node = parent
+	for _, name in ipairs({ ... }) do
+		node = node and node:FindFirstChild(name)
+	end
+	return node
+end
+
+-- Returns the number of parts restyled and textures added.
+function MapBuilder.applyStyle(map, config)
+	local style = config.Style
+	if not style or style.Enabled == false then
+		return 0, 0
+	end
+	-- The texture id can also come from the place itself, so nobody has to edit this repo:
+	--   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")   then rebuild the map
+	local fromPlace = game:GetService("Workspace"):GetAttribute("CheckerTexture")
+	if style.CheckerTexture == "" and type(fromPlace) == "string" and fromPlace ~= "" then
+		local copy = {}
+		for k, v in pairs(style) do
+			copy[k] = v
+		end
+		copy.CheckerTexture = fromPlace
+		style = copy
+	end
+	local parts, textures = 0, 0
+	local function apply(part, rgb, faces, allSides)
+		if part then
+			parts = parts + 1
+			textures = textures + studify(part, rgb, faces, style, allSides)
+		end
+	end
+	local TOP = { "Top" }
+	local WALL = { "Top", "Front", "Back", "Left", "Right" }
+
+	local town = map:FindFirstChild("Town")
+	local ground = child(town, "Ground")
+	apply(child(ground, "SquareGround"), style.Town.grass, TOP)
+	apply(child(ground, "RanchGroundN"), style.Town.grass, TOP)
+	apply(child(ground, "RanchGroundS"), style.Town.grass, TOP)
+	apply(child(ground, "MainStreet"), style.Town.path, TOP)
+	apply(child(ground, "BoardwalkN"), style.Town.path, TOP)
+	apply(child(ground, "BoardwalkS"), style.Town.path, TOP)
+	local fence = child(town, "Fence")
+	for _, name in ipairs({ "Palisade_N", "Palisade_S", "Palisade_W", "Palisade_EN", "Palisade_ES" }) do
+		apply(child(fence, name), style.Town.wall, WALL, true)
+	end
+
+	for _, plot in ipairs(child(map, "Plots") and map.Plots:GetChildren() or {}) do
+		apply(plot:FindFirstChild("PlotBase"), style.Town.plot, TOP)
+	end
+
+	local lane = map:FindFirstChild("Lane")
+	apply(child(lane, "Trailhead"), style.Town.path, TOP)
+	for _, a in ipairs(config.Areas) do
+		local area = child(lane, "Areas", string.format("Area%02d_%s", a.index, a.id))
+		if area then
+			local override = (style.AreaOverrides and style.AreaOverrides[a.index]) or {}
+			local function pick(key)
+				return override[key] or MapBuilder.vivid(a.theme[key].color, style)
+			end
+			apply(child(area, "Ground", "TrailStrip"), pick("trail"), TOP)
+			apply(child(area, "Ground", "ShoulderN"), pick("shoulder"), TOP)
+			apply(child(area, "Ground", "ShoulderS"), pick("shoulder"), TOP)
+			apply(child(area, "Cliffs", "WallN"), pick("wall"), WALL, true)
+			apply(child(area, "Cliffs", "WallS"), pick("wall"), WALL, true)
+			apply(child(area, "Cliffs", "CrestN"), pick("crest"), WALL, true)
+			apply(child(area, "Cliffs", "CrestS"), pick("crest"), WALL, true)
+			-- the wedge toes keep their slope, so they only get studs and colour
+			apply(child(area, "Cliffs", "ToeN"), pick("toe"), {}, true)
+			apply(child(area, "Cliffs", "ToeS"), pick("toe"), {}, true)
+		end
+	end
+	return parts, textures
+end
+
 --[[
 	MapBuilder.build(config, options) -> report
 	config  = the AreasConfig table (loaded from ReplicatedStorage.Shared if omitted)
@@ -4230,6 +4568,7 @@ function MapBuilder.build(config, options)
 		buildPlot(ctx, config, plotsFolder, p)
 	end
 	buildLane(ctx, config, map)
+	ctx.styledParts, ctx.textures = MapBuilder.applyStyle(map, config)
 	map.Parent = ws
 
 	if options.lighting ~= false then
@@ -4248,10 +4587,20 @@ function MapBuilder.build(config, options)
 		skippedNames = ctx.skippedNames,
 		collisionGroups = ctx.groupsOk,
 		removed = removed,
+		styledParts = ctx.styledParts,
+		textures = ctx.textures,
 		seconds = os.clock() - started,
 	}
 	print(string.format("[MapBuilder] Built workspace.Map: %d parts, %d models, %d plots, %d areas in %.2f s.",
 		report.parts, report.models, report.plots, report.areas, report.seconds))
+	if config.Style and config.Style.Enabled ~= false then
+		if ctx.textures > 0 then
+			print(string.format("[MapBuilder] Studded checker look on %d parts (%d textures).", ctx.styledParts, ctx.textures))
+		else
+			print(string.format("[MapBuilder] Studs on %d parts. For the checkerboard, upload game/assets/checker_studs.png "
+				.. "and set AreasConfig.Style.CheckerTexture (see game/README.md).", ctx.styledParts))
+		end
+	end
 	if #removed > 0 then
 		print("[MapBuilder] Removed the template " .. table.concat(removed, " and ") .. " from Workspace.")
 	end
@@ -4268,19 +4617,22 @@ install({ "StarterPlayer", "StarterPlayerScripts", "Controllers" }, "Folder", ni
 
 install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "HUDController" }, "ModuleScript", [=[
 --[[
-	HUDController: the always-on HUD from the Town HUD mockup.
-	  * top centre: cash and $/s
-	  * bottom left: Speed, WalkSpeed and the next area's sign
-	  * left rail: SHOP button
-	  * treadmill step popups ("+30 x 3 SPUR") and toasts from Remotes.Notify
+	HUDController: the always-on HUD, laid out like Steal An Egg's.
+	  * left: money stack icon + big green italic cash ("$43,931"), "+$1/s" under it
+	  * left rail: icon buttons with gradient labels (Featured, Speed, Money, Index)
+	  * bottom left: shoe icon + Speed, and the next area's sign
+	  * "+2 Speed" treadmill popups, text-only toasts, and the area-name banner
+	    ("CACTUS CANYON" in yellow, like Steal An Egg's "HALLOWEEN EGG")
 	Everything it shows comes from player attributes written by StatsService.
 ]]
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
+local CollectionService = game:GetService("CollectionService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
+local GameConfig = require(Shared:WaitForChild("GameConfig"))
 local Economy = require(Shared:WaitForChild("Economy"))
 local NumberFormat = require(Shared:WaitForChild("NumberFormat"))
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
@@ -4292,72 +4644,122 @@ local HUDController = {}
 local player = Players.LocalPlayer
 local gui
 local cashLabel, incomeLabel, speedLabel, nextLabel
-local toastHolder, popHolder
+local toastHolder, popHolder, banner
+
+HUDController.railButtons = {}
+
+-- name, icon key, label tint
+local RAIL = {
+	{ "Featured", "Featured", UI.Tints.Featured },
+	{ "Speed", "Speed", UI.Tints.Blue },
+	{ "Money", "Money", UI.Tints.Green },
+	{ "Index", "Index", UI.Tints.Peach },
+}
+
+local function railButton(parent, order, name, icon, tint)
+	local button = UI.new("TextButton", {
+		Name = name,
+		Text = "",
+		BackgroundTransparency = 1,
+		LayoutOrder = order,
+		Size = UDim2.new(0, 96, 0, 92),
+		Parent = parent,
+	})
+	UI.icon(icon, { size = UDim2.new(0, 66, 0, 66), position = UDim2.new(0.5, 0, 0, 0), anchor = Vector2.new(0.5, 0), parent = button })
+	local label = UI.text(name, {
+		name = "Label",
+		size = UDim2.new(1, 0, 0, 30),
+		position = UDim2.new(0, 0, 0, 58),
+		stroke = 3,
+		z = 3,
+		parent = button,
+	})
+	UI.tint(label, tint)
+	UI.pressable(button)
+	return button
+end
 
 local function build()
-	gui = UI.new("ScreenGui", {
-		Name = "HUD",
-		ResetOnSpawn = false,
-		IgnoreGuiInset = false,
-		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-		Parent = player:WaitForChild("PlayerGui"),
-	})
+	gui = UI.screen("HUD", 1)
+	UI.autoScale(gui)
 
-	-- Cash (top centre)
-	local cash = UI.panel({
+	-- Cash: money stack + green italic number (top of the left column)
+	local cash = UI.new("Frame", {
 		Name = "Cash",
-		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, 8),
-		Size = UDim2.new(0, 260, 0, 74),
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0, 16, 0, 96),
+		Size = UDim2.new(0, 360, 0, 52),
 		Parent = gui,
 	})
+	UI.icon(GameConfig.Icons.Money, { size = UDim2.new(0, 52, 0, 52), parent = cash })
 	cashLabel = UI.text("$0", {
-		Size = UDim2.new(0.92, 0, 0.6, 0),
-		Position = UDim2.new(0.04, 0, 0.04, 0),
-		TextColor3 = UI.Colors.Cash,
-		Parent = cash,
+		name = "Amount",
+		italic = true,
+		color = UI.Colors.CashGreen,
+		align = "Left",
+		size = UDim2.new(1, -62, 1, 0),
+		position = UDim2.new(0, 62, 0, 0),
+		stroke = 4,
+		parent = cash,
 	})
 	incomeLabel = UI.text("+$0/s", {
-		Size = UDim2.new(0.92, 0, 0.32, 0),
-		Position = UDim2.new(0.04, 0, 0.64, 0),
-		Parent = cash,
+		name = "Income",
+		italic = true,
+		align = "Left",
+		size = UDim2.new(0, 200, 0, 24),
+		position = UDim2.new(0, 78, 0, 148),
+		stroke = 2.5,
+		parent = gui,
 	})
-
-	-- Speed (bottom left)
-	local speed = UI.panel({
-		Name = "Speed",
-		AnchorPoint = Vector2.new(0, 1),
-		Position = UDim2.new(0, 12, 1, -12),
-		Size = UDim2.new(0, 270, 0, 96),
-		BackgroundColor3 = UI.Colors.WoodDark,
-		Parent = gui,
-	})
-	UI.text("SPEED", { Size = UDim2.new(0.4, 0, 0.3, 0), Position = UDim2.new(0.05, 0, 0.05, 0),
-		TextXAlignment = Enum.TextXAlignment.Left, Parent = speed })
-	speedLabel = UI.text("0", { Size = UDim2.new(0.9, 0, 0.38, 0), Position = UDim2.new(0.05, 0, 0.3, 0),
-		TextColor3 = UI.Colors.Speed, TextXAlignment = Enum.TextXAlignment.Left, Parent = speed })
-	nextLabel = UI.text("", { Size = UDim2.new(0.9, 0, 0.22, 0), Position = UDim2.new(0.05, 0, 0.72, 0),
-		TextXAlignment = Enum.TextXAlignment.Left, Parent = speed })
 
 	-- Left rail
 	local rail = UI.new("Frame", {
 		Name = "Rail",
 		BackgroundTransparency = 1,
-		AnchorPoint = Vector2.new(0, 0.5),
-		Position = UDim2.new(0, 12, 0.45, 0),
-		Size = UDim2.new(0, 80, 0, 260),
+		Position = UDim2.new(0, 10, 0, 186),
+		Size = UDim2.new(0, 96, 0, 4 * 98),
 		Parent = gui,
-	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 10) }) })
-	HUDController.shopButton = UI.button("SHOP", UI.Colors.Gold, { Name = "Shop", Size = UDim2.new(0, 76, 0, 76), Parent = rail })
+	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder }) })
+	for i, entry in ipairs(RAIL) do
+		HUDController.railButtons[entry[1]] = railButton(rail, i, entry[1], GameConfig.Icons[entry[2]], entry[3])
+	end
+
+	-- Speed (bottom left)
+	local speed = UI.new("Frame", {
+		Name = "Speed",
+		BackgroundTransparency = 1,
+		AnchorPoint = Vector2.new(0, 1),
+		Position = UDim2.new(0, 16, 1, -16),
+		Size = UDim2.new(0, 380, 0, 76),
+		Parent = gui,
+	})
+	nextLabel = UI.text("", {
+		name = "Next",
+		align = "Left",
+		size = UDim2.new(1, 0, 0, 22),
+		stroke = 2.5,
+		parent = speed,
+	})
+	UI.icon(GameConfig.Icons.Speed, { size = UDim2.new(0, 48, 0, 48), position = UDim2.new(0, 0, 0, 26), parent = speed })
+	speedLabel = UI.text("0", {
+		name = "Amount",
+		italic = true,
+		color = UI.Colors.SpeedBlue,
+		align = "Left",
+		size = UDim2.new(1, -58, 0, 48),
+		position = UDim2.new(0, 58, 0, 26),
+		stroke = 4,
+		parent = speed,
+	})
 
 	toastHolder = UI.new("Frame", {
 		Name = "Toasts",
 		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, 96),
-		Size = UDim2.new(0, 520, 0, 140),
+		Position = UDim2.new(0.5, 0, 0, 70),
+		Size = UDim2.new(0, 700, 0, 160),
 		Parent = gui,
-	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 6), HorizontalAlignment = Enum.HorizontalAlignment.Center }) })
+	}, { UI.new("UIListLayout", { Padding = UDim.new(0, 2), HorizontalAlignment = Enum.HorizontalAlignment.Center }) })
 
 	popHolder = UI.new("Frame", {
 		Name = "Pops",
@@ -4365,59 +4767,122 @@ local function build()
 		Size = UDim2.new(1, 0, 1, 0),
 		Parent = gui,
 	})
+
+	banner = UI.text("", {
+		name = "AreaBanner",
+		anchor = Vector2.new(0.5, 1),
+		position = UDim2.new(0.5, 0, 1, -110),
+		size = UDim2.new(0, 640, 0, 56),
+		stroke = 4,
+		parent = gui,
+	})
+	UI.tint(banner, UI.Tints.Gold)
+	banner.Visible = false
 end
 
 local function refresh()
 	local cash = player:GetAttribute("Cash") or 0
 	local income = player:GetAttribute("Income") or 0
 	local speed = player:GetAttribute("Speed") or 0
-	cashLabel.Text = NumberFormat.cash(cash)
+	cashLabel.Text = NumberFormat.cashLong(math.floor(cash))
 	incomeLabel.Text = "+" .. NumberFormat.cash(income) .. "/s"
-	speedLabel.Text = NumberFormat.short(math.floor(speed))
+	speedLabel.Text = NumberFormat.commasShort(math.floor(speed))
 	local nextArea = Economy.nextArea(speed)
 	if nextArea then
-		nextLabel.Text = "NEXT: " .. string.upper(nextArea.name) .. " \u{00B7} " .. NumberFormat.short(nextArea.speedRequired)
+		nextLabel.Text = "Next: " .. nextArea.name .. " (" .. NumberFormat.short(nextArea.speedRequired) .. " Speed)"
 	else
-		nextLabel.Text = "EVERY AREA UNLOCKED!"
+		nextLabel.Text = "Every area unlocked!"
 	end
 end
+
+local TOAST_COLORS = {
+	good = Color3.fromRGB(90, 255, 90),
+	bad = Color3.fromRGB(255, 80, 70),
+	info = Color3.fromRGB(255, 255, 255),
+}
 
 function HUDController.toast(text, kind)
 	if not text or text == "" then
 		return
 	end
-	local color = kind == "good" and UI.Colors.Green or (kind == "bad" and UI.Colors.Red or UI.Colors.WoodDark)
-	local toast = UI.panel({ BackgroundColor3 = color, Size = UDim2.new(0, 460, 0, 40), Parent = toastHolder })
-	UI.text(text, { Size = UDim2.new(0.94, 0, 0.8, 0), Position = UDim2.new(0.03, 0, 0.1, 0), Parent = toast })
+	local label = UI.text(text, { size = UDim2.new(1, 0, 0, 36), color = TOAST_COLORS[kind] or TOAST_COLORS.info, stroke = 3, parent = toastHolder })
+	task.delay(2.2, function()
+		local fade = TweenInfo.new(0.3)
+		TweenService:Create(label, fade, { TextTransparency = 1 }):Play()
+		TweenService:Create(label.Outline, fade, { Transparency = 1 }):Play()
+		task.wait(0.3)
+		label:Destroy()
+	end)
+end
+
+-- Big yellow area name at the bottom centre, like Steal An Egg's "HALLOWEEN EGG".
+function HUDController.banner(text)
+	banner.Text = string.upper(text)
+	banner.Visible = true
+	banner.TextTransparency = 0
+	banner.Outline.Transparency = 0
+	local token = {}
+	HUDController.bannerToken = token
 	task.delay(2.5, function()
-		toast:Destroy()
+		if HUDController.bannerToken ~= token then
+			return
+		end
+		local fade = TweenInfo.new(0.4)
+		TweenService:Create(banner, fade, { TextTransparency = 1 }):Play()
+		TweenService:Create(banner.Outline, fade, { Transparency = 1 }):Play()
 	end)
 end
 
 local function stepPop(gain, multiplier)
-	local text = "+" .. NumberFormat.short(gain) .. " SPEED"
+	local text = "+" .. NumberFormat.commasShort(math.floor(gain + 0.5)) .. " Speed"
 	if multiplier and multiplier > 1 then
-		text = text .. "  (x" .. tostring(multiplier) .. " SPUR)"
+		text = text .. " (x" .. tostring(multiplier) .. ")"
 	end
-	local x = 0.5 + (math.random() - 0.5) * 0.12
+	local x = 0.5 + (math.random() - 0.5) * 0.14
 	local label = UI.text(text, {
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.new(x, 0, 0.62, 0),
-		Size = UDim2.new(0, 260, 0, 40),
-		TextColor3 = UI.Colors.Speed,
-		Parent = popHolder,
+		anchor = Vector2.new(0.5, 0.5),
+		position = UDim2.new(x, 0, 0.6, 0),
+		size = UDim2.new(0, 300, 0, 40),
+		stroke = 3,
+		parent = popHolder,
 	})
-	local tween = TweenService:Create(label, TweenInfo.new(0.9, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		Position = UDim2.new(x, 0, 0.5, 0),
-		TextTransparency = 1,
-	})
-	tween:Play()
-	local stroke = label:FindFirstChildOfClass("UIStroke")
-	if stroke then
-		TweenService:Create(stroke, TweenInfo.new(0.9), { Transparency = 1 }):Play()
-	end
-	tween.Completed:Connect(function()
+	UI.tint(label, UI.Tints.Cyan)
+	local info = TweenInfo.new(0.9, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	TweenService:Create(label, info, { Position = UDim2.new(x, 0, 0.48, 0), TextTransparency = 1 }):Play()
+	local fade = TweenService:Create(label.Outline, info, { Transparency = 1 })
+	fade:Play()
+	fade.Completed:Connect(function()
 		label:Destroy()
+	end)
+end
+
+-- Shows the area banner when you walk into a new area (or back into Town).
+local function watchAreas()
+	local current = nil
+	task.spawn(function()
+		while true do
+			task.wait(0.3)
+			local character = player.Character
+			local root = character and character:FindFirstChild("HumanoidRootPart")
+			if root then
+				local found = "Town"
+				for _, bounds in ipairs(CollectionService:GetTagged("AreaBounds")) do
+					if bounds:IsA("BasePart") then
+						local p = bounds.CFrame:PointToObjectSpace(root.Position)
+						local h = bounds.Size / 2
+						if math.abs(p.X) <= h.X and math.abs(p.Y) <= h.Y and math.abs(p.Z) <= h.Z then
+							found = bounds:GetAttribute("AreaName") or found
+						end
+					end
+				end
+				if found ~= current then
+					if current ~= nil then
+						HUDController.banner(found)
+					end
+					current = found
+				end
+			end
+		end
 	end)
 end
 
@@ -4429,6 +4894,7 @@ function HUDController.start()
 	refresh()
 	Remotes:WaitForChild("Notify").OnClientEvent:Connect(HUDController.toast)
 	Remotes:WaitForChild("TreadmillStep").OnClientEvent:Connect(stepPop)
+	watchAreas()
 end
 
 return HUDController
@@ -4436,15 +4902,23 @@ return HUDController
 
 install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "ShopController" }, "ModuleScript", [=[
 --[[
-	ShopController: the General Store window (Shop mockup: Treadmills / Spurs / Ranch tabs).
-	Opens from the HUD's SHOP button or by stepping onto the glowing ShopPad in Town.
-	Buttons only ask the server (Remotes.Shop); the cards redraw from player attributes.
+	ShopController: the Shop window, built like Steal An Egg's:
+	  * green header with a glass shine, "Shop" in white on the left, red square X on the right
+	  * dark grey body that scrolls through sections: "-- FEATURED --", "-- PASSES --",
+	    "-- SPEED --" (treadmills and Spurs) and "-- MONEY --" (pen slots)
+	  * two cards per row: gradient background, title, icon, a description with green
+	    highlights, a purple gift button and a lime-green price button
+	Opens from the left rail (Featured / Speed / Money jump to their section) or by stepping on
+	the glowing ShopPad in Town. Buttons only ask the server (Remotes.Shop); cards update from
+	player attributes.
 ]]
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local TweenService = game:GetService("TweenService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local GameConfig = require(Shared:WaitForChild("GameConfig"))
@@ -4457,14 +4931,27 @@ local UI = require(script.Parent:WaitForChild("UI"))
 local ShopController = {}
 
 local player = Players.LocalPlayer
-local gui, window, grid
-local tab = "Treadmills"
-local tabButtons = {}
+local gui, window, list, uiScale
+local sections = {}   -- [name] = header label
+local cards = {}      -- { update = function() }
 local busy = false
+local toast = function() end
 
-local function rarityColor(id)
-	local rarity = Economy.Rarities[id]
-	return rarity and UI.rgb(rarity.color) or UI.Colors.Grey
+local CARD_W, CARD_H = 340, 168
+
+-- Card backgrounds (top colour, bottom colour), matching the screenshot's rainbow and gold cards
+local CARD_COLORS = {
+	Gold = { Color3.fromRGB(255, 246, 140), Color3.fromRGB(255, 196, 20) },
+	Purple = { Color3.fromRGB(226, 160, 255), Color3.fromRGB(150, 60, 230) },
+	Blue = { Color3.fromRGB(150, 230, 255), Color3.fromRGB(30, 150, 255) },
+	Green = { Color3.fromRGB(190, 255, 140), Color3.fromRGB(70, 200, 40) },
+	Grey = { Color3.fromRGB(190, 190, 196), Color3.fromRGB(120, 120, 128) },
+}
+
+local function rarityGradient(rarityId)
+	local rarity = Economy.Rarities[rarityId]
+	local c = rarity and UI.rgb(rarity.color) or Color3.fromRGB(150, 150, 150)
+	return { c:Lerp(Color3.new(1, 1, 1), 0.45), c }
 end
 
 local function ask(action, arg)
@@ -4480,198 +4967,339 @@ local function ask(action, arg)
 	end)
 end
 
--- One card: title, stat line, note, and an action button (text, color, onClick or nil)
-local function card(order, title, rarity, stat, note, buttonText, buttonColor, onClick)
-	local frame = UI.panel({
+----------------------------------------------------------------------------------------------
+-- Building blocks
+----------------------------------------------------------------------------------------------
+local function sectionHeader(order, text, tint)
+	local label = UI.text("-- " .. text .. " --", {
+		name = "Section_" .. text,
+		size = UDim2.new(1, 0, 0, 50),
+		stroke = 3,
+		parent = list,
+	})
+	label.LayoutOrder = order
+	UI.tint(label, tint)
+	sections[text] = label
+	return label
+end
+
+local function grid(order)
+	return UI.new("Frame", {
+		Name = "Grid",
+		BackgroundTransparency = 1,
 		LayoutOrder = order,
-		BackgroundColor3 = Color3.fromRGB(70, 44, 24),
-		Parent = grid,
+		Size = UDim2.new(1, 0, 0, 0),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Parent = list,
+	}, {
+		UI.new("UIGridLayout", {
+			CellSize = UDim2.new(0, CARD_W, 0, CARD_H),
+			CellPadding = UDim2.new(0, 16, 0, 14),
+			HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
 	})
-	frame:FindFirstChildOfClass("UIStroke").Color = rarityColor(rarity)
-	frame:FindFirstChildOfClass("UIStroke").Thickness = 5
-	UI.text(title, { Size = UDim2.new(0.9, 0, 0.17, 0), Position = UDim2.new(0.05, 0, 0.05, 0), Parent = frame })
-	UI.text(string.upper(rarity), { Size = UDim2.new(0.9, 0, 0.1, 0), Position = UDim2.new(0.05, 0, 0.23, 0),
-		TextColor3 = rarityColor(rarity), Parent = frame })
-	UI.text(stat, { Size = UDim2.new(0.9, 0, 0.2, 0), Position = UDim2.new(0.05, 0, 0.36, 0),
-		TextColor3 = UI.Colors.Speed, Parent = frame })
-	UI.text(note, { Size = UDim2.new(0.9, 0, 0.1, 0), Position = UDim2.new(0.05, 0, 0.58, 0), Parent = frame })
-	local button = UI.button(buttonText, buttonColor, {
-		Size = UDim2.new(0.84, 0, 0.2, 0),
-		Position = UDim2.new(0.08, 0, 0.74, 0),
-		AutoButtonColor = onClick ~= nil,
-		Parent = frame,
+end
+
+--[[ A shop card. spec = { title, icon, description (may use <green>), colors = {top, bottom} or
+	"Rainbow", gift = bool }. Returns the card and its price button. ]]
+local function card(parent, order, spec)
+	local frame = UI.new("Frame", {
+		Name = spec.title,
+		LayoutOrder = order,
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		ClipsDescendants = true,
+		Parent = parent,
+	}, { UI.corner(4), UI.border(3, UI.Colors.CardBorder) })
+	local gradient = UI.new("UIGradient", { Rotation = 90, Parent = frame })
+	if spec.colors == "Rainbow" then
+		gradient.Color = UI.Rainbow
+		gradient.Rotation = 0
+		gradient.Transparency = NumberSequence.new(0.1)
+	else
+		gradient.Color = ColorSequence.new(spec.colors[1], spec.colors[2])
+	end
+	UI.shine(frame, 0.82)
+
+	UI.icon(spec.icon, { size = UDim2.new(0, 104, 0, 104), position = UDim2.new(0, 10, 0, 14), z = 3, parent = frame })
+	UI.text(spec.title, {
+		name = "Title",
+		size = UDim2.new(0, 214, 0, 32),
+		position = UDim2.new(0, 118, 0, 8),
+		stroke = 3,
+		z = 3,
+		parent = frame,
 	})
-	if onClick then
-		button.Activated:Connect(onClick)
+	local description = UI.text(UI.highlight(spec.description or ""), {
+		name = "Description",
+		rich = true,
+		size = UDim2.new(0, 214, 0, 66),
+		position = UDim2.new(0, 118, 0, 42),
+		stroke = 2.5,
+		z = 3,
+		parent = frame,
+	})
+	description.TextWrapped = true
+
+	local priceX = 8
+	if spec.gift then
+		local gift = UI.button({
+			name = "Gift",
+			color = UI.Colors.GiftPurple,
+			border = UI.Colors.GiftBorder,
+			size = UDim2.new(0, 64, 0, 44),
+			position = UDim2.new(0, 8, 1, -52),
+			dark = true,
+			z = 3,
+			parent = frame,
+		})
+		UI.icon(GameConfig.Icons.Gift, { size = UDim2.new(0.6, 0, 0.8, 0), position = UDim2.new(0.2, 0, 0.1, 0), z = 4, parent = gift })
+		gift.Activated:Connect(function()
+			toast("Gifting is coming soon!", "info")
+		end)
+		priceX = 80
+	end
+	local price = UI.priceButton("", spec.robux, {
+		size = UDim2.new(1, -(priceX + 8), 0, 44),
+		position = UDim2.new(0, priceX, 1, -52),
+		parent = frame,
+	})
+	price.ZIndex = 3
+	return frame, price, description
+end
+
+-- Sets a price button's text and colour (green = buy, blue = equip, grey = owned/locked).
+local function setButton(button, text, kind)
+	button.Label.Text = text
+	local fills = {
+		buy = { UI.Colors.PriceGreen, UI.Colors.PriceBorder },
+		equip = { UI.Colors.SpeedBlue, Color3.fromRGB(10, 70, 110) },
+		owned = { UI.Colors.Grey, Color3.fromRGB(50, 50, 54) },
+		poor = { Color3.fromRGB(230, 70, 60), Color3.fromRGB(110, 10, 10) },
+	}
+	local fill = fills[kind] or fills.buy
+	button.BackgroundColor3 = fill[1]
+	button:FindFirstChildOfClass("UIStroke").Color = fill[2]
+end
+
+----------------------------------------------------------------------------------------------
+-- Sections
+----------------------------------------------------------------------------------------------
+local function buildPasses(order)
+	local g = grid(order)
+	for i, pass in ipairs(GameConfig.Passes) do
+		local colors = pass.card == "Rainbow" and "Rainbow" or CARD_COLORS[pass.card] or CARD_COLORS.Gold
+		local _, price = card(g, i, { title = pass.name, icon = pass.icon, description = pass.description,
+			colors = colors, gift = true, robux = true })
+		price.Label.Text = NumberFormat.commas(pass.robux)
+		price.Activated:Connect(function()
+			if pass.gamePassId and pass.gamePassId > 0 then
+				MarketplaceService:PromptGamePassPurchase(player, pass.gamePassId)
+			else
+				toast(pass.name .. " is coming soon!", "info")
+			end
+		end)
 	end
 end
 
-local function priceText(price)
-	return price == 0 and "FREE" or NumberFormat.cash(price)
+local function buildSpeed(order)
+	local g = grid(order)
+	for i, t in ipairs(GameConfig.Treadmill.Tiers) do
+		local _, price, description = card(g, i, {
+			title = t.name .. " Treadmill",
+			icon = GameConfig.Icons.Treadmill,
+			description = "<green>+" .. NumberFormat.short(t.speedPerStep) .. "</green> Speed every step!",
+			colors = rarityGradient(t.rarity),
+		})
+		price.Activated:Connect(function()
+			ask("BuyTreadmill", t.tier)
+		end)
+		table.insert(cards, function(cash)
+			local current = player:GetAttribute("TreadmillTier") or 1
+			if t.tier == current then
+				setButton(price, "Equipped", "owned")
+			elseif t.tier < current then
+				setButton(price, "Owned", "owned")
+			elseif t.tier == current + 1 then
+				setButton(price, NumberFormat.cash(t.price), cash >= t.price and "buy" or "poor")
+			else
+				setButton(price, "Locked", "owned")
+			end
+			description.Text = UI.highlight("<green>+" .. NumberFormat.short(t.speedPerStep) .. "</green> Speed every step!")
+		end)
+	end
+	local base = #GameConfig.Treadmill.Tiers
+	for i, spur in ipairs(GameConfig.Spurs) do
+		local _, price = card(g, base + i, {
+			title = spur.name,
+			icon = GameConfig.Icons.Spurs,
+			description = "Treadmill Speed <green>x" .. tostring(spur.multiplier) .. "</green>!",
+			colors = rarityGradient(spur.rarity),
+		})
+		price.Activated:Connect(function()
+			local owned = string.find("," .. (player:GetAttribute("OwnedSpurs") or "") .. ",", "," .. spur.id .. ",", 1, true)
+			if player:GetAttribute("EquippedSpur") == spur.id then
+				ask("EquipSpur", "")
+			elseif owned then
+				ask("EquipSpur", spur.id)
+			else
+				ask("BuySpur", spur.id)
+			end
+		end)
+		table.insert(cards, function(cash)
+			local owned = string.find("," .. (player:GetAttribute("OwnedSpurs") or "") .. ",", "," .. spur.id .. ",", 1, true)
+			if player:GetAttribute("EquippedSpur") == spur.id then
+				setButton(price, "Equipped", "owned")
+			elseif owned then
+				setButton(price, "Equip", "equip")
+			else
+				setButton(price, NumberFormat.cash(spur.price), cash >= spur.price and "buy" or "poor")
+			end
+		end)
+	end
 end
 
-local function redraw()
+local function buildMoney(order)
+	local g = grid(order)
+	local _, price, description = card(g, 1, {
+		title = "Pen Slot",
+		icon = GameConfig.Icons.Pen,
+		description = "Room for <green>+1</green> beast!",
+		colors = CARD_COLORS.Green,
+	})
+	price.Activated:Connect(function()
+		ask("BuyPenSlot")
+	end)
+	table.insert(cards, function(cash)
+		local level = player:GetAttribute("PenLevel") or 1
+		local slots = player:GetAttribute("PenSlots") or GameConfig.Pen.StartSlots
+		local cost = GameConfig.Pen.UpgradePrices[level]
+		if slots >= GameConfig.Pen.MaxSlots or not cost then
+			setButton(price, "Maxed", "owned")
+			description.Text = UI.highlight("Your pen is <green>full size</green>!")
+		else
+			setButton(price, NumberFormat.cash(cost), cash >= cost and "buy" or "poor")
+			description.Text = UI.highlight("Room for <green>+1</green> beast! (" .. slots .. " \u{2192} " .. (slots + 1) .. ")")
+		end
+	end)
+end
+
+local function updateCards()
 	if not window or not window.Visible then
 		return
 	end
-	for _, child in ipairs(grid:GetChildren()) do
-		if child:IsA("GuiObject") then
-			child:Destroy()
-		end
-	end
-	for name, button in pairs(tabButtons) do
-		button.BackgroundColor3 = name == tab and UI.Colors.Gold or UI.Colors.WoodDark
-	end
 	local cash = player:GetAttribute("Cash") or 0
-
-	if tab == "Treadmills" then
-		local current = player:GetAttribute("TreadmillTier") or 1
-		for _, t in ipairs(GameConfig.Treadmill.Tiers) do
-			local text, color, onClick = "LOCKED", UI.Colors.Grey, nil
-			if t.tier <= current then
-				text, color = (t.tier == current) and "EQUIPPED" or "OWNED", UI.Colors.WoodDark
-			elseif t.tier == current + 1 then
-				text = priceText(t.price)
-				color = cash >= t.price and UI.Colors.Green or UI.Colors.Red
-				onClick = function()
-					ask("BuyTreadmill", t.tier)
-				end
-			end
-			card(t.tier, t.name, t.rarity, "+" .. NumberFormat.short(t.speedPerStep) .. " / STEP",
-				"Tier " .. t.tier .. (t.price > 0 and (" \u{00B7} " .. NumberFormat.cash(t.price)) or ""), text, color, onClick)
-		end
-	elseif tab == "Spurs" then
-		local owned = {}
-		for id in string.gmatch(player:GetAttribute("OwnedSpurs") or "", "[^,]+") do
-			owned[id] = true
-		end
-		local equipped = player:GetAttribute("EquippedSpur") or ""
-		for i, spur in ipairs(GameConfig.Spurs) do
-			local text, color, onClick
-			if spur.id == equipped then
-				text, color = "EQUIPPED", UI.Colors.WoodDark
-				onClick = function()
-					ask("EquipSpur", "")
-				end
-			elseif owned[spur.id] then
-				text, color = "EQUIP", UI.Colors.Speed
-				onClick = function()
-					ask("EquipSpur", spur.id)
-				end
-			else
-				text = NumberFormat.cash(spur.price)
-				color = cash >= spur.price and UI.Colors.Green or UI.Colors.Red
-				onClick = function()
-					ask("BuySpur", spur.id)
-				end
-			end
-			local note = spur.robuxPrice and ("or R$ " .. spur.robuxPrice .. " (soon)") or "Multiplies treadmill gains"
-			card(i, spur.name, spur.rarity, "x" .. tostring(spur.multiplier) .. " GAINS", note, text, color, onClick)
-		end
-	else
-		local level = player:GetAttribute("PenLevel") or 1
-		local slots = player:GetAttribute("PenSlots") or GameConfig.Pen.StartSlots
-		local price = GameConfig.Pen.UpgradePrices[level]
-		if slots >= GameConfig.Pen.MaxSlots or not price then
-			card(1, "Pen Slot +1", "Legendary", slots .. " SLOTS", "Your pen is full size", "MAXED", UI.Colors.WoodDark, nil)
-		else
-			card(1, "Pen Slot +1", "Rare", slots .. " \u{2192} " .. (slots + 1) .. " SLOTS", "Room for one more beast",
-				NumberFormat.cash(price), cash >= price and UI.Colors.Green or UI.Colors.Red, function()
-					ask("BuyPenSlot")
-				end)
-		end
+	for _, update in ipairs(cards) do
+		update(cash)
 	end
 end
 
--- Which prices the player can afford, as a string (it only changes when a button would)
-local function affordKey(cash)
-	local bits = {}
-	for _, t in ipairs(GameConfig.Treadmill.Tiers) do
-		table.insert(bits, cash >= t.price and "1" or "0")
-	end
-	for _, spur in ipairs(GameConfig.Spurs) do
-		table.insert(bits, cash >= spur.price and "1" or "0")
-	end
-	for _, price in ipairs(GameConfig.Pen.UpgradePrices) do
-		table.insert(bits, cash >= price and "1" or "0")
-	end
-	return table.concat(bits)
-end
-
+----------------------------------------------------------------------------------------------
+-- Window
+----------------------------------------------------------------------------------------------
 local function build()
-	gui = UI.new("ScreenGui", {
-		Name = "Shop",
-		ResetOnSpawn = false,
-		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-		Parent = player:WaitForChild("PlayerGui"),
-	})
-	window = UI.panel({
+	gui = UI.screen("Shop", 5)
+	uiScale = UI.autoScale(gui)
+
+	window = UI.new("Frame", {
 		Name = "Window",
+		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.new(0.5, 0, 0.52, 0),
-		Size = UDim2.new(0.8, 0, 0.74, 0),
+		Position = UDim2.new(0.5, 0, 0.5, 10),
+		Size = UDim2.new(0, 780, 0, 580),
 		Visible = false,
 		Parent = gui,
-	}, nil)
-	UI.new("UISizeConstraint", { MaxSize = Vector2.new(980, 600), Parent = window })
-	UI.text("GENERAL STORE", { Size = UDim2.new(0.5, 0, 0.1, 0), Position = UDim2.new(0.25, 0, 0.02, 0),
-		TextColor3 = UI.Colors.Gold, Parent = window })
-	local close = UI.button("X", UI.Colors.Red, {
-		AnchorPoint = Vector2.new(1, 0),
-		Position = UDim2.new(1, -10, 0, 10),
-		Size = UDim2.new(0, 48, 0, 48),
-		Parent = window,
 	})
+
+	-- Header: green glass bar
+	local header = UI.new("Frame", {
+		Name = "Header",
+		BackgroundColor3 = Color3.new(1, 1, 1),
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 72),
+		ZIndex = 2,
+		Parent = window,
+	}, { UI.corner(4), UI.border(3, UI.Colors.HeaderBorder) })
+	UI.new("UIGradient", { Rotation = 90, Color = ColorSequence.new(UI.Colors.HeaderTop, UI.Colors.HeaderBottom), Parent = header })
+	UI.shine(header, 0.75)
+	UI.text("Shop", {
+		name = "Title",
+		align = "Left",
+		size = UDim2.new(0, 300, 0, 54),
+		position = UDim2.new(0, 18, 0, 9),
+		stroke = 4,
+		z = 3,
+		parent = header,
+	})
+	local close = UI.closeButton(header)
+	close.ZIndex = 4
 	close.Activated:Connect(function()
 		ShopController.close()
 	end)
 
-	local tabs = UI.new("Frame", {
-		BackgroundTransparency = 1,
-		Position = UDim2.new(0.03, 0, 0.13, 0),
-		Size = UDim2.new(0.94, 0, 0.09, 0),
+	-- Body: dark grey, scrolling
+	local body = UI.new("Frame", {
+		Name = "Body",
+		BackgroundColor3 = UI.Colors.Body,
+		BorderSizePixel = 0,
+		Position = UDim2.new(0, 0, 0, 76),
+		Size = UDim2.new(1, 0, 1, -76),
 		Parent = window,
-	}, { UI.new("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 8) }) })
-	for i, name in ipairs({ "Treadmills", "Spurs", "Ranch" }) do
-		local button = UI.button(string.upper(name), UI.Colors.WoodDark, { LayoutOrder = i, Size = UDim2.new(0.32, 0, 1, 0), Parent = tabs })
-		button.Activated:Connect(function()
-			tab = name
-			redraw()
-		end)
-		tabButtons[name] = button
-	end
+	}, { UI.corner(4), UI.border(3, UI.Colors.BodyBorder) })
 
-	grid = UI.new("ScrollingFrame", {
+	list = UI.new("ScrollingFrame", {
+		Name = "List",
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
-		Position = UDim2.new(0.03, 0, 0.25, 0),
-		Size = UDim2.new(0.94, 0, 0.72, 0),
+		Position = UDim2.new(0, 6, 0, 6),
+		Size = UDim2.new(1, -12, 1, -12),
 		CanvasSize = UDim2.new(0, 0, 0, 0),
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
-		ScrollBarThickness = 8,
-		Parent = window,
+		ScrollBarThickness = 6,
+		ScrollBarImageColor3 = Color3.fromRGB(200, 200, 205),
+		Parent = body,
 	}, {
-		UI.new("UIGridLayout", { CellSize = UDim2.new(0, 170, 0, 200), CellPadding = UDim2.new(0, 12, 0, 12),
-			SortOrder = Enum.SortOrder.LayoutOrder }),
-		UI.new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6) }),
+		UI.new("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder,
+			HorizontalAlignment = Enum.HorizontalAlignment.Center }),
+		UI.new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 16) }),
 	})
+
+	sectionHeader(1, "FEATURED", UI.Tints.Gold)
+	sectionHeader(2, "PASSES", UI.Tints.Gold)
+	buildPasses(3)
+	sectionHeader(4, "SPEED", UI.Tints.Cyan)
+	buildSpeed(5)
+	sectionHeader(6, "MONEY", UI.Tints.Green)
+	buildMoney(7)
 end
 
-function ShopController.open(whichTab)
-	tab = whichTab or tab
+-- section: "FEATURED" (top), "SPEED" or "MONEY"
+function ShopController.open(section)
 	window.Visible = true
-	redraw()
+	updateCards()
+	local header = sections[section or "FEATURED"]
+	if header then
+		task.defer(function()
+			local scale = uiScale and uiScale.Scale or 1
+			local y = (header.AbsolutePosition.Y - list.AbsolutePosition.Y) / scale + list.CanvasPosition.Y
+			list.CanvasPosition = Vector2.new(0, math.max(0, y - 6))
+		end)
+	end
+	local scale = window:FindFirstChildOfClass("UIScale") or UI.new("UIScale", { Parent = window })
+	scale.Scale = 0.85
+	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Scale = 1 }):Play()
 end
 
 function ShopController.close()
 	window.Visible = false
 end
 
-function ShopController.toggle()
+function ShopController.toggle(section)
 	if window.Visible then
 		ShopController.close()
 	else
-		ShopController.open()
+		ShopController.open(section)
 	end
 end
 
@@ -4695,7 +5323,7 @@ local function watchPads()
 			end
 		end
 		if on and not wasOn then
-			ShopController.open()
+			ShopController.open("FEATURED")
 		end
 		wasOn = on
 	end)
@@ -4703,21 +5331,33 @@ end
 
 function ShopController.start(hud)
 	build()
-	if hud and hud.shopButton then
-		hud.shopButton.Activated:Connect(ShopController.toggle)
-	end
-	for _, name in ipairs({ "TreadmillTier", "OwnedSpurs", "EquippedSpur", "PenLevel" }) do
-		player:GetAttributeChangedSignal(name):Connect(redraw)
-	end
-	-- Cash changes every second; only redraw when a price button would change colour.
-	local lastKey = nil
-	player:GetAttributeChangedSignal("Cash"):Connect(function()
-		local key = affordKey(player:GetAttribute("Cash") or 0)
-		if key ~= lastKey then
-			lastKey = key
-			redraw()
+	if hud then
+		toast = hud.toast
+		local rail = hud.railButtons or {}
+		if rail.Featured then
+			rail.Featured.Activated:Connect(function()
+				ShopController.toggle("FEATURED")
+			end)
 		end
-	end)
+		if rail.Speed then
+			rail.Speed.Activated:Connect(function()
+				ShopController.open("SPEED")
+			end)
+		end
+		if rail.Money then
+			rail.Money.Activated:Connect(function()
+				ShopController.open("MONEY")
+			end)
+		end
+		if rail.Index then
+			rail.Index.Activated:Connect(function()
+				toast("The Beast Index is coming soon!", "info")
+			end)
+		end
+	end
+	for _, name in ipairs({ "Cash", "TreadmillTier", "OwnedSpurs", "EquippedSpur", "PenLevel", "PenSlots" }) do
+		player:GetAttributeChangedSignal(name):Connect(updateCards)
+	end
 	watchPads()
 end
 
@@ -4726,115 +5366,349 @@ return ShopController
 
 install({ "StarterPlayer", "StarterPlayerScripts", "Controllers", "UI" }, "ModuleScript", [=[
 --[[
-	UI: small helpers that build the cartoon style from the UI mockup in code
-	(Luckiest Guy text with a dark outline, chunky rounded panels, inset button shadow).
+	UI: the style kit, copied from Steal An Egg's real UI (screenshots in the vault note
+	"Roblox Research/Concepts/UI Style Guide.md").
+
+	* One font everywhere: Montserrat Black. Roblox ships it as the Gotham family
+	  (Enum.Font.GothamBlack = GothamSSm, weight Heavy). The cash counter uses the italic face.
+	* White text with a thick black outline. Coloured text is white with a vertical UIGradient
+	  (white on top, tint at the bottom), so the black outline stays black.
+	* Lime-green price buttons, a red square close button, a green window header with a light
+	  diagonal shine, and a dark grey window body.
+
+	Sizes are in pixels for a 1280 x 720 screen. Each ScreenGui gets a UIScale (UI.autoScale),
+	so phones and big monitors see the same layout.
 ]]
+
+local Players = game:GetService("Players")
 
 local UI = {}
 
+local FAMILY = "rbxasset://fonts/families/GothamSSm.json"
+UI.Font = Font.new(FAMILY, Enum.FontWeight.Heavy, Enum.FontStyle.Normal)
+UI.FontItalic = Font.new(FAMILY, Enum.FontWeight.Heavy, Enum.FontStyle.Italic)
+UI.FontBold = Font.new(FAMILY, Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+
 UI.Colors = {
-	Outline = Color3.fromRGB(26, 15, 5),
-	Wood = Color3.fromRGB(138, 84, 38),
-	WoodDark = Color3.fromRGB(107, 63, 31),
-	Cream = Color3.fromRGB(255, 244, 220),
-	Cash = Color3.fromRGB(110, 255, 120),
-	Speed = Color3.fromRGB(80, 200, 255),
-	Gold = Color3.fromRGB(255, 208, 46),
+	Outline = Color3.fromRGB(0, 0, 0),
+	White = Color3.fromRGB(255, 255, 255),
+	CashGreen = Color3.fromRGB(24, 255, 24),      -- the "$43,931" counter
+	HighlightGreen = Color3.fromRGB(40, 230, 40), -- "x2" inside descriptions
+	SpeedBlue = Color3.fromRGB(70, 215, 255),
+	PriceGreen = Color3.fromRGB(110, 222, 34),    -- price buttons
+	PriceGreenDark = Color3.fromRGB(60, 160, 14),
+	PriceBorder = Color3.fromRGB(30, 70, 12),
+	GiftPurple = Color3.fromRGB(176, 60, 230),
+	GiftBorder = Color3.fromRGB(70, 20, 100),
+	CloseRed = Color3.fromRGB(226, 24, 24),
+	CloseBorder = Color3.fromRGB(110, 0, 0),
+	HeaderTop = Color3.fromRGB(140, 236, 70),
+	HeaderBottom = Color3.fromRGB(86, 200, 30),
+	HeaderBorder = Color3.fromRGB(40, 110, 20),
+	Body = Color3.fromRGB(58, 59, 66),
+	BodyBorder = Color3.fromRGB(30, 30, 34),
+	CardBorder = Color3.fromRGB(28, 28, 30),
+	Grey = Color3.fromRGB(110, 110, 116),
 	Red = Color3.fromRGB(255, 70, 60),
-	Green = Color3.fromRGB(60, 190, 80),
-	Grey = Color3.fromRGB(120, 120, 120),
 }
+
+-- Bottom tints for gradient text (top is always white)
+UI.Tints = {
+	Featured = { Color3.fromRGB(255, 236, 110), Color3.fromRGB(255, 170, 30) }, -- yellow -> orange, both ends tinted
+	Gold = { Color3.fromRGB(255, 250, 150), Color3.fromRGB(255, 200, 0) },      -- "-- FEATURED --" / "-- PASSES --"
+	Cyan = { Color3.fromRGB(170, 250, 255), Color3.fromRGB(0, 200, 255) },      -- "-- SPEED --"
+	Green = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(150, 255, 150) },   -- "Money" label
+	Blue = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(130, 240, 255) },    -- "Speed" label
+	Peach = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 205, 140) },   -- "Stars" label
+}
+
+UI.Rainbow = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 60, 60)),
+	ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 160, 30)),
+	ColorSequenceKeypoint.new(0.4, Color3.fromRGB(255, 240, 60)),
+	ColorSequenceKeypoint.new(0.6, Color3.fromRGB(80, 230, 90)),
+	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(60, 170, 255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(190, 80, 255)),
+})
 
 function UI.new(className, props, children)
 	local instance = Instance.new(className)
+	local parent = nil
 	for key, value in pairs(props or {}) do
-		if key ~= "Parent" then
+		if key == "Parent" then
+			parent = value
+		else
 			instance[key] = value
 		end
 	end
 	for _, child in ipairs(children or {}) do
 		child.Parent = instance
 	end
-	if props and props.Parent then
-		instance.Parent = props.Parent
+	if parent then
+		instance.Parent = parent
 	end
 	return instance
 end
 
 function UI.corner(radius)
-	return UI.new("UICorner", { CornerRadius = UDim.new(0, radius or 14) })
+	return UI.new("UICorner", { CornerRadius = UDim.new(0, radius or 6) })
 end
 
-function UI.stroke(thickness, color)
+-- A border stroke for frames and buttons
+function UI.border(thickness, color)
 	return UI.new("UIStroke", {
-		Thickness = thickness or 4,
+		Thickness = thickness or 3,
 		Color = color or UI.Colors.Outline,
 		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		LineJoinMode = Enum.LineJoinMode.Round,
 	})
 end
 
--- Outlined cartoon text. props are applied on top of the defaults.
-function UI.text(text, props)
+--[[ Outlined text.
+	opts: size (UDim2), position, anchor, color, stroke (px), italic, align ("Left"/"Center"/"Right"),
+	      rich (RichText), maxSize (TextSize cap), z, name, parent ]]
+function UI.text(text, opts)
+	opts = opts or {}
 	local label = UI.new("TextLabel", {
+		Name = opts.name or "Text",
 		BackgroundTransparency = 1,
-		Font = Enum.Font.LuckiestGuy,
+		FontFace = opts.italic and UI.FontItalic or UI.Font,
 		Text = text,
 		TextScaled = true,
-		TextColor3 = UI.Colors.Cream,
-		Size = UDim2.new(1, 0, 1, 0),
+		RichText = opts.rich == true,
+		TextColor3 = opts.color or UI.Colors.White,
+		TextXAlignment = Enum.TextXAlignment[opts.align or "Center"],
+		Size = opts.size or UDim2.new(1, 0, 1, 0),
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		ZIndex = opts.z or 2,
 	})
-	UI.new("UIStroke", { Thickness = 2.5, Color = UI.Colors.Outline, Parent = label })
-	for key, value in pairs(props or {}) do
-		label[key] = value
+	UI.new("UIStroke", {
+		Name = "Outline",
+		Thickness = opts.stroke or 3,
+		Color = UI.Colors.Outline,
+		LineJoinMode = Enum.LineJoinMode.Round,
+		Parent = label,
+	})
+	if opts.maxSize then
+		UI.new("UITextSizeConstraint", { MaxTextSize = opts.maxSize, Parent = label })
+	end
+	if opts.parent then
+		label.Parent = opts.parent
 	end
 	return label
 end
 
-function UI.panel(props)
-	local frame = UI.new("Frame", {
-		BackgroundColor3 = UI.Colors.Wood,
-		BorderSizePixel = 0,
-	}, { UI.corner(16), UI.stroke(4) })
-	for key, value in pairs(props or {}) do
-		frame[key] = value
-	end
-	return frame
+-- White-to-tint vertical gradient on a text label (the outline stays black).
+function UI.tint(label, tint)
+	local gradient = label:FindFirstChildOfClass("UIGradient") or UI.new("UIGradient", { Parent = label })
+	gradient.Rotation = 90
+	gradient.Color = ColorSequence.new(tint[1], tint[2])
+	return gradient
 end
 
-function UI.button(text, color, props)
-	local button = UI.new("TextButton", {
-		BackgroundColor3 = color or UI.Colors.Green,
-		BorderSizePixel = 0,
-		AutoButtonColor = true,
-		Text = "",
-	}, { UI.corner(12), UI.stroke(3) })
-	-- inset shadow along the bottom, like the mockup's buttons
-	UI.new("Frame", {
-		Name = "Shade",
-		BackgroundColor3 = Color3.new(0, 0, 0),
-		BackgroundTransparency = 0.72,
-		BorderSizePixel = 0,
-		AnchorPoint = Vector2.new(0, 1),
-		Position = UDim2.new(0, 0, 1, 0),
-		Size = UDim2.new(1, 0, 0.22, 0),
-		ZIndex = 1,
-		Parent = button,
-	}, { UI.corner(12) })
-	local label = UI.text(text, {
-		Name = "Label",
-		Size = UDim2.new(0.9, 0, 0.7, 0),
-		Position = UDim2.new(0.05, 0, 0.1, 0),
-		ZIndex = 2,
+function UI.rainbow(label)
+	local gradient = label:FindFirstChildOfClass("UIGradient") or UI.new("UIGradient", { Parent = label })
+	gradient.Rotation = 0
+	gradient.Color = UI.Rainbow
+	return gradient
+end
+
+-- Light diagonal stripes like the shop header's glass shine.
+function UI.shine(frame, transparency)
+	local holder = UI.new("Frame", {
+		Name = "Shine",
+		BackgroundTransparency = 1,
+		ClipsDescendants = true,
+		Size = UDim2.new(1, 0, 1, 0),
+		ZIndex = frame.ZIndex,
+		Parent = frame,
 	})
-	label.Parent = button
-	for key, value in pairs(props or {}) do
-		button[key] = value
+	for i, x in ipairs({ 0.42, 0.5, 0.78 }) do
+		UI.new("Frame", {
+			BackgroundColor3 = UI.Colors.White,
+			BackgroundTransparency = transparency or 0.8,
+			BorderSizePixel = 0,
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.new(x, 0, 0.5, 0),
+			Size = UDim2.new(0, i == 2 and 10 or 26, 3, 0),
+			Rotation = 35,
+			ZIndex = frame.ZIndex,
+			Parent = holder,
+		})
+	end
+	return holder
+end
+
+-- Rich text helper: "Get <green>x2</green> Money!" -> RichText with the highlight colour.
+function UI.highlight(text)
+	local hex = string.format("#%02X%02X%02X", 40, 230, 40)
+	return (string.gsub(text, "<green>(.-)</green>", '<font color="' .. hex .. '">%1</font>'))
+end
+
+-- Square/rect button with a coloured fill, darker bottom half and a dark border.
+function UI.button(opts)
+	local button = UI.new("TextButton", {
+		Name = opts.name or "Button",
+		Text = "",
+		AutoButtonColor = false,
+		BackgroundColor3 = opts.color or UI.Colors.PriceGreen,
+		BorderSizePixel = 0,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		ZIndex = opts.z or 2,
+	}, { UI.corner(opts.radius or 5), UI.border(opts.borderThickness or 3, opts.border or UI.Colors.PriceBorder) })
+	if opts.dark then
+		UI.new("UIGradient", {
+			Rotation = 90,
+			Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+				ColorSequenceKeypoint.new(0.55, Color3.fromRGB(255, 255, 255)),
+				ColorSequenceKeypoint.new(0.56, Color3.fromRGB(215, 215, 215)),
+				ColorSequenceKeypoint.new(1, Color3.fromRGB(215, 215, 215)),
+			}),
+			Parent = button,
+		})
+	end
+	UI.pressable(button)
+	if opts.parent then
+		button.Parent = opts.parent
 	end
 	return button
 end
 
-function UI.rgb(t)
-	return Color3.fromRGB(t[1], t[2], t[3])
+-- Grow a little on hover, squash on press (UI Patterns: 1.0 -> 1.08 -> 0.95).
+function UI.pressable(button)
+	local scale = button:FindFirstChildOfClass("UIScale") or UI.new("UIScale", { Parent = button })
+	local TweenService = game:GetService("TweenService")
+	local info = TweenInfo.new(0.08)
+	local function to(value)
+		TweenService:Create(scale, info, { Scale = value }):Play()
+	end
+	button.MouseEnter:Connect(function()
+		to(1.06)
+	end)
+	button.MouseLeave:Connect(function()
+		to(1)
+	end)
+	button.MouseButton1Down:Connect(function()
+		to(0.94)
+	end)
+	button.MouseButton1Up:Connect(function()
+		to(1.06)
+	end)
+end
+
+-- Green price button: optional Robux icon + price text.
+function UI.priceButton(text, robux, opts)
+	opts = opts or {}
+	local button = UI.button({
+		name = "Price",
+		color = opts.color or UI.Colors.PriceGreen,
+		border = opts.border or UI.Colors.PriceBorder,
+		size = opts.size,
+		position = opts.position,
+		anchor = opts.anchor,
+		dark = true,
+		parent = opts.parent,
+	})
+	local x = 0.06
+	if robux then
+		UI.new("ImageLabel", {
+			Name = "Robux",
+			BackgroundTransparency = 1,
+			Image = "rbxasset://textures/ui/common/robux.png",
+			ImageColor3 = UI.Colors.White,
+			AnchorPoint = Vector2.new(0, 0.5),
+			Position = UDim2.new(0.12, 0, 0.5, 0),
+			Size = UDim2.new(0.62, 0, 0.62, 0),
+			SizeConstraint = Enum.SizeConstraint.RelativeYY,
+			ZIndex = 3,
+			Parent = button,
+		})
+		x = 0.3
+	end
+	UI.text(text, {
+		name = "Label",
+		size = UDim2.new(1 - x - 0.06, 0, 0.7, 0),
+		position = UDim2.new(x, 0, 0.15, 0),
+		stroke = 2.5,
+		z = 3,
+		parent = button,
+	})
+	return button
+end
+
+function UI.closeButton(parent)
+	local button = UI.button({
+		name = "Close",
+		color = UI.Colors.CloseRed,
+		border = UI.Colors.CloseBorder,
+		size = UDim2.new(0, 46, 0, 46),
+		anchor = Vector2.new(1, 0.5),
+		position = UDim2.new(1, -8, 0.5, 0),
+		radius = 3,
+		parent = parent,
+	})
+	UI.text("X", { size = UDim2.new(0.7, 0, 0.7, 0), position = UDim2.new(0.15, 0, 0.15, 0), stroke = 3, z = 3, parent = button })
+	return button
+end
+
+-- An emoji or image icon. icon = "rbxassetid://..." for an uploaded image, otherwise an emoji.
+function UI.icon(icon, opts)
+	if string.sub(icon, 1, 13) == "rbxassetid://" then
+		return UI.new("ImageLabel", {
+			Name = "Icon",
+			BackgroundTransparency = 1,
+			Image = icon,
+			ScaleType = Enum.ScaleType.Fit,
+			Size = opts.size,
+			Position = opts.position or UDim2.new(0, 0, 0, 0),
+			AnchorPoint = opts.anchor or Vector2.new(0, 0),
+			ZIndex = opts.z or 2,
+			Parent = opts.parent,
+		})
+	end
+	return UI.new("TextLabel", {
+		Name = "Icon",
+		BackgroundTransparency = 1,
+		Text = icon,
+		TextScaled = true,
+		FontFace = UI.Font,
+		TextColor3 = UI.Colors.White,
+		Size = opts.size,
+		Position = opts.position or UDim2.new(0, 0, 0, 0),
+		AnchorPoint = opts.anchor or Vector2.new(0, 0),
+		ZIndex = opts.z or 2,
+		Parent = opts.parent,
+	})
+end
+
+-- Keeps a 1280x720 layout the same size relative to any screen.
+function UI.autoScale(screenGui)
+	local scale = UI.new("UIScale", { Parent = screenGui })
+	local camera = workspace.CurrentCamera
+	local function update()
+		local viewport = camera and camera.ViewportSize or Vector2.new(1280, 720)
+		scale.Scale = math.clamp(math.min(viewport.X / 1280, viewport.Y / 720), 0.55, 1.6)
+	end
+	update()
+	if camera then
+		camera:GetPropertyChangedSignal("ViewportSize"):Connect(update)
+	end
+	return scale
+end
+
+function UI.screen(name, order)
+	return UI.new("ScreenGui", {
+		Name = name,
+		ResetOnSpawn = false,
+		IgnoreGuiInset = true,
+		DisplayOrder = order or 0,
+		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+		Parent = Players.LocalPlayer:WaitForChild("PlayerGui"),
+	})
 end
 
 return UI
@@ -4855,4 +5729,4 @@ ShopController.start(HUDController)
 ]=])
 
 if recording then ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit) end
-print(string.format("[InstallScripts] %d scripts installed (%d new instances, %d updated). Now save the place (Ctrl+S).", 18, created, updated))
+print(string.format("[InstallScripts] %d scripts installed (%d new instances, %d updated). Now save the place (Ctrl+S).", 19, created, updated))

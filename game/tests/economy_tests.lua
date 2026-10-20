@@ -280,4 +280,16 @@ test("NumberFormat.cash, commas and clock", function()
 		and Format.clock(-3) == "0:00"
 end)
 
+test("NumberFormat.commasShort / cashLong (Steal An Egg counter style)", function()
+	local cases = { { 0, "0" }, { 43931, "43,931" }, { 999999, "999,999" }, { 1000000, "1,000K" },
+		{ 89121000000, "89,121M" }, { 1234567890123, "1,234B" }, { 8.9121e28, "89,121Sp" }, { 12.7, "12" } }
+	for _, c in ipairs(cases) do
+		local got = Format.commasShort(c[1])
+		if got ~= c[2] then
+			return false, c[1] .. " -> " .. got .. " (want " .. c[2] .. ")"
+		end
+	end
+	return Format.cashLong(43931) == "$43,931"
+end)
+
 return string.format("%d %d", passed, failed)

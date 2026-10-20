@@ -11,8 +11,9 @@ The map follows `MAP_SPEC.md`. The rules follow `Core Loop.md` and `Systems and 
 | **Saving** (`DataService`) | Done. DataStore with a session lock, autosave, save on leave and on shutdown. |
 | **Ranch** (`RanchService`) | Done. You get a random free plot with your name and headshot on the sign, you spawn there, the pen shows your beasts with name tags, and the pen earns $/s. |
 | **Treadmill + Speed** (`SpeedService`) | Done. Stand on your own treadmill belt to train (AFK works). Speed sets your WalkSpeed using the MAP_SPEC §2 curve. |
-| **General Store** (`ShopService` + shop UI) | Done. 11 treadmill tiers, 10 Spurs, and pen slots up to 19. Opens from the SHOP button or when you step on the yellow ring in Town. |
-| **HUD** | Done. Cash and $/s, Speed and the next area's sign, treadmill popups, toasts. |
+| **Shop** (`ShopService` + shop UI) | Done. Built like Steal An Egg's: sections `-- PASSES --`, `-- SPEED --` (11 treadmills, 10 Spurs), `-- MONEY --` (pen slots up to 19). Opens from the left rail or the yellow ring in Town. Gamepasses say "Coming soon!" until their ids are set in `GameConfig.Passes`. |
+| **HUD** | Done, in Steal An Egg's style: green italic cash with a money stack, a left rail (Featured, Speed, Money, Index), Speed with a shoe at the bottom left, `+2 Speed` popups, toasts, and the area name in yellow when you enter an area. |
+| **Look** | Steal An Egg's: Montserrat Black (Roblox's Gotham) with black outlines everywhere, headshot name tags over players, and a bright studded map. The checkerboard needs one image upload (see [The studded checkerboard](#the-studded-checkerboard)). |
 | Herds, lasso, tow, Alpha chase | Next (build order step 3). |
 | Whip, traps, taming, rustling, Sundown, Index, Breeding | Later (steps 4–6). |
 
@@ -35,7 +36,7 @@ Or do it by hand. Each step pastes a file into **View → Command Bar** and pres
 
 1. **Map:** paste `tools/BuildMap.command.lua`. Wait for `[MapBuilder] Built workspace.Map ...`.
    Skip this if the place already has `workspace.Map` and the map hasn't changed.
-2. **Scripts:** paste `tools/InstallScripts.command.lua`. Wait for `[InstallScripts] 18 scripts installed ...`.
+2. **Scripts:** paste `tools/InstallScripts.command.lua`. Wait for `[InstallScripts] 19 scripts installed ...`.
    It creates or updates every script under ReplicatedStorage, ServerScriptService, ServerStorage and
    StarterPlayerScripts. Run it again after every `git pull`.
 3. **Save** the place (Ctrl+S).
@@ -51,11 +52,33 @@ the Command Bar, because it is static geometry, not a script.
 ## Playtest checklist
 
 1. Press **Play**. You spawn on the boardwalk in front of a ranch whose sign shows your name.
-2. Your pen has a Prairie Chick with a tag (`$1/s`), and the cash at the top goes up by 1 each second.
-3. Step onto the **treadmill** to the right of your gate. You get `+2 SPEED` popups twice a second,
-   the Speed panel at the bottom left goes up, and you walk faster.
-4. Walk to the **yellow ring** in front of the General Store (Town Square, north side). The shop opens.
-   Buy **Rusty Spurs** ($100). Treadmill popups now say `+3 SPEED (x1.5 SPUR)`.
+2. Your pen has a Prairie Chick with a tag (`$1/s`), and the green cash at the top left goes up by 1 each second.
+3. Step onto the **treadmill** to the right of your gate. You get `+2 Speed` popups twice a second,
+   the Speed number by the shoe at the bottom left goes up, and you walk faster.
+4. Click **Speed** on the left rail (or walk onto the **yellow ring** in front of the General Store). The shop opens.
+   Buy **Rusty Spurs** ($100). Treadmill popups now say `+3 Speed (x1.5)`.
+5. Walk past the red line into the lane. `DUSTY PRAIRIE` shows in big yellow letters.
+
+### The studded checkerboard
+
+Steal An Egg's map is bright Plastic with a two-tone checkerboard and a stud on every stud. The map
+builder already makes the colours and the studs. The checkerboard itself is an image, which Roblox
+only shows after you upload it once:
+
+1. Publish the place (**File → Publish to Roblox**) if you haven't yet.
+2. **View → Asset Manager → Bulk Import** (the button with the up arrow), and pick
+   `game/assets/checker_studs.png`. Wait for it to finish uploading.
+3. In Asset Manager, open **Images**, right-click **checker_studs** and choose **Copy ID to Clipboard**.
+4. In the Command Bar, run this (paste your id in place of 123):
+   ```lua
+   workspace:SetAttribute("CheckerTexture", "rbxassetid://123")
+   ```
+5. Run `tools/BuildMap.command.lua` again. The Output says `Studded checker look on 109 parts (269 textures)`.
+   Save the place. The id stays in the place, so later rebuilds keep the checkerboard.
+
+The image is mostly see-through, so one upload works on every colour: green grass, orange walls,
+purple-grey paths and each area's colours. Its source is `tools/make_checker_texture.py`. Colours live
+in `AreasConfig.Style`.
 
 ### Dev commands (Studio only)
 
@@ -79,18 +102,19 @@ game/
   MAP_SPEC.md                     exact map build spec
   src/
     ReplicatedStorage/Shared/
-      AreasConfig.lua             areas, beasts, rarities, plots (map + gameplay data)
-      GameConfig.lua              economy: treadmill tiers, Spurs, pen prices, walk curve, saving
+      AreasConfig.lua             areas, beasts, rarities, plots, map Style (map + gameplay data)
+      GameConfig.lua              economy: treadmill tiers, Spurs, pen prices, passes, icons, saving
       Economy.lua                 the rules as pure functions (buy, step, income, save repair)
       NumberFormat.lua            1.2K / 4.5M / 3.1B, commas, m:ss
     ServerScriptService/
       Main.server.lua             starts the services
       Services/                   DataService, RanchService, SpeedService, ShopService,
-                                  StatsService, DevService, Remotes, MapUtil
+                                  StatsService, NameTagService, DevService, Remotes, MapUtil
     ServerStorage/MapBuilder/     builds workspace.Map (used by tools/BuildMap.command.lua)
     StarterPlayer/StarterPlayerScripts/
       Main.client.lua             starts the UI
-      Controllers/                HUDController, ShopController, UI (style helpers)
+      Controllers/                HUDController, ShopController, UI (the Steal An Egg style kit)
+  assets/checker_studs.png        the checkerboard texture to upload (made by tools/make_checker_texture.py)
   tools/
     BuildMap.command.lua          GENERATED: paste to build the map
     InstallScripts.command.lua    GENERATED: paste to install all scripts

@@ -1,6 +1,6 @@
 ---
 tags: [roblox, research, index]
-updated: 2026-10-18
+updated: 2026-10-20
 ---
 # Roblox "Steal" Game Research
 
@@ -27,6 +27,7 @@ A study of three top "steal-a-X" Roblox games: why they blew up, how their UI wo
 ## Concepts (cross-game analysis)
 - [[Steal Genre Formula]]: why these games work
 - [[UI Patterns]]: HUD, shop, base, popups
+- [[UI Style Guide]]: Steal An Egg's real fonts, colours, shop and studded map look (from screenshots)
 - [[Technical Architecture]]: how to build one in Roblox Studio
 - [[Monetization]]: gamepasses, dev products, events
 - [[Marketing and Thumbnails]]: clickable icons, names, trend-riding

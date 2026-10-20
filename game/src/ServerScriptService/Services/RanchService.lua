@@ -46,17 +46,29 @@ end
 ----------------------------------------------------------------------------------------------
 -- Beast placeholder model
 ----------------------------------------------------------------------------------------------
+-- Montserrat Black (Roblox's Gotham family), the font Steal An Egg uses everywhere
+local TAG_FONT = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Heavy, Enum.FontStyle.Normal)
+
+local RAINBOW = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 60, 60)),
+	ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 160, 30)),
+	ColorSequenceKeypoint.new(0.4, Color3.fromRGB(255, 240, 60)),
+	ColorSequenceKeypoint.new(0.6, Color3.fromRGB(80, 230, 90)),
+	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(60, 170, 255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(190, 80, 255)),
+})
+
 local function tagLabel(parent, name, text, color, y, h)
 	local label = Instance.new("TextLabel")
 	label.Name = name
 	label.BackgroundTransparency = 1
 	label.Size = UDim2.new(1, 0, h, 0)
 	label.Position = UDim2.new(0, 0, y, 0)
-	label.Font = Enum.Font.LuckiestGuy
+	label.FontFace = TAG_FONT
 	label.TextScaled = true
 	label.Text = text
 	label.TextColor3 = color
-	label.TextStrokeColor3 = Color3.fromRGB(26, 15, 5)
+	label.TextStrokeColor3 = Color3.new(0, 0, 0)
 	label.TextStrokeTransparency = 0
 	label.Parent = parent
 	return label
@@ -107,14 +119,21 @@ function RanchService.makeBeastModel(beast)
 	tag.StudsOffsetWorldSpace = Vector3.new(0, size + 3, 0)
 	tag.MaxDistance = 90
 	tag.LightInfluence = 0
-	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0, 0.3)
+	-- Steal a Brainrot / Steal An Egg overhead order: big green $/s, then the name, then the rarity
+	tagLabel(tag, "Income", NumberFormat.cashLong(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(24, 255, 24), 0, 0.3)
+	tagLabel(tag, "BeastName", info.name, Color3.fromRGB(255, 255, 255), 0.3, 0.26)
 	local rarityText = string.upper(info.rarity)
 	if beast.mutation ~= "None" then
 		rarityText = string.upper(beast.mutation) .. " " .. rarityText
 	end
-	tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.3, 0.24)
-	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 220, 200), 0.54, 0.2)
-	tagLabel(tag, "Income", NumberFormat.cash(Economy.beastIncome(beast)) .. "/s", Color3.fromRGB(110, 255, 120), 0.74, 0.26)
+	local rarityLabel = tagLabel(tag, "Rarity", rarityText, rgb(rarity.color), 0.56, 0.24)
+	if rarity.rainbowText or beast.mutation == "Rainbow" then
+		rarityLabel.TextColor3 = Color3.new(1, 1, 1)
+		local gradient = Instance.new("UIGradient")
+		gradient.Color = RAINBOW
+		gradient.Parent = rarityLabel
+	end
+	tagLabel(tag, "Kg", NumberFormat.commas(beast.kg) .. " kg", Color3.fromRGB(230, 230, 230), 0.8, 0.18)
 	tag.Parent = body
 
 	model.PrimaryPart = body
@@ -205,7 +224,7 @@ local function styleSlot(pad, active)
 		gui.StudsOffset = Vector3.new(0, 2, 0)
 		gui.MaxDistance = 80
 		gui.LightInfluence = 0
-		tagLabel(gui, "Line1", "LOCKED", Color3.fromRGB(255, 244, 220), 0, 1)
+		tagLabel(gui, "Line1", "LOCKED", Color3.fromRGB(255, 255, 255), 0, 1)
 		gui.Parent = pad
 	end
 end

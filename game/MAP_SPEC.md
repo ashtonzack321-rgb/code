@@ -291,7 +291,7 @@ SAE marks the edge of its Safe Zone with a **red line on the ground**. Crossing 
 | `AlphaBlocker` | `Block 2×60×128 @(400, 30, 0)`, Transparency 1, CanCollide true, group `AlphaBlocker` |
 | `SundownCurtain` | `Block 2×40×128 @(399, 20, 0)`, ForceField 255,150,80. Off by default (T1, nc). During Sundown, CycleService sets it to T0.4 with CanCollide true, so the map is closed for 10 s (SAE closes the map for about 10–13 s between cycles **[SAE]**). |
 | `GatePostN` / `GatePostS` | `VCyl 30×5 @(404, 15, ±34)` Wood 110,74,42 |
-| `GateBoard` | `Block 3×8×76 @(404, 33, 0)` WoodPlanks 176,128,78. The SurfaceGui on its **Left** (−X, read when leaving) says `THE FRONTIER →` / `weapons ON past the red line`. The one on its **Right** (+X, read when returning) says `TOWN · SAFE ZONE`. Font LuckiestGuy. |
+| `GateBoard` | `Block 3×8×76 @(404, 33, 0)` WoodPlanks 176,128,78. The SurfaceGui on its **Left** (−X, read when leaving) says `THE FRONTIER →` / `weapons ON past the red line`. The one on its **Right** (+X, read when returning) says `TOWN · SAFE ZONE`. Font GothamBlack (Montserrat Black, as in Steal An Egg). |
 | `LanternN` / `LanternS` | `Ball 2 @(404, 31, ±34)` Neon 255,200,120, PointLight Range 16, Shadows off |
 
 ### 4.5 Town Square fixtures (47 parts)
@@ -481,7 +481,7 @@ With `S` = StartX, `E` = EndX, `L` = Length, `C` = CentreX, `H` = cliff height, 
 | | `AlphaBed` | `VCyl 0.3×bedD @(HerdX, 0.05, σ(42 + s/2))`, nc |
 | | `HerdSign` post + board [HerdSign] | post `VCyl 8×1 @(HerdX+18, 4, AlphaZ)` · board `Block 8×3.5×0.5 @(HerdX+18, 9, AlphaZ)`, SurfaceGui facing the trail (Front if north, Back if south): `<ALPHA NAME>` / `<sign> SPEED`. This copies SAE's recommended-Speed sign that stands **next to the guardian** **[SAE]**. |
 
-Signs are soft gates only, with no barrier, as in SAE **[SAE]**. Arch fonts are Enum.Font.LuckiestGuy, except Ghost Town (Creepster) and Cosmic Rift (Michroma).
+Signs are soft gates only, with no barrier, as in SAE **[SAE]**. Arch fonts are Enum.Font.GothamBlack (Montserrat Black, Steal An Egg's UI font), white with a black outline (changed 2026-10-20; was LuckiestGuy).
 
 **Cliff numbers per area:**
 
@@ -893,3 +893,14 @@ The planned areas **[GDD]**:
 | Lava, tar and water | Decorative only, no damage | Undocumented |
 | Plot assignment | Random free plot | Undocumented |
 | Night closure | A 10 s Sundown curtain at the red line plus a teleport | SAE: map closed for about 10–13 s, with a teleport at zero |
+
+---
+
+## 13. Look: Steal An Egg's studded checkerboard (added 2026-10-20)
+
+After building, `MapBuilder.applyStyle` restyles 109 parts using `AreasConfig.Style`:
+- **Ground (top face):** SquareGround, RanchGroundN/S (green 118,214,38), MainStreet, BoardwalkN/S, Trailhead (path 128,118,140), PlotBase ×7 (104,198,30), and each area's TrailStrip and ShoulderN/S.
+- **Walls (all faces):** the Town palisade (orange 205,120,55) and each area's WallN/S and CrestN/S. ToeN/S get studs and colour only.
+- **Every restyled part:** Material Plastic and **Studs** surfaces (the top for ground, all six faces for walls). Colours come from `Style.Town`, `Style.AreaOverrides[i]` (area 1 = SAE's Forest: green with orange walls), or the area theme colour with saturation ×1.35 and brightness ×1.12.
+- **Checkerboard:** once `Style.CheckerTexture`, or the workspace attribute `CheckerTexture`, holds an uploaded `game/assets/checker_studs.png`, each restyled face gets a `Texture` (StudsPerTileU/V = 8, Color3 black). That's 269 textures. The image is see-through apart from the dark squares and the stud shading, so the part colour shows through.
+- Fonts on signs are GothamBlack. Text is white with a black outline (`strokeFor` gives a white outline only to very dark text).

@@ -108,6 +108,35 @@ GameConfig.Mutations = {
 GameConfig.KgExponent = 0.617
 
 ----------------------------------------------------------------------------------------------
+-- Gamepasses shown in the shop (Monetization and Launch.md). gamePassId stays 0 until the pass
+-- is created on the Creator Dashboard; the shop then says "Coming soon!" instead of prompting.
+-- In descriptions, <green>...</green> marks the green highlight (as in "Eggs Grow x2 faster!").
+----------------------------------------------------------------------------------------------
+GameConfig.Passes = {
+	{ id = "TwoXTaming", name = "x2 Taming", description = "Beasts Tame <green>x2</green> faster!", robux = 467,
+		gamePassId = 0, icon = "\u{23F1}\u{FE0F}", card = "Rainbow" },
+	{ id = "TwoXMoney", name = "x2 Money", description = "Get <green>x2</green> Money!", robux = 399,
+		gamePassId = 0, icon = "\u{1F4B0}", card = "Gold" },
+	{ id = "VipRanch", name = "VIP Ranch", description = "<green>+2</green> pen slots and a gold gate!", robux = 299,
+		gamePassId = 0, icon = "\u{1F451}", card = "Purple" },
+	{ id = "FastHorse", name = "Fast Horse", description = "Run <green>+25%</green> faster!", robux = 199,
+		gamePassId = 0, icon = "\u{1F40E}", card = "Blue" },
+}
+
+-- HUD and shop icons. Emoji work with no uploads; replace any of them with an uploaded image
+-- ("rbxassetid://123") to get Steal An Egg-style drawn icons.
+GameConfig.Icons = {
+	Featured = "\u{1F3F7}\u{FE0F}",
+	Speed = "\u{1F45F}",
+	Money = "\u{1F4B5}",
+	Index = "\u{1F4D6}",
+	Gift = "\u{1F381}",
+	Treadmill = "\u{1F3C3}",
+	Spurs = "\u{2B50}",
+	Pen = "\u{1F3E0}",
+}
+
+----------------------------------------------------------------------------------------------
 -- Saving
 ----------------------------------------------------------------------------------------------
 GameConfig.Data = {

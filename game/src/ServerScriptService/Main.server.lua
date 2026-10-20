@@ -6,7 +6,7 @@
 
 local Services = script.Parent:WaitForChild("Services")
 
-local ORDER = { "RanchService", "SpeedService", "ShopService", "StatsService", "DevService", "DataService" }
+local ORDER = { "RanchService", "SpeedService", "ShopService", "StatsService", "NameTagService", "DevService", "DataService" }
 
 for _, name in ipairs(ORDER) do
 	local ok, err = pcall(function()

@@ -4,6 +4,25 @@ updated: 2026-10-20
 ---
 # Progress Log
 
+## 2026-10-20 (Session 2, part 2): Steal An Egg look
+**Done**
+- Your screenshots settled the font: **Montserrat Black** everywhere, which Roblox ships as Gotham. The cash counter uses **Montserrat Black Italic**. Both were checked by rendering the real font files next to your screenshots. Details are in [[UI Style Guide]].
+- **New UI in Steal An Egg's style:**
+  - green italic `$43,931`-style cash with a money stack
+  - a left rail of icon buttons with gradient labels (Featured / Speed / Money / Index)
+  - Speed with a shoe at the bottom left
+  - `+2 Speed` popups and yellow area-name banners
+  - headshot name tags over players
+- **New Shop**, like theirs: a green header with `Shop` and a red X, a dark scrolling body with `-- PASSES --`, `-- SPEED --` and `-- MONEY --` sections, gradient cards, purple gift buttons and lime price buttons.
+- **The map is now bright studded Plastic:** green ground, orange walls and purple-grey paths. The checkerboard texture is drawn (`game/assets/checker_studs.png`); you upload it once.
+- All signs and beast tags now use the same font, in white with black outlines.
+
+**Next steps**
+1. On the PC: `git pull`, then have Claude rebuild the map and reinstall the scripts. That's the same prompt as before.
+2. Upload the checkerboard image. The steps are in `game/README.md` under "The studded checkerboard".
+3. Send screenshots of anything that still looks different from Steal An Egg.
+4. Maybe next: X-braced wooden pen fences and "Upgrade Pen" signs like Steal An Egg. Then herds, lasso and the Alpha chase.
+
 ## 2026-10-20 (Session 2)
 **Done**
 - Finished the **map builder** (all 38 map tests pass) and wrote `game/README.md`, which has the install steps, a playtest checklist and dev commands.

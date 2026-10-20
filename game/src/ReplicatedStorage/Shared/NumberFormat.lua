@@ -48,6 +48,30 @@ function NumberFormat.commas(n)
 	return (out:gsub("^(%-?),", "%1"))
 end
 
+-- Steal An Egg's counter style: whole numbers with commas ("$43,931"). Once the number
+-- reaches 1,000,000 it switches to a suffix but keeps commas: 89,121,000,000 -> "89,121M".
+function NumberFormat.commasShort(n)
+	if n ~= n then
+		return "0"
+	end
+	if n < 0 then
+		return "-" .. NumberFormat.commasShort(-n)
+	end
+	local index = 0
+	while n >= 1000000 and index < #SUFFIXES do
+		n = n / 1000
+		index = index + 1
+	end
+	if index > 0 then
+		n = n * (1 + 1e-12) -- 89121 * 1000^8 / 1000^8 can come back as 89120.9999...
+	end
+	return NumberFormat.commas(n) .. (SUFFIXES[index] or "")
+end
+
+function NumberFormat.cashLong(n)
+	return "$" .. NumberFormat.commasShort(n)
+end
+
 -- 75 -> "1:15"
 function NumberFormat.clock(seconds)
 	seconds = math.max(0, math.floor(seconds))
