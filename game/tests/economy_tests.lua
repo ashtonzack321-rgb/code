@@ -292,4 +292,20 @@ test("NumberFormat.commasShort / cashLong (Steal An Egg counter style)", functio
 	return Format.cashLong(43931) == "$43,931"
 end)
 
+test("inside Roblox (script set) the module sets itself up once, without recursing", function()
+	local savedScript, savedRequire = script, require
+	script = { Parent = { GameConfig = GAME_CONFIG, AreasConfig = AREAS_CONFIG } }
+	local calls = 0
+	require = function(module)
+		calls = calls + 1
+		return module
+	end
+	local ok, module = pcall(LOAD_ECONOMY)
+	script, require = savedScript, savedRequire
+	if not ok then
+		return false, tostring(module)
+	end
+	return calls == 2 and module.Beasts and module.Beasts.PrairieChick ~= nil, calls .. " requires"
+end)
+
 return string.format("%d %d", passed, failed)

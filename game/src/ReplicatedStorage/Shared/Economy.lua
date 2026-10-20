@@ -52,12 +52,7 @@ function Economy.init(gameConfig, areasConfig)
 		Economy.SpursById[spur.id] = spur
 		spur.order = i
 	end
-	-- Inside Roblox the module sets itself up from its sibling modules; the tests call init().
-if script ~= nil then
-	Economy.init(require(script.Parent.GameConfig), require(script.Parent.AreasConfig))
-end
-
-return Economy
+	return Economy
 end
 
 local function copy(value)
