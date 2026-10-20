@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CLAUDE.md",
+                "file": "Roblox Research/My Game/Systems and Scripts.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CLAUDE"
+              "title": "Systems and Scripts"
             }
           }
         ]
@@ -201,9 +201,12 @@
   },
   "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
-    "Roblox Research/My Game/Systems and Scripts.md",
     "Roblox Research/My Game/Steal a Beast - Overview.md",
     "Roblox Research/My Game/My Game UI.md",
+    "Roblox Research/My Game/Areas and Beasts.md",
+    "Roblox Research/My Game/UI Mockup/UI Mockup.md",
+    "CLAUDE.md",
+    "Roblox Research/My Game/Systems and Scripts.md",
     "Roblox Research/My Game/Map Layout.md",
     "game/tools/build_command_bar.js",
     "game/tools/BuildMap.command.lua",
@@ -216,17 +219,14 @@
     "game/src/ServerStorage/MapBuilder/init.lua",
     "game/src/ReplicatedStorage/Shared/AreasConfig.lua",
     "game/src/ServerScriptService/README.md",
-    "Roblox Research/My Game/Areas and Beasts.md",
     "game/MAP_SPEC.md",
     "Roblox Research/Progress Log.md",
-    "Roblox Research/My Game/UI Mockup/UI Mockup.md",
     "Roblox Research/00 Index.md",
     "Roblox Research/My Game/Core Loop.md",
     "Roblox Research/Concepts/Build Your Own Checklist.md",
     "Roblox Research/Sources.md",
     "Roblox Research/My Game/Monetization and Launch.md",
     "Roblox Research/My Game/Beasts and Rarity.md",
-    "CLAUDE.md",
     "Roblox Research/Attachments/steal-an-egg.webp",
     "Roblox Research/Attachments/break-and-steal-an-egg.webp",
     "Roblox Research/Attachments/steal-a-brainrot.webp",
