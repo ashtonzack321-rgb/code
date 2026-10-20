@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Roblox Research/My Game/Map Layout.md",
+                "file": "CLAUDE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Map Layout"
+              "title": "CLAUDE"
             }
           }
         ]
@@ -201,28 +201,29 @@
   },
   "active": "9ea0385ac5c147c7",
   "lastOpenFiles": [
+    "Roblox Research/My Game/Systems and Scripts.md",
+    "Roblox Research/My Game/Steal a Beast - Overview.md",
+    "Roblox Research/My Game/My Game UI.md",
+    "Roblox Research/My Game/Map Layout.md",
+    "game/tools/build_command_bar.js",
+    "game/tools/BuildMap.command.lua",
+    "game/tools",
+    "game/tests/mock_roblox.lua",
+    "game/tests/map_tests.lua",
+    "game/tests/run_tests.js",
+    "game/tests/lua_env.js",
+    "game/tests",
+    "game/src/ServerStorage/MapBuilder/init.lua",
+    "game/src/ReplicatedStorage/Shared/AreasConfig.lua",
+    "game/src/ServerScriptService/README.md",
     "Roblox Research/My Game/Areas and Beasts.md",
     "game/MAP_SPEC.md",
-    "game",
     "Roblox Research/Progress Log.md",
     "Roblox Research/My Game/UI Mockup/UI Mockup.md",
-    "Roblox Research/My Game/UI Mockup/Ranch.dc.html",
-    "Roblox Research/My Game/UI Mockup/Thumbnail.dc.html",
-    "Roblox Research/My Game/UI Mockup/Shop.dc.html",
-    "Roblox Research/My Game/UI Mockup/Tamed.dc.html",
-    "Roblox Research/My Game/UI Mockup/Map.dc.html",
-    "Roblox Research/My Game/UI Mockup/Main.dc.html",
-    "Roblox Research/My Game/UI Mockup/canvas.json",
-    "Roblox Research/My Game/UI Mockup/Grab.dc.html",
-    "Roblox Research/My Game/UI Mockup/Index.dc.html",
-    "Roblox Research/My Game/Map Layout.md",
-    "Roblox Research/My Game/Systems and Scripts.md",
     "Roblox Research/00 Index.md",
     "Roblox Research/My Game/Core Loop.md",
     "Roblox Research/Concepts/Build Your Own Checklist.md",
     "Roblox Research/Sources.md",
-    "Roblox Research/My Game/Steal a Beast - Overview.md",
-    "Roblox Research/My Game/My Game UI.md",
     "Roblox Research/My Game/Monetization and Launch.md",
     "Roblox Research/My Game/Beasts and Rarity.md",
     "CLAUDE.md",
